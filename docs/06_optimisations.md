@@ -81,9 +81,11 @@ After the fix the index frequencies match the exact PER probabilities to within 
 to 2e-7, and zero-priority slots are never drawn.
 
 **Consequences for the results**
-* **Speed, VRAM, capacity and interference measurements:** expected to be unaffected, since the sampling op is a
-  small share of an update. A timing re-check of the 15 baseline tasks (`bench/recheck_timing.py`) is in progress
-  and will be reported here.
+* **Speed, VRAM, capacity and interference measurements:** unaffected in substance. A timing re-check of the 15
+  baseline tasks at H = 5 and 30 (`bench/recheck_timing.py`, `results/sweep_h_recheck/per_fix/`) gives step times
+  +2.0 % (H = 5) and +1.5 % (H = 30) on average (range -1.4 % to +5.7 %) relative to the
+  sweep of docs/02, and identical peak VRAM. The speed-ups reported in docs/02 and the run-time tables therefore
+  hold to within a few percent.
 * **Horizon limit:** the old `H_max` (the largest horizon at which the first batch can be drawn without replacement)
   does not apply to the original algorithm. Its true limit is H <= L - 1 (L = episode length). The OOM conclusions are
   unchanged: only dog can go OOM within that range ([results_memory.md](results_memory.md)).
