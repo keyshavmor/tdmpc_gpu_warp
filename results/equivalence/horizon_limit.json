@@ -1,0 +1,12 @@
+{
+ "test": "horizon limit L-1 = 124 for cartpole-swingup (L = 125, old H_max formula: 112)",
+ "cpu_original": {
+  "reached_env_step": 39000,
+  "note": "seeding phase completed; stayed in the first block of 5000 updates for > 1 h without error (slow: shared GPU), stopped manually"
+ },
+ "gpu_fixed_graph_agent": {
+  "reached_env_step": 47000,
+  "note": "first 5000 updates completed and training continued; stopped manually"
+ },
+ "conclusion": "both run at H = L - 1; the old H_max (sampling without replacement) does not limit the original algorithm"
+}

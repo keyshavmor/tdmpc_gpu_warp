@@ -22,7 +22,10 @@ Modifications for the GPU port (tdmpc_gpu_warp) by Keyshav Mor:
   * training metrics and rewards may be CUDA tensors and are converted to float once per episode,
   * video recording is hard-disabled (cfg.save_video = False, evaluate() never records),
   * optional `log_root` (log directory) and `max_env_steps` (early stop, for benchmarking),
-  * per-episode timing is written to <work_dir>/train.log.
+  * per-episode timing is written to <work_dir>/train.log,
+  * optional checkpoint / resume (src/checkpoint.py): `checkpoint_minutes=N` writes <work_dir>/checkpoint.pt at
+    the first episode boundary after every N minutes; `resume=true` continues from it if it exists (otherwise the
+    run starts from scratch). Used by src/launch_parallel.py to restart runs after a crash.
 """
 import os
 # single-threaded CPU libraries (set before numpy / torch are imported)
@@ -35,6 +38,7 @@ import torch
 torch.set_num_threads(1)
 torch.set_num_interop_threads(1)
 import numpy as np
+import pandas as pd
 import time
 import random
 from pathlib import Path
@@ -43,6 +47,7 @@ from env_warp import make_env
 from algorithm.tdmpc import TDMPC
 from algorithm.helper import Episode, ReplayBuffer
 import logger
+import checkpoint
 torch.backends.cudnn.benchmark = True
 __CONFIG__, __LOGS__ = 'cfgs', 'logs'
 
@@ -95,12 +100,34 @@ def train(cfg):
 	# the GPU works instead of spin-waiting on a full launch queue (~1 CPU core -> ~0.2 per run)
 	pace = torch.cuda.Event(blocking=True) if cfg.get('pace_host', False) else None
 
+	# optional checkpoint / resume (src/checkpoint.py); restored before any CUDA graph is captured
+	ckpt_s = 60.0 * float(cfg.get('checkpoint_minutes', 0) or 0)
+	start_step, episode_idx, elapsed = 0, 0, 0.0
+	resume = bool(cfg.get('resume', False)) and checkpoint.exists(work_dir)
+	# a resumed wandb run is rewound to the env step logged last before the checkpoint
+	L = logger.Logger(work_dir, cfg, resume_step=checkpoint.peek(work_dir)['last_env_step'] if resume else None)
+	if resume:
+		loop, eval_rows, wandb_pending = checkpoint.load(work_dir, agent, buffer, env)
+		L.resume_sync(wandb_pending, checkpoint.peek(work_dir)['last_env_step'])  # fill what wandb did not receive
+		start_step, episode_idx, elapsed = loop['next_step'], loop['episode_idx'], loop['elapsed_s']
+		L._eval = [np.array(r) for r in eval_rows]
+		# drop log rows written after the checkpoint (the crashed segment is re-run from the checkpoint)
+		last = checkpoint.peek(work_dir)['last_env_step']
+		if L._eval:
+			pd.DataFrame(np.array(L._eval)).to_csv(work_dir / 'eval.log', header=['env_step', 'episode_reward'], index=None)
+		rows = (work_dir / 'train.log').read_text().splitlines() if (work_dir / 'train.log').exists() else []
+		rows = rows[:1] + [r for r in rows[1:] if int(r.split(',')[1]) <= last]
+		(work_dir / 'train.log').write_text('\n'.join(rows) + '\n')
+		print(f'Resumed from {work_dir / checkpoint.FILENAME} at env step {int(start_step * cfg.action_repeat)}', flush=True)
+		tlog = open(work_dir / 'train.log', 'a')
+	else:
+		tlog = open(work_dir / 'train.log', 'w')
+		tlog.write('episode,env_step,episode_reward,total_time,episode_time,agent_steps_per_s\n')
+	start_time = time.time() - elapsed
+	last_ckpt = time.time()
+
 	# Run training
-	L = logger.Logger(work_dir, cfg)
-	tlog = open(work_dir / 'train.log', 'w')
-	tlog.write('episode,env_step,episode_reward,total_time,episode_time,agent_steps_per_s\n')
-	episode_idx, start_time = 0, time.time()
-	for step in range(0, cfg.train_steps+cfg.episode_length, cfg.episode_length):
+	for step in range(start_step, cfg.train_steps+cfg.episode_length, cfg.episode_length):
 		ep_start = time.time()
 
 		# Collect trajectory
@@ -150,6 +177,14 @@ def train(cfg):
 		if max_env_steps is not None and env_step >= max_env_steps:
 			break
 
+		# checkpoint at the episode boundary (after evaluation), at most every checkpoint_minutes
+		if ckpt_s > 0 and time.time() - last_ckpt >= ckpt_s:
+			loop = {'next_step': step + cfg.episode_length, 'episode_idx': episode_idx, 'elapsed_s': time.time() - start_time}
+			t_ck = time.time()
+			nbytes = checkpoint.save(work_dir, agent, buffer, env, loop, L._eval, L._pending)
+			L.flush_wandb()  # deferred wandb sync: only data covered by a checkpoint reaches wandb
+			last_ckpt = time.time()
+			print(f'Checkpoint at env step {env_step} ({nbytes / 2**20:.0f} MiB, {last_ckpt - t_ck:.1f} s)', flush=True)
 
 	tlog.close()
 	L.finish(agent)

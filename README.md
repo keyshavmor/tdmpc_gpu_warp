@@ -113,6 +113,14 @@ for s in 1 2 3 4 5; do python src/train.py task=walker-walk seed=$s graph_agent=
 echo quit | nvidia-cuda-mps-control
 ```
 
+For long runs, add checkpoints, and use the launcher to restart crashed runs automatically. W&B logging stays exact
+across restarts:
+
+```bash
+python src/launch_parallel.py --task walker-walk --seeds 1 2 3 4 5 --mps --checkpoint_minutes 15 \
+    -- use_wandb=true wandb_project=<project> wandb_entity=<entity>
+```
+
 Results are written to `logs/<task>/state/<exp_name>/<seed>/eval.log` (same format as the original `eval.log`) and
 `train.log`. All original options work unchanged (`horizon=`, `exp_name=`, `eval_freq=`, ...).
 **See the [user guide](docs/USER_GUIDE.md)** for all options, multi-seed training, MPS, logs and troubleshooting.
@@ -264,6 +272,7 @@ Details: [docs/01](docs/01_design_and_faithfulness.md), [docs/03](docs/03_valida
 | `src/algorithm/tdmpc_vec.py` | vectorised agent: many independent seeds in one process; checkpointing / precision options |
 | `src/train.py` | training script, one seed |
 | `src/train_vec.py` | training script, many seeds of one configuration in one process |
+| `src/checkpoint.py`, `src/launch_parallel.py` | checkpoint / resume for `train.py`; parallel launcher (MPS) with automatic restart from checkpoints |
 | `src/env.py`, `logger.py`, `cfg.py` | original dm_control environment wrapper (used by benchmarks for CPU comparisons), logger, config parser (unchanged) |
 | `cfgs/` | original TD-MPC configuration files (unchanged values) |
 | `bench/` | validation, equivalence tests, benchmarks, multi-run studies, analysis scripts |
@@ -296,11 +305,12 @@ Details: [docs/01](docs/01_design_and_faithfulness.md), [docs/03](docs/03_valida
   - mostly under **CUDA MPS**: 7 times in vectorised `train_vec.py` processes, once in a single-seed `train.py`
     process;
   - without MPS: once in ~6 vectorised process-hours, never in single-seed processes.
-- **How it ends:** under MPS one fault ends **all** co-running runs. No effect on completed results was observed, and
-  no resume is implemented.
-- **Trade-off:**
-  - 5-8 single-seed runs under MPS finish ~2x earlier but may occasionally all crash together;
-  - single-seed runs without MPS have shown no fault, but get no parallel speed-up.
+- **How it ends:** under MPS one fault ends **all** co-running runs. No effect on completed results was observed.
+- **Mitigation:** checkpoint / resume. `src/launch_parallel.py --mps --checkpoint_minutes 15` restarts crashed runs
+  from their last checkpoint, so a fault costs at most one checkpoint interval, and W&B curves stay exact (see the
+  [user guide, section 4.3](docs/USER_GUIDE.md)). Without MPS no fault has been seen in single-seed runs, but there
+  is no parallel speed-up.
+- **Root-cause investigation:** in progress ([docs/08](docs/08_known_issues.md)).
 - Details: [docs/08](docs/08_known_issues.md).
 
 ## Acknowledgements, citation and licenses

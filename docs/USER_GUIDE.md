@@ -296,6 +296,69 @@ Per-task times for 1 seed and 5 seeds (back-to-back and in parallel) are in the
 | humanoid-run | 13.7 h | 34.5 h |
 | dog-run | 33.4 h | 93 h |
 
+### 4.3 Checkpointing, automatic restart and W&B logging
+
+Long runs and runs under MPS should write checkpoints, so that a crash costs minutes instead of the whole run.
+
+```bash
+# one run with a checkpoint every 15 minutes; after a crash, the same command with resume=true continues it
+python src/train.py task=walker-walk seed=1 graph_agent=true pace_host=true checkpoint_minutes=15
+python src/train.py task=walker-walk seed=1 graph_agent=true pace_host=true checkpoint_minutes=15 resume=true
+
+# 5 seeds in parallel under MPS, restarted automatically from their last checkpoint after a crash
+python src/launch_parallel.py --task walker-walk --seeds 1 2 3 4 5 --mps --checkpoint_minutes 15 \
+    -- use_wandb=true wandb_project=<project> wandb_entity=<entity>
+```
+
+| option | meaning |
+|---|---|
+| `checkpoint_minutes=N` (`train.py`) | write `<run dir>/checkpoint.pt` at the first episode boundary after every N minutes (0 = off, the default) |
+| `resume=true` (`train.py`) | continue from `checkpoint.pt` if it exists, otherwise start from scratch (safe to always pass) |
+| `use_wandb=true wandb_project=... wandb_entity=...` | log to Weights & Biases (as in the original TD-MPC) |
+| `wandb_sync=deferred` (default with checkpoints) / `live` | when metrics are sent to W&B, see below |
+| `launch_parallel.py --mps --seeds ... --stagger 20 --max_restarts 20` | starts MPS and one `train.py` per seed with checkpoints, restarts crashed runs with `resume=true`, and logs every start / crash / restart to `<log_root>/launcher_events_<task>.csv` |
+
+**What a checkpoint contains:**
+- the TOLD model and target network;
+- both Adam optimisers, with their step counters and learning rate;
+- the planner's scheduled minimum std;
+- the filled part of the replay buffer, with its priorities, write index and full flag;
+- all random-number states: Python, numpy, torch CPU/CUDA and the environment's reset generator;
+- the loop counters and the evaluation history.
+
+**What a resume does:**
+- **Restoration:** a resumed run continues from exactly this state, and the replay batches it draws continue the
+  sampler's random stream from the checkpoint. `bench/test_checkpoint.py` verifies this: every restored tensor and
+  random-number state is bitwise equal, and the planner output is identical.
+- **What is redone:** episodes collected after the checkpoint and before the crash are lost and played again.
+- **Bitwise reproducibility:** a resumed run is not bitwise identical to an uninterrupted one, for the same reason
+  two uninterrupted GPU runs are not: GPU physics uses float atomics.
+- **Local logs:** `train.log` and `eval.log` are cut back to the checkpoint, so every step appears once.
+
+**Overhead:** measured on the SSD with a *full* replay buffer, the worst case
+(`bench/checkpoint_overhead.py`):
+
+| buffer | checkpoint size | save time | slowdown at one checkpoint per 15 min |
+|---|---|---|---|
+| walker-walk, full (250k transitions) | 42 MiB | 0.05-0.17 s | < 0.02 % |
+| largest TD-MPC buffer (1M transitions, 223-dim observations) | 1.0 GiB | 1.3-3.4 s | < 0.4 % |
+
+**W&B after a crash.** W&B accepts each step only once, and `wandb.log()` uploads asynchronously: data still queued
+when a process is killed is lost.
+- **Deferred sync (default with checkpoints):** metrics go to W&B only after the next checkpoint has been written.
+  They are first appended, flushed to disk, to `<run dir>/wandb_history.jsonl`. W&B therefore never contains data
+  from after the last checkpoint.
+- **On resume:** the run re-attaches to the same W&B run (same run id), re-sends the recorded history up to the
+  checkpoint, and continues logging.
+- **Result:** the W&B curves contain every step exactly once, with the values of the resumed run, as in an
+  uninterrupted run. `bench/test_resume.py` verifies this with two SIGKILL crashes, one during an upload and one with
+  unsent metrics.
+- **Cost:** W&B curves lag by up to one checkpoint interval. The console and `eval.log` are immediate.
+- **`wandb_sync=live`:** sends immediately and re-attaches with W&B's *rewind* feature. Rewind is in private preview
+  and must be enabled for the account by W&B support; without it, keep the default.
+
+**Limitation:** checkpointing is implemented for `train.py` (single seed). The vectorised `train_vec.py` has none.
+
 ## 5. Outputs
 
 **Run directory:** `logs/<task>/state/<exp_name>/<seed>/`
@@ -305,6 +368,8 @@ Per-task times for 1 seed and 5 seeds (back-to-back and in parallel) are in the
 | `eval.log` | CSV `env_step,episode_reward` (mean evaluation return), same format as the original TD-MPC |
 | `train.log` | CSV per training episode: `episode,env_step,episode_reward,total_time,episode_time,agent_steps_per_s` |
 | `models/model.pt` | final model if `save_model=true` (`train.py`) |
+| `checkpoint.pt`, `checkpoint_meta.json` | latest checkpoint (with `checkpoint_minutes`), see section 4.3 |
+| `wandb_run_id.txt`, `wandb_history.jsonl` | W&B run id and the metrics sent to W&B (for exact resume) |
 
 **Console output:** the original logger's lines, plus a progress line per episode.
 

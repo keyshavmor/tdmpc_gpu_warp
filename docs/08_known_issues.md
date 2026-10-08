@@ -36,8 +36,10 @@ fatal fault in one client tears down *every* client on the GPU, so all co-runnin
 
 **Investigated and ruled out:**
 - **Code of a reloaded warp module referenced by a graph.** MuJoCo Warp's `forward` module is rebuilt (new hash) right
-  after the first graph capture. Instrumenting warp showed that the old module stays loaded, because warp retains every
-  module used in a capture for the lifetime of the graph. No module is unloaded during a run.
+  after the first graph capture. Instrumenting warp over a full single-seed training cycle (seeding, 5000+ updates,
+  2 evaluations, forced garbage collection; `results/fault_hunt/module_unload_instrumentation.json`) showed
+  37 module loads, 1 reload and **0 unloads**: warp retains every module used in a capture (also inside the
+  solver's conditional while-loop bodies) for the lifetime of the graph.
 
 **Candidate causes (unconfirmed):**
 - the conditional while-loop of MuJoCo Warp's graph-captured constraint solver (the eager path runs a plain loop);
@@ -54,12 +56,14 @@ scrubbed between clients.
 
 **Mitigation (until fixed):**
 * **The trade-off:** running several runs in parallel needs MPS (without it the GPU time-slices the processes and the
-  total throughput does not increase). Under MPS, though, a rare fault ends **all** co-running runs, and no resume is
-  implemented.
+  total throughput does not increase). Under MPS, though, a rare fault ends **all** co-running runs; checkpoint /
+  resume (below) limits the loss.
 * **Most robust:** separate single-seed processes **without** MPS. No fault has been observed in this setting, but
   there is no parallel speed-up: one run at a time is as fast.
-* **Fastest:** 5-8 single-seed processes under MPS, ~2x total throughput. Expect occasional crashes of all
-  co-running runs, so stagger starts and check the runs; restarting means re-running from the beginning.
+* **Fastest:** 5-8 single-seed processes under MPS, ~2x total throughput, **with checkpoints**. Use
+  `src/launch_parallel.py --mps` (USER_GUIDE section 4.3): it writes checkpoints and restarts crashed runs from
+  their last checkpoint, so a fault costs at most one checkpoint interval (e.g. 15 min) instead of the run. W&B
+  curves stay exact.
 * `train_vec.py` (vectorised): suitable for shorter runs. It has the highest fault rate under MPS, so run it without
   MPS.
 

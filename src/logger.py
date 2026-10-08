@@ -4,11 +4,25 @@ Used by src/train.py (train_vec.py writes its per-seed eval.log directly, in the
 
 Original code: TD-MPC by Nicklas Hansen, Xiaolong Wang and Hao Su (ICML 2022),
 https://github.com/nicklashansen/tdmpc (MIT License, Copyright (c) 2021 Nicklas Hansen).
-Modifications for the GPU port (tdmpc_gpu_warp) by Keyshav Mor: none - kept unchanged as a shared utility
-(only docstrings/comments were added).
+Modifications for the GPU port (tdmpc_gpu_warp) by Keyshav Mor: resumable wandb runs for checkpoint / resume
+(src/checkpoint.py), everything else unchanged.
+  * A new run gets a fixed wandb run id, stored in <log_dir>/wandb_run_id.txt.
+  * `wandb_sync=deferred` (default when checkpointing is on): metrics are kept in memory and sent to wandb only
+    after a checkpoint has been written (flush_wandb()). They are first appended to a durable local copy,
+    <log_dir>/wandb_history.jsonl (and stored in the checkpoint), because wandb.log() is asynchronous and data not
+    yet uploaded when a process is killed is lost. wandb therefore never contains data from after the last
+    checkpoint. A resumed run re-attaches to the same run (resume='allow'), re-sends every locally recorded step
+    up to the checkpoint (wandb keeps one row per step; re-sent steps carry identical values) and continues
+    logging - the wandb curves hold exactly one value per step, as in an uninterrupted run (verified with two
+    SIGKILL crashes: during a wandb upload and with unsent metrics; bench/test_resume.py). Cost: wandb lags by up to one checkpoint interval (eval.log / console are immediate).
+  * `wandb_sync=live`: metrics are sent immediately; a resumed run is re-attached with wandb's rewind
+    (`resume_from='<id>?_step=E'`, truncates history after the checkpoint step E). Rewind is a wandb preview
+    feature that must be enabled for the account; without it, use the deferred mode.
 """
 import sys
 import os
+import json
+import secrets
 import datetime
 import re
 import numpy as np
@@ -90,7 +104,8 @@ class VideoRecorder:
 
 class Logger(object):
 	"""Primary logger object. Logs either locally or using wandb."""
-	def __init__(self, log_dir, cfg):
+	def __init__(self, log_dir, cfg, resume_step=None):
+		"""resume_step: env step of the checkpoint a resumed run continues from (None = new run)."""
 		self._log_dir = make_dir(log_dir)
 		self._model_dir = make_dir(self._log_dir / 'models')
 		self._save_model = cfg.save_model
@@ -98,6 +113,8 @@ class Logger(object):
 		self._seed = cfg.seed
 		self._cfg = cfg
 		self._eval = []
+		self._pending = []  # deferred wandb metrics: [(step, {key: value}), ...] since the last checkpoint
+		self._defer = str(cfg.get('wandb_sync', 'deferred')) == 'deferred' and float(cfg.get('checkpoint_minutes', 0) or 0) > 0
 		print_run(cfg)
 		project, entity = cfg.get('wandb_project', 'none'), cfg.get('wandb_entity', 'none')
 		run_offline = not cfg.get('use_wandb', False) or project == 'none' or entity == 'none'
@@ -108,13 +125,31 @@ class Logger(object):
 			try:
 				os.environ["WANDB_SILENT"] = "true"
 				import wandb
-				wandb.init(project=project,
+				init_kwargs = dict(project=project,
 						entity=entity,
 						name=str(cfg.seed),
 						group=self._group,
 						tags=cfg_to_group(cfg, return_list=True) + [f'seed:{cfg.seed}'],
 						dir=self._log_dir,
 						config=OmegaConf.to_container(cfg, resolve=True))
+				id_file = self._log_dir / 'wandb_run_id.txt'
+				if resume_step is not None and id_file.exists():
+					run_id = id_file.read_text().strip()
+					if self._defer:  # wandb only holds data up to the checkpoint: simply continue the run
+						wandb.init(id=run_id, resume='allow', **init_kwargs)
+						print(colored(f'Resumed wandb run {run_id} after env step {int(resume_step)}.', 'blue', attrs=['bold']))
+					else:
+						try:  # live mode: rewind (drop history after the checkpoint step) and continue the same run
+							wandb.init(resume_from=f'{run_id}?_step={int(resume_step)}', **init_kwargs)
+							print(colored(f'Resumed wandb run {run_id} from step {int(resume_step)} (rewind).', 'blue', attrs=['bold']))
+						except Exception as e:  # rewind not enabled: continue the run, wandb drops non-increasing steps
+							print(colored(f'wandb rewind failed ({e}); resuming run {run_id} without rewind - steps logged after '
+										  f'the checkpoint before the crash stay in wandb. Use wandb_sync=deferred.', 'yellow', attrs=['bold']))
+							wandb.init(id=run_id, resume='allow', **init_kwargs)
+				else:
+					run_id = ''.join(secrets.choice('abcdefghijklmnopqrstuvwxyz0123456789') for _ in range(8))  # not `random`: keeps the training RNG untouched
+					id_file.write_text(run_id)
+					wandb.init(id=run_id, **init_kwargs)
 				print(colored('Logs will be synced with wandb.', 'blue', attrs=['bold']))
 				self._wandb = wandb
 			except:
@@ -126,8 +161,49 @@ class Logger(object):
 	def video(self):
 		return self._video
 
+	def flush_wandb(self):
+		"""Send the deferred metrics to wandb (called after a checkpoint has been written, and at the end).
+
+		The metrics are appended (and fsync'ed) to <log_dir>/wandb_history.jsonl first, so that data lost in
+		wandb's asynchronous upload queue when the process is killed can be re-sent on resume."""
+		if self._wandb is not None and self._pending:
+			with open(self._log_dir / 'wandb_history.jsonl', 'a') as f:
+				for step, d in self._pending:
+					f.write(json.dumps({'step': int(step), 'data': d}) + '\n')
+				f.flush(); os.fsync(f.fileno())
+			for step, d in self._pending:
+				self._wandb.log(d, step=step)
+		self._pending = []
+
+	def resume_sync(self, ckpt_pending, last_env_step):
+		"""After resuming: re-send every recorded step that wandb did not receive, up to the checkpoint.
+
+		History = wandb_history.jsonl + the metrics stored in the checkpoint, restricted to steps <= last_env_step
+		(the file is rewritten accordingly), merged per step. All of it is sent again (wandb 0.30 reports
+		run.step = 0 after re-attaching; the server keeps one row per step, and re-sent values are identical)."""
+		if self._wandb is None:
+			return 0
+		path = self._log_dir / 'wandb_history.jsonl'
+		entries = [json.loads(l) for l in path.read_text().splitlines() if l.strip()] if path.exists() else []
+		entries += [{'step': int(st), 'data': d} for st, d in ckpt_pending]
+		merged = {}
+		for e in entries:
+			if e['step'] <= last_env_step:
+				merged.setdefault(e['step'], {}).update(e['data'])
+		with open(path, 'w') as f:
+			for st in sorted(merged):
+				f.write(json.dumps({'step': st, 'data': merged[st]}) + '\n')
+			f.flush(); os.fsync(f.fileno())
+		first = int(self._wandb.run.step)
+		resent = [st for st in sorted(merged) if st >= first]
+		for st in resent:
+			self._wandb.log(merged[st], step=st)
+		print(colored(f'wandb: re-sent {len(resent)} recorded step(s) up to env step {int(last_env_step)}.', 'blue'))
+		return len(resent)
+
 	def finish(self, agent):
 		"""Optionally save the model (and upload it to wandb), close wandb and print the run summary."""
+		self.flush_wandb()
 		if self._save_model:
 			fp = self._model_dir / f'model.pt'
 			torch.save(agent.state_dict(), fp)
@@ -161,8 +237,11 @@ class Logger(object):
 		"""Log a metrics dict to wandb (if enabled) and the console; eval metrics are also appended to eval.log."""
 		assert category in {'train', 'eval'}
 		if self._wandb is not None:
-			for k,v in d.items():
-				self._wandb.log({category + '/' + k: v}, step=d['env_step'])
+			if self._defer:  # sent by flush_wandb() once the next checkpoint is on disk
+				self._pending.append((int(d['env_step']), {category + '/' + k: float(v) for k, v in d.items()}))
+			else:
+				for k,v in d.items():
+					self._wandb.log({category + '/' + k: v}, step=d['env_step'])
 		if category == 'eval':
 			keys = ['env_step', 'episode_reward']
 			self._eval.append(np.array([d[keys[0]], d[keys[1]]]))

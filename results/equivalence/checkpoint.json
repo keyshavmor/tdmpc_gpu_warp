@@ -6,29 +6,37 @@
   "eval_rows_restored": true,
   "params_equal": true,
   "optim_equal": true,
+  "optim_hyperparams_equal": true,
+  "lr": [
+   0.001
+  ],
   "buffer_equal": true,
   "rng_restored": true,
   "reset_equal": true,
   "plan_max_abs_diff": 0.0,
   "plan_equal_to_rounding": true,
   "update_metrics_bitwise_equal": false,
-  "update_metric_max_rel_diff": 1.5837425175772097e-06,
+  "update_metric_max_rel_diff": 2.2447310550198066e-06,
   "param_max_abs_diff_after_5_updates": 1.1920928955078125e-07
  },
  "graph_agent": {
-  "checkpoint_bytes": 24390139,
+  "checkpoint_bytes": 24390203,
   "loop_restored": true,
   "eval_rows_restored": true,
   "params_equal": true,
   "optim_equal": true,
+  "optim_hyperparams_equal": true,
+  "lr": [
+   0.001
+  ],
   "buffer_equal": true,
   "rng_restored": true,
   "reset_equal": true,
   "plan_max_abs_diff": 0.0,
   "plan_equal_to_rounding": true,
   "update_metrics_bitwise_equal": false,
-  "update_metric_max_rel_diff": 0.002886701304512324,
-  "param_max_abs_diff_after_5_updates": 2.9869377613067627e-05
+  "update_metric_max_rel_diff": 0.04527586049097868,
+  "param_max_abs_diff_after_5_updates": 0.00020723044872283936
  },
  "pass": true
 }

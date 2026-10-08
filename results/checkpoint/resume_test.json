@@ -1,0 +1,23 @@
+{
+ "task": "walker-walk",
+ "crash_A": {
+  "checkpoint": 12000,
+  "train_log_at": 12000
+ },
+ "crash_B": {
+  "checkpoint": 14000,
+  "train_log_at": 16000,
+  "clean": true
+ },
+ "final_exit_code": 0,
+ "train_log_steps_unique_continuous": true,
+ "eval_log_steps_unique": true,
+ "killed_segment_steps": [
+  15000,
+  16000
+ ],
+ "wandb_steps_equal_local": true,
+ "wandb_values_equal_local": true,
+ "wandb_eval_equal_local": true,
+ "pass": true
+}
