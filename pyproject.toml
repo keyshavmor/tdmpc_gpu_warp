@@ -1,0 +1,46 @@
+# uv project file of tdmpc_gpu_warp (TD-MPC on GPU MuJoCo), GPU port by Keyshav Mor.
+# Based on TD-MPC by Nicklas Hansen, Xiaolong Wang and Hao Su (https://github.com/nicklashansen/tdmpc, MIT License).
+#
+# Create the environment (.venv) with:   ./setup_uv.sh        (or: uv sync)
+# Run scripts with:                      uv run python src/train.py task=walker-walk seed=1 graph_agent=true pace_host=true
+# Needs an NVIDIA driver >= 580 (warp-lang 1.18 is built with CUDA 13; torch wheels with CUDA 12.8); machine set-up: docs/USER_GUIDE.md section 1.
+
+[project]
+name = "tdmpc-warp"
+version = "1.0.0"
+description = "TD-MPC on GPU MuJoCo (MuJoCo Warp): the whole training loop on the GPU"
+authors = [{ name = "Keyshav Mor" }]
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "torch==2.11.0",
+    "warp-lang==1.18.0",
+    "mujoco==3.15.0",
+    # mujoco-warp: patched checkout ../mujoco_warp (GPU noslip solver), created and installed by setup_uv.sh via
+    # scripts/setup_mujoco_warp.sh with `uv pip install --no-deps -e` (its own pyproject points mujoco at a nightly
+    # index), so its runtime dependencies are listed here:
+    "absl-py",
+    "etils[epath]",
+    "dm_control==1.0.48",
+    "gym==0.26.2",
+    "numpy==2.4.6",
+    "omegaconf==2.3.1",
+    "termcolor==3.3.0",
+    "pandas==3.0.6",
+    "scipy==1.17.1",
+    "matplotlib==3.11.2",
+    "pyyaml==6.0.3",
+    "nvidia-ml-py==13.615.71",
+    "wandb==0.30.0",              # optional experiment logging (use_wandb=true)
+]
+
+[tool.uv]
+package = false                 # scripts are run from the repository root; nothing to build
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
