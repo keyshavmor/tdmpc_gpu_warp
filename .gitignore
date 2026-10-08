@@ -14,3 +14,4 @@ wandb_run_id.txt
 # raw console logs of the measurement runs (the data files in results/ are kept)
 results/logs/
 results/learning/logs/*.log
+results/learning/pids.json
