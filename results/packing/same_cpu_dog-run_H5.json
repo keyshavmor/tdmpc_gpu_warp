@@ -1,0 +1,192 @@
+{
+ "cycle": [
+  "cpu:dog-run:5"
+ ],
+ "mps": false,
+ "gpu_mem_baseline_mib": 23412.0,
+ "gpu_mem_total_mib": 24576.0,
+ "n_fit": 13,
+ "failure": {
+  "index": 13,
+  "spec": {
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": []
+  },
+  "oom": true,
+  "error": "RuntimeError: CUDA error: out of memory\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n",
+  "gpu_mem_used_mib": 23831.0
+ },
+ "runs": [
+  {
+   "id": "0",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 288659,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 2717.0
+  },
+  {
+   "id": "1",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 288806,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 4477.0
+  },
+  {
+   "id": "2",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 288942,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 6236.0
+  },
+  {
+   "id": "3",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 289072,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 7995.0
+  },
+  {
+   "id": "4",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 289181,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 9755.0
+  },
+  {
+   "id": "5",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 289297,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 11514.0
+  },
+  {
+   "id": "6",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 289425,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 13273.0
+  },
+  {
+   "id": "7",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 289551,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 15033.0
+  },
+  {
+   "id": "8",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 289678,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 16794.0
+  },
+  {
+   "id": "9",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 289809,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 18553.0
+  },
+  {
+   "id": "10",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 289934,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 20312.0
+  },
+  {
+   "id": "11",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 290064,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 22072.0
+  },
+  {
+   "id": "12",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1438.0,
+   "pid": 290189,
+   "process_vram_mib": 1754.0,
+   "gpu_mem_used_after_mib": 23831.0
+  }
+ ]
+}

@@ -1,0 +1,220 @@
+{
+ "specs": [
+  "16*cpu:dog-run:5"
+ ],
+ "mps": false,
+ "n_runs": 16,
+ "n_ok": 6,
+ "n_oom": 9,
+ "duration_s": 30.0,
+ "setup_s": 32.04206848144531,
+ "steps_per_s_each": [
+  5.139445935909203,
+  5.149877793625599,
+  5.16121844538844,
+  5.143184100784677,
+  5.142661420564415,
+  5.149099969932933
+ ],
+ "steps_per_s_total": 30.885487666205268,
+ "cpu_cores_each": [
+  1.0003361285525447,
+  1.0003105483167671,
+  1.0002259407761074,
+  1.0002254058031874,
+  1.0002058744666973,
+  1.0003596899691658
+ ],
+ "system_cpu_util": 0.387503537624603,
+ "gpu_util_mean": 95.84931506849315,
+ "gpu_mem_peak_mib": 24059.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": false,
+   "oom": true,
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 12.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 60.50 MiB is free. Process 6749 has 260.00 MiB memory in use. Process 17065 has 215.41 MiB memory in use. Process 8271 has 6.78 MiB memory in use. Process 905448 has 97.78 MiB memory in use. Process 2108121 has 43.04 MiB memory in use. Process 429917 has 1.71 GiB memory in use. Process 429916 has 1.71 GiB memory in use. Process 429924 has 1.71 GiB memory in use. Process 429910 has "
+  },
+  {
+   "id": "1",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 38.91470063000452,
+   "steps_per_s": 5.139445935909203,
+   "cpu_cores": 1.0003361285525447,
+   "torch_peak_reserved_mib": 1440.0,
+   "pid": 429910,
+   "process_vram_mib": 1756.0
+  },
+  {
+   "id": "2",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": false,
+   "oom": true,
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 58.50 MiB is free. Process 6749 has 260.00 MiB memory in use. Process 17065 has 215.41 MiB memory in use. Process 8271 has 6.78 MiB memory in use. Process 905448 has 97.78 MiB memory in use. Process 2108121 has 43.04 MiB memory in use. Process 429917 has 1.71 GiB memory in use. Process 429916 has 1.71 GiB memory in use. Process 429924 has 1.71 GiB memory in use. Process 429910 has "
+  },
+  {
+   "id": "3",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": false,
+   "oom": true,
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 12.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 58.50 MiB is free. Process 6749 has 260.00 MiB memory in use. Process 17065 has 215.41 MiB memory in use. Process 8271 has 6.78 MiB memory in use. Process 905448 has 97.78 MiB memory in use. Process 2108121 has 43.04 MiB memory in use. Process 429917 has 1.71 GiB memory in use. Process 429916 has 1.71 GiB memory in use. Process 429924 has 1.71 GiB memory in use. Process 429910 has "
+  },
+  {
+   "id": "4",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": false,
+   "oom": true,
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 12.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 62.50 MiB is free. Process 6749 has 260.00 MiB memory in use. Process 17065 has 215.41 MiB memory in use. Process 8271 has 6.78 MiB memory in use. Process 905448 has 97.78 MiB memory in use. Process 2108121 has 43.04 MiB memory in use. Process 429917 has 1.71 GiB memory in use. Process 429916 has 1.71 GiB memory in use. Process 429924 has 1.71 GiB memory in use. Process 429910 has "
+  },
+  {
+   "id": "5",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": false,
+   "oom": true,
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 56.50 MiB is free. Process 6749 has 260.00 MiB memory in use. Process 17065 has 215.41 MiB memory in use. Process 8271 has 6.78 MiB memory in use. Process 905448 has 97.78 MiB memory in use. Process 2108121 has 43.04 MiB memory in use. Process 429917 has 1.71 GiB memory in use. Process 429916 has 1.71 GiB memory in use. Process 429924 has 1.71 GiB memory in use. Process 429910 has 1"
+  },
+  {
+   "id": "6",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 38.835873008007184,
+   "steps_per_s": 5.149877793625599,
+   "cpu_cores": 1.0003105483167671,
+   "torch_peak_reserved_mib": 1440.0,
+   "pid": 429915,
+   "process_vram_mib": 1756.0
+  },
+  {
+   "id": "7",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 38.75053964799736,
+   "steps_per_s": 5.16121844538844,
+   "cpu_cores": 1.0002259407761074,
+   "torch_peak_reserved_mib": 1440.0,
+   "pid": 429916,
+   "process_vram_mib": 1756.0
+  },
+  {
+   "id": "8",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 38.88641667901538,
+   "steps_per_s": 5.143184100784677,
+   "cpu_cores": 1.0002254058031874,
+   "torch_peak_reserved_mib": 1440.0,
+   "pid": 429917,
+   "process_vram_mib": 1756.0
+  },
+  {
+   "id": "9",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": false,
+   "oom": true,
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 56.50 MiB is free. Process 6749 has 260.00 MiB memory in use. Process 17065 has 215.41 MiB memory in use. Process 8271 has 6.78 MiB memory in use. Process 905448 has 97.78 MiB memory in use. Process 2108121 has 43.04 MiB memory in use. Process 429917 has 1.71 GiB memory in use. Process 429916 has 1.71 GiB memory in use. Process 429924 has 1.71 GiB memory in use. Process 429910 has "
+  },
+  {
+   "id": "10",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": false,
+   "oom": true,
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 852.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 224.50 MiB is free. Process 6749 has 260.00 MiB memory in use. Process 17065 has 215.41 MiB memory in use. Process 8271 has 6.78 MiB memory in use. Process 905448 has 97.78 MiB memory in use. Process 2108121 has 43.04 MiB memory in use. Process 429917 has 1.71 GiB memory in use. Process 429916 has 1.71 GiB memory in use. Process 429924 has 1.71 GiB memory in use. Process 429910 ha"
+  },
+  {
+   "id": "11",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 38.89036894403398,
+   "steps_per_s": 5.142661420564415,
+   "cpu_cores": 1.0002058744666973,
+   "torch_peak_reserved_mib": 1440.0,
+   "pid": 429920,
+   "process_vram_mib": 1756.0
+  },
+  {
+   "id": "12",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": false,
+   "oom": true,
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 60.50 MiB is free. Process 6749 has 260.00 MiB memory in use. Process 17065 has 215.41 MiB memory in use. Process 8271 has 6.78 MiB memory in use. Process 905448 has 97.78 MiB memory in use. Process 2108121 has 43.04 MiB memory in use. Process 429917 has 1.71 GiB memory in use. Process 429916 has 1.71 GiB memory in use. Process 429924 has 1.71 GiB memory in use. Process 429910 has "
+  },
+  {
+   "id": "13",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": false,
+   "oom": false,
+   "error": "RuntimeError: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling `cublasCreate(handle)`"
+  },
+  {
+   "id": "14",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": false,
+   "oom": true,
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 56.50 MiB is free. Process 6749 has 260.00 MiB memory in use. Process 17065 has 215.41 MiB memory in use. Process 8271 has 6.78 MiB memory in use. Process 905448 has 97.78 MiB memory in use. Process 2108121 has 43.04 MiB memory in use. Process 429917 has 1.71 GiB memory in use. Process 429916 has 1.71 GiB memory in use. Process 429924 has 1.71 GiB memory in use. Process 429910 has 1"
+  },
+  {
+   "id": "15",
+   "mode": "cpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 38.84173955989536,
+   "steps_per_s": 5.149099969932933,
+   "cpu_cores": 1.0003596899691658,
+   "torch_peak_reserved_mib": 1440.0,
+   "pid": 429924,
+   "process_vram_mib": 1756.0
+  }
+ ]
+}

@@ -1,0 +1,48 @@
+{
+ "walker-walk_H30_fp32": {
+  "saved_mib_by_dtype": {
+   "torch.float32": 1171.64453125
+  },
+  "saved_mib_total": 1171.64453125,
+  "update_peak_mib_above_resident": 553.50390625
+ },
+ "walker-walk_H30_bf16": {
+  "saved_mib_by_dtype": {
+   "torch.bfloat16": 430.2958984375,
+   "torch.float32": 311.052734375
+  },
+  "saved_mib_total": 741.3486328125,
+  "update_peak_mib_above_resident": 471.8271484375
+ },
+ "walker-walk_H30_fp16": {
+  "saved_mib_by_dtype": {
+   "torch.float16": 430.2958984375,
+   "torch.float32": 311.05274200439453
+  },
+  "saved_mib_total": 741.3486404418945,
+  "update_peak_mib_above_resident": 471.8271484375
+ },
+ "dog-run_H30_fp32": {
+  "saved_mib_by_dtype": {
+   "torch.float32": 4139.76953125
+  },
+  "saved_mib_total": 4139.76953125,
+  "update_peak_mib_above_resident": 2366.73046875
+ },
+ "dog-run_H30_bf16": {
+  "saved_mib_by_dtype": {
+   "torch.bfloat16": 1436.41796875,
+   "torch.float32": 1266.93359375
+  },
+  "saved_mib_total": 2703.3515625,
+  "update_peak_mib_above_resident": 1836.873046875
+ },
+ "dog-run_H30_fp16": {
+  "saved_mib_by_dtype": {
+   "torch.float16": 1436.41796875,
+   "torch.float32": 1266.9336013793945
+  },
+  "saved_mib_total": 2703.3515701293945,
+  "update_peak_mib_above_resident": 1836.873046875
+ }
+}

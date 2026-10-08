@@ -1,0 +1,43 @@
+{
+ "task": "cartpole-swingup",
+ "action_repeat": 8,
+ "A_obs_max_abs_err": 2.310445987863119e-07,
+ "A_obs_median_abs_err": 3.885019633775855e-08,
+ "A_reward_max_abs_err": 1.0307791988885262e-07,
+ "D_max_contacts": 0,
+ "D_nconmax": 8,
+ "D_max_efc_rows": 0,
+ "D_njmax": 16,
+ "B_reset_n_live_dims": 4,
+ "B_reset_mean_z_max": 1.0067845095403778,
+ "B_reset_mean_z_median": 0.7377698212011143,
+ "B_reset_std_ratio_minmax": [
+  0.8371861615450993,
+  1.2845816338203453
+ ],
+ "C_initial_obs_max_abs_err": 1.9305586795859142e-07,
+ "C_rel_obs_err_after_steps": {
+  "1": 3.555943688370486e-07,
+  "10": 4.5178072931510963e-07,
+  "50": 7.932587167345233e-06
+ },
+ "C_cpu_chaos_rel_err_after_steps": {
+  "1": 2.1748774550109096e-06,
+  "10": 1.3746466408779572e-06,
+  "50": 3.4858887606915192e-06
+ },
+ "C_random_policy_return_gpu": [
+  156.05721698701382,
+  314.0616611855221,
+  115.75044534122571
+ ],
+ "C_random_policy_return_cpu": [
+  156.05627771186704,
+  314.30446171979656,
+  115.75070466036948
+ ],
+ "E_gpu_env_step_ms": 9.2462647263892,
+ "E_gpu_reset_ms": 0.3085008997004479,
+ "E_cpu_env_step_ms": 0.9391927998512983,
+ "wall_s": 9.482782363891602
+}

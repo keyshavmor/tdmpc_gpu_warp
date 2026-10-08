@@ -1,0 +1,20 @@
+{
+ "task": "cartpole-swingup",
+ "mode": "gpu",
+ "slope_mib_per_H": 16.375222024866787,
+ "intercept_mib": 482.5501776198933,
+ "free_mib": 23616.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 112,
+ "H_oom_predicted": 1412.7106055264796,
+ "probes": [
+  {
+   "H": 112,
+   "fits": true,
+   "vram": 2320.0,
+   "torch_reserved": 1890.0,
+   "s": 16.290929555892944
+  }
+ ],
+ "result": "fits_at_H_max"
+}

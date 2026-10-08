@@ -1,0 +1,41 @@
+{
+ "task": "walker-walk",
+ "mode": "vec1_ckpt",
+ "slope_mib_per_H": 4.2526315789473745,
+ "intercept_mib": 611.7894736842103,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 453,
+ "H_oom_predicted": 5409.876237623755,
+ "probes": [
+  {
+   "H": 5,
+   "fits": true,
+   "vram": 634.0,
+   "torch_reserved": 178.0,
+   "s": 6.772539377212524
+  },
+  {
+   "H": 15,
+   "fits": true,
+   "vram": 674.0,
+   "torch_reserved": 180.0,
+   "s": 7.378515958786011
+  },
+  {
+   "H": 30,
+   "fits": true,
+   "vram": 740.0,
+   "torch_reserved": 188.0,
+   "s": 8.345585107803345
+  },
+  {
+   "H": 453,
+   "fits": true,
+   "vram": 2532.0,
+   "torch_reserved": 362.0,
+   "s": 37.234790325164795
+  }
+ ],
+ "result": "fits_at_H_max"
+}

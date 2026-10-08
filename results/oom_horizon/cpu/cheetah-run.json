@@ -1,0 +1,20 @@
+{
+ "task": "cheetah-run",
+ "mode": "cpu",
+ "slope_mib_per_H": 16.52442273534636,
+ "intercept_mib": 386.26953818827724,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 1405.9026952946551,
+ "probes": [
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 4098.0,
+   "torch_reserved": 3782.0,
+   "s": 24.146158695220947
+  }
+ ],
+ "result": "fits_at_H_max"
+}

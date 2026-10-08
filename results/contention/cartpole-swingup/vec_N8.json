@@ -1,0 +1,44 @@
+{
+ "specs": [
+  "1*gpu:cartpole-swingup:5:vec_agent=true,num_seeds=8,pace_host=true"
+ ],
+ "mps": false,
+ "n_runs": 1,
+ "n_ok": 1,
+ "n_oom": 0,
+ "duration_s": 30.0,
+ "setup_s": 6.404509544372559,
+ "steps_per_s_each": [
+  113.76299356199706
+ ],
+ "steps_per_s_total": 113.76299356199706,
+ "cpu_cores_each": [
+  0.04527893569214246
+ ],
+ "system_cpu_util": 0.01721392280276024,
+ "gpu_util_mean": 91.01612903225806,
+ "gpu_mem_peak_mib": 2801.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "vec_agent=true",
+    "num_seeds=8",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 8,
+   "agent_steps": 450,
+   "wall_s": 31.644736898015253,
+   "steps_per_s": 113.76299356199706,
+   "cpu_cores": 0.04527893569214246,
+   "torch_peak_reserved_mib": 1382.0,
+   "pid": 363875,
+   "process_vram_mib": 1838.0
+  }
+ ]
+}

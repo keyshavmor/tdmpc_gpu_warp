@@ -1,0 +1,16 @@
+{
+ "task": "dog-run",
+ "horizon": 30,
+ "ckpt": false,
+ "S1": {
+  "ok": true,
+  "vram": 4104.0,
+  "step_ms": 151.1250684503466,
+  "seed_steps_per_s": 6.617035877992396,
+  "torch_reserved": 3546.0
+ },
+ "S8": {
+  "ok": false,
+  "error": "rch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)\n"
+ }
+}

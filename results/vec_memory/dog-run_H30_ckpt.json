@@ -1,0 +1,20 @@
+{
+ "task": "dog-run",
+ "horizon": 30,
+ "ckpt": true,
+ "S1": {
+  "ok": true,
+  "vram": 1940.0,
+  "step_ms": 185.02251614700072,
+  "seed_steps_per_s": 5.404747599505663,
+  "torch_reserved": 1366.0
+ },
+ "S8": {
+  "ok": true,
+  "vram": 11268.0,
+  "step_ms": 1214.8280091467313,
+  "seed_steps_per_s": 6.585294329539723,
+  "torch_reserved": 10700.0
+ },
+ "marginal_mib_per_seed": 1332.5714285714287
+}

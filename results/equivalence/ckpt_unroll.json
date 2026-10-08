@@ -1,0 +1,17 @@
+{
+ "walker-walk_H5": {
+  "param_max_abs_diff": 0.0,
+  "update_peak_extra_mib_plain": 181.4716796875,
+  "update_peak_extra_mib_ckpt": 40.37744140625
+ },
+ "walker-walk_H30": {
+  "param_max_abs_diff": 0.0,
+  "update_peak_extra_mib_plain": 1103.1513671875,
+  "update_peak_extra_mib_ckpt": 50.72900390625
+ },
+ "dog-run_H30": {
+  "param_max_abs_diff": 0.0,
+  "update_peak_extra_mib_plain": 4588.8671875,
+  "update_peak_extra_mib_ckpt": 278.02783203125
+ }
+}

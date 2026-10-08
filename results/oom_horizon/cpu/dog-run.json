@@ -1,0 +1,57 @@
+{
+ "task": "dog-run",
+ "mode": "cpu",
+ "slope_mib_per_H": 70.8796625222025,
+ "intercept_mib": 1408.5537300177614,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 313,
+ "H_oom_predicted": 313.34018080327775,
+ "probes": [
+  {
+   "H": 313,
+   "fits": false,
+   "oom": true,
+   "error": null,
+   "s": 8.010249376296997
+  },
+  {
+   "H": 281,
+   "fits": true,
+   "vram": 21274.0,
+   "torch_reserved": 20958.0,
+   "s": 34.41394281387329
+  },
+  {
+   "H": 313,
+   "fits": false,
+   "oom": true,
+   "error": null,
+   "s": 8.071109056472778
+  },
+  {
+   "H": 297,
+   "fits": true,
+   "vram": 22412.0,
+   "torch_reserved": 22096.0,
+   "s": 36.1830096244812
+  },
+  {
+   "H": 305,
+   "fits": true,
+   "vram": 22984.0,
+   "torch_reserved": 22668.0,
+   "s": 36.74173855781555
+  },
+  {
+   "H": 309,
+   "fits": false,
+   "oom": true,
+   "error": null,
+   "s": 7.903956174850464
+  }
+ ],
+ "result": "bracketed",
+ "H_fit_max": 305,
+ "H_oom_min": 309
+}

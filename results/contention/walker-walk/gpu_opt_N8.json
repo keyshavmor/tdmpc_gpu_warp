@@ -1,0 +1,190 @@
+{
+ "specs": [
+  "8*gpu:walker-walk:5:graph_agent=true,pace_host=true"
+ ],
+ "mps": false,
+ "n_runs": 8,
+ "n_ok": 8,
+ "n_oom": 0,
+ "duration_s": 30.0,
+ "setup_s": 8.81011152267456,
+ "steps_per_s_each": [
+  6.480237484131462,
+  6.564509972119049,
+  7.8799952986837845,
+  6.481536399450621,
+  6.505395185363539,
+  6.502019431754418,
+  6.47782790733395,
+  6.490790594798933
+ ],
+ "steps_per_s_total": 53.382312273635755,
+ "cpu_cores_each": [
+  0.026932248832044103,
+  0.02715496690554668,
+  0.03492742364036697,
+  0.026918577775185245,
+  0.02678748274222785,
+  0.026792144579168058,
+  0.02899485708310685,
+  0.027188152314734742
+ ],
+ "system_cpu_util": 0.06035074696112086,
+ "gpu_util_mean": 92.26984126984127,
+ "gpu_mem_peak_mib": 6505.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "mode": "gpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 30.863066436955705,
+   "steps_per_s": 6.480237484131462,
+   "cpu_cores": 0.026932248832044103,
+   "torch_peak_reserved_mib": 240.0,
+   "pid": 375635,
+   "process_vram_mib": 688.0
+  },
+  {
+   "id": "1",
+   "mode": "gpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 30.46685904194601,
+   "steps_per_s": 6.564509972119049,
+   "cpu_cores": 0.02715496690554668,
+   "torch_peak_reserved_mib": 240.0,
+   "pid": 375636,
+   "process_vram_mib": 688.0
+  },
+  {
+   "id": "2",
+   "mode": "gpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 31.725907252985053,
+   "steps_per_s": 7.8799952986837845,
+   "cpu_cores": 0.03492742364036697,
+   "torch_peak_reserved_mib": 240.0,
+   "pid": 375637,
+   "process_vram_mib": 688.0
+  },
+  {
+   "id": "3",
+   "mode": "gpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 30.856881404994056,
+   "steps_per_s": 6.481536399450621,
+   "cpu_cores": 0.026918577775185245,
+   "torch_peak_reserved_mib": 240.0,
+   "pid": 375638,
+   "process_vram_mib": 688.0
+  },
+  {
+   "id": "4",
+   "mode": "gpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 30.743712611030787,
+   "steps_per_s": 6.505395185363539,
+   "cpu_cores": 0.02678748274222785,
+   "torch_peak_reserved_mib": 240.0,
+   "pid": 375639,
+   "process_vram_mib": 688.0
+  },
+  {
+   "id": "5",
+   "mode": "gpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 30.759674297994934,
+   "steps_per_s": 6.502019431754418,
+   "cpu_cores": 0.026792144579168058,
+   "torch_peak_reserved_mib": 240.0,
+   "pid": 375640,
+   "process_vram_mib": 688.0
+  },
+  {
+   "id": "6",
+   "mode": "gpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 30.874546663020737,
+   "steps_per_s": 6.47782790733395,
+   "cpu_cores": 0.02899485708310685,
+   "torch_peak_reserved_mib": 240.0,
+   "pid": 375641,
+   "process_vram_mib": 688.0
+  },
+  {
+   "id": "7",
+   "mode": "gpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 200,
+   "wall_s": 30.81288744090125,
+   "steps_per_s": 6.490790594798933,
+   "cpu_cores": 0.027188152314734742,
+   "torch_peak_reserved_mib": 240.0,
+   "pid": 375642,
+   "process_vram_mib": 688.0
+  }
+ ]
+}

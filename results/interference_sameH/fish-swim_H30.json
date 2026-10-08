@@ -1,0 +1,13 @@
+{
+ "task": "fish-swim",
+ "horizon": 30,
+ "solo_steps_per_s": 12.638427926167635,
+ "n": 2,
+ "rel_speed": [
+  0.6923184492960492,
+  0.6925935323814634
+ ],
+ "min_rel": 0.6923184492960492,
+ "total_steps_per_s": 17.503110264517236,
+ "no_slowdown_capacity": 1
+}

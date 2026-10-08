@@ -1,0 +1,20 @@
+{
+ "task": "cheetah-run",
+ "mode": "gpu",
+ "slope_mib_per_H": 16.49955595026643,
+ "intercept_mib": 488.64964476021294,
+ "free_mib": 23616.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 1401.695319858977,
+ "probes": [
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 4200.0,
+   "torch_reserved": 3784.0,
+   "s": 25.931867599487305
+  }
+ ],
+ "result": "fits_at_H_max"
+}

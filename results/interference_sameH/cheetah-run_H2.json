@@ -1,0 +1,13 @@
+{
+ "task": "cheetah-run",
+ "horizon": 2,
+ "solo_steps_per_s": 102.3091355591798,
+ "n": 2,
+ "rel_speed": [
+  0.7429844119990155,
+  0.7466863986482438
+ ],
+ "min_rel": 0.7429844119990155,
+ "total_steps_per_s": 152.4069329050637,
+ "no_slowdown_capacity": 1
+}

@@ -1,0 +1,43 @@
+{
+ "task": "finger-turn-hard",
+ "action_repeat": 2,
+ "A_obs_max_abs_err": 3.0875323631107676e-08,
+ "A_obs_median_abs_err": 1.1616649364665221e-08,
+ "A_reward_max_abs_err": 0.0,
+ "D_max_contacts": 1,
+ "D_nconmax": 16,
+ "D_max_efc_rows": 4,
+ "D_njmax": 64,
+ "B_reset_n_live_dims": 7,
+ "B_reset_mean_z_max": 1.730427380091059,
+ "B_reset_mean_z_median": 0.7442261146501833,
+ "B_reset_std_ratio_minmax": [
+  0.9056231844418917,
+  1.1459466407136876
+ ],
+ "C_initial_obs_max_abs_err": 2.7112831979536622e-08,
+ "C_rel_obs_err_after_steps": {
+  "1": 1.393072568719796e-07,
+  "10": 7.604970330513219e-08,
+  "50": 3.045137508053835e-07
+ },
+ "C_cpu_chaos_rel_err_after_steps": {
+  "1": 2.1161952992557723e-08,
+  "10": 3.804987824452621e-09,
+  "50": 2.7134467568039507e-09
+ },
+ "C_random_policy_return_gpu": [
+  0.0,
+  0.0,
+  0.0
+ ],
+ "C_random_policy_return_cpu": [
+  0.0,
+  0.0,
+  0.0
+ ],
+ "E_gpu_env_step_ms": 0.9022685831102232,
+ "E_gpu_reset_ms": 0.7491219032090157,
+ "E_cpu_env_step_ms": 0.18014850676991045,
+ "wall_s": 3.101041316986084
+}

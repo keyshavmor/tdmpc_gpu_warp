@@ -1,0 +1,41 @@
+{
+ "task": "quadruped-run",
+ "mode": "vec1_ckpt",
+ "slope_mib_per_H": 4.42105263157895,
+ "intercept_mib": 628.3157894736838,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 5200.0476190476165,
+ "probes": [
+  {
+   "H": 5,
+   "fits": true,
+   "vram": 652.0,
+   "torch_reserved": 192.0,
+   "s": 7.112716913223267
+  },
+  {
+   "H": 15,
+   "fits": true,
+   "vram": 692.0,
+   "torch_reserved": 194.0,
+   "s": 7.717482805252075
+  },
+  {
+   "H": 30,
+   "fits": true,
+   "vram": 762.0,
+   "torch_reserved": 206.0,
+   "s": 8.739420175552368
+  },
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 1640.0,
+   "torch_reserved": 334.0,
+   "s": 22.252493381500244
+  }
+ ],
+ "result": "fits_at_H_max"
+}

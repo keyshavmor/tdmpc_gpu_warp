@@ -1,0 +1,20 @@
+{
+ "task": "quadruped-run",
+ "mode": "gpu_opt",
+ "slope_mib_per_H": 20.1070159857904,
+ "intercept_mib": 608.9356127886323,
+ "free_mib": 23617.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 1144.280404584705,
+ "probes": [
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 5060.0,
+   "torch_reserved": 4000.0,
+   "s": 18.378255128860474
+  }
+ ],
+ "result": "fits_at_H_max"
+}

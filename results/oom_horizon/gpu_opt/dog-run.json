@@ -1,0 +1,57 @@
+{
+ "task": "dog-run",
+ "mode": "gpu_opt",
+ "slope_mib_per_H": 74.67984014209591,
+ "intercept_mib": 1627.8938721136765,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 313,
+ "H_oom_predicted": 294.45839849208284,
+ "probes": [
+  {
+   "H": 265,
+   "fits": true,
+   "vram": 21228.0,
+   "torch_reserved": 20014.0,
+   "s": 27.57872700691223
+  },
+  {
+   "H": 313,
+   "fits": false,
+   "oom": true,
+   "error": null,
+   "s": 10.908174991607666
+  },
+  {
+   "H": 289,
+   "fits": true,
+   "vram": 23002.0,
+   "torch_reserved": 21718.0,
+   "s": 29.662229776382446
+  },
+  {
+   "H": 301,
+   "fits": false,
+   "oom": true,
+   "error": null,
+   "s": 10.686187744140625
+  },
+  {
+   "H": 295,
+   "fits": false,
+   "oom": true,
+   "error": null,
+   "s": 16.48529577255249
+  },
+  {
+   "H": 292,
+   "fits": false,
+   "oom": true,
+   "error": null,
+   "s": 16.31143569946289
+  }
+ ],
+ "H_fit_max": 289,
+ "H_oom_min": 292,
+ "result": "bracketed"
+}

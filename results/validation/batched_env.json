@@ -1,0 +1,14 @@
+{
+ "cartpole-swingup": {
+  "init_obs_err": 0.0,
+  "max_rel_obs_err": 0.0,
+  "max_reward_err": 0.0,
+  "bitwise_equal_frac": 1.0
+ },
+ "walker-walk": {
+  "init_obs_err": 0.0,
+  "max_rel_obs_err": 0.0,
+  "max_reward_err": 0.0,
+  "bitwise_equal_frac": 1.0
+ }
+}

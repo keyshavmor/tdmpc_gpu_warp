@@ -1,0 +1,58 @@
+{
+ "specs": [
+  "2*cpu:walker-walk:5"
+ ],
+ "mps": false,
+ "n_runs": 2,
+ "n_ok": 2,
+ "n_oom": 0,
+ "duration_s": 30.0,
+ "setup_s": 3.202873706817627,
+ "steps_per_s_each": [
+  20.052400212810497,
+  20.09880640762175
+ ],
+ "steps_per_s_total": 40.15120662043225,
+ "cpu_cores_each": [
+  1.0005222277433667,
+  1.0003532775551995
+ ],
+ "system_cpu_util": 0.13708240112244507,
+ "gpu_util_mean": 90.90322580645162,
+ "gpu_mem_peak_mib": 1957.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "mode": "cpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 650,
+   "wall_s": 32.41507216601167,
+   "steps_per_s": 20.052400212810497,
+   "cpu_cores": 1.0005222277433667,
+   "torch_peak_reserved_mib": 178.0,
+   "pid": 366863,
+   "process_vram_mib": 494.0
+  },
+  {
+   "id": "1",
+   "mode": "cpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 650,
+   "wall_s": 32.34022890799679,
+   "steps_per_s": 20.09880640762175,
+   "cpu_cores": 1.0003532775551995,
+   "torch_peak_reserved_mib": 178.0,
+   "pid": 366864,
+   "process_vram_mib": 494.0
+  }
+ ]
+}

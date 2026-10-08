@@ -1,0 +1,13 @@
+{
+ "task": "walker-walk",
+ "horizon": 2,
+ "solo_steps_per_s": 69.73221857167752,
+ "n": 2,
+ "rel_speed": [
+  0.7793991749344005,
+  0.7817841202473886
+ ],
+ "min_rel": 0.7793991749344005,
+ "total_steps_per_s": 108.86477477006827,
+ "no_slowdown_capacity": 1
+}

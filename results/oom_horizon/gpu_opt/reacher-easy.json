@@ -1,0 +1,20 @@
+{
+ "task": "reacher-easy",
+ "mode": "gpu_opt",
+ "slope_mib_per_H": 19.714476021314386,
+ "intercept_mib": 531.2215808170516,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 1171.0571660247315,
+ "probes": [
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 4924.0,
+   "torch_reserved": 3890.0,
+   "s": 17.312764883041382
+  }
+ ],
+ "result": "fits_at_H_max"
+}

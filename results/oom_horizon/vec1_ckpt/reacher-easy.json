@@ -1,0 +1,41 @@
+{
+ "task": "reacher-easy",
+ "mode": "vec1_ckpt",
+ "slope_mib_per_H": 4.315789473684214,
+ "intercept_mib": 550.7368421052629,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 5344.853658536581,
+ "probes": [
+  {
+   "H": 5,
+   "fits": true,
+   "vram": 572.0,
+   "torch_reserved": 132.0,
+   "s": 6.240266799926758
+  },
+  {
+   "H": 15,
+   "fits": true,
+   "vram": 616.0,
+   "torch_reserved": 138.0,
+   "s": 6.9442572593688965
+  },
+  {
+   "H": 30,
+   "fits": true,
+   "vram": 680.0,
+   "torch_reserved": 144.0,
+   "s": 7.8352789878845215
+  },
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 1504.0,
+   "torch_reserved": 224.0,
+   "s": 21.022947311401367
+  }
+ ],
+ "result": "fits_at_H_max"
+}

@@ -1,0 +1,13 @@
+{
+ "task": "cup-catch",
+ "horizon": 30,
+ "solo_steps_per_s": 12.832348957627833,
+ "n": 2,
+ "rel_speed": [
+  0.6752807250977154,
+  0.6732686468848174
+ ],
+ "min_rel": 0.6732686468848174,
+ "total_steps_per_s": 17.305056127869722,
+ "no_slowdown_capacity": 1
+}

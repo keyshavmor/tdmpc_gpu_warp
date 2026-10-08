@@ -1,0 +1,13 @@
+{
+ "task": "acrobot-swingup",
+ "horizon": 30,
+ "solo_steps_per_s": 14.243978448992774,
+ "n": 2,
+ "rel_speed": [
+  0.6450273451597713,
+  0.6446873051752343
+ ],
+ "min_rel": 0.6446873051752343,
+ "total_steps_per_s": 18.370667684722072,
+ "no_slowdown_capacity": 1
+}

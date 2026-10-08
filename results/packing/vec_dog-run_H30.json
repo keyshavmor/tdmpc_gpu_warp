@@ -1,0 +1,29 @@
+{
+ "task": "dog-run",
+ "horizon": 30,
+ "extra": "",
+ "S_max_fit": 6,
+ "S_min_oom": 7,
+ "probes": [
+  {
+   "S": 8,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 4,
+   "fits": true,
+   "vram": 14616.0
+  },
+  {
+   "S": 6,
+   "fits": true,
+   "vram": 21694.0
+  },
+  {
+   "S": 7,
+   "fits": false,
+   "vram": null
+  }
+ ]
+}

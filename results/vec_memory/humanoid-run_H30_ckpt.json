@@ -1,0 +1,20 @@
+{
+ "task": "humanoid-run",
+ "horizon": 30,
+ "ckpt": true,
+ "S1": {
+  "ok": true,
+  "vram": 1092.0,
+  "step_ms": 110.24459134787321,
+  "seed_steps_per_s": 9.070739777559995,
+  "torch_reserved": 520.0
+ },
+ "S8": {
+  "ok": true,
+  "vram": 4314.0,
+  "step_ms": 547.4311956029851,
+  "seed_steps_per_s": 14.61370865280732,
+  "torch_reserved": 3746.0
+ },
+ "marginal_mib_per_seed": 460.2857142857143
+}

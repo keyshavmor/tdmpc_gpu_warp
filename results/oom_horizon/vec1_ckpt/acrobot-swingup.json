@@ -1,0 +1,41 @@
+{
+ "task": "acrobot-swingup",
+ "mode": "vec1_ckpt",
+ "slope_mib_per_H": 4.242105263157897,
+ "intercept_mib": 558.6315789473683,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 5435.831265508683,
+ "probes": [
+  {
+   "H": 5,
+   "fits": true,
+   "vram": 580.0,
+   "torch_reserved": 132.0,
+   "s": 6.375326156616211
+  },
+  {
+   "H": 15,
+   "fits": true,
+   "vram": 622.0,
+   "torch_reserved": 136.0,
+   "s": 7.045299291610718
+  },
+  {
+   "H": 30,
+   "fits": true,
+   "vram": 686.0,
+   "torch_reserved": 142.0,
+   "s": 8.073131084442139
+  },
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 1516.0,
+   "torch_reserved": 228.0,
+   "s": 21.250144720077515
+  }
+ ],
+ "result": "fits_at_H_max"
+}

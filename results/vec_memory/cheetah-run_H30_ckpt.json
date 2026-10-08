@@ -1,0 +1,20 @@
+{
+ "task": "cheetah-run",
+ "horizon": 30,
+ "ckpt": true,
+ "S1": {
+  "ok": true,
+  "vram": 700.0,
+  "step_ms": 81.73593045212328,
+  "seed_steps_per_s": 12.234521519098003,
+  "torch_reserved": 160.0
+ },
+ "S8": {
+  "ok": true,
+  "vram": 1386.0,
+  "step_ms": 398.436321754707,
+  "seed_steps_per_s": 20.078490747952223,
+  "torch_reserved": 852.0
+ },
+ "marginal_mib_per_seed": 98.0
+}

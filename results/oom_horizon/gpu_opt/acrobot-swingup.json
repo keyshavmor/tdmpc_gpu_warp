@@ -1,0 +1,20 @@
+{
+ "task": "acrobot-swingup",
+ "mode": "gpu_opt",
+ "slope_mib_per_H": 19.83969804618117,
+ "intercept_mib": 537.0217584369445,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 1163.3734640435105,
+ "probes": [
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 4922.0,
+   "torch_reserved": 3878.0,
+   "s": 17.512706756591797
+  }
+ ],
+ "result": "fits_at_H_max"
+}

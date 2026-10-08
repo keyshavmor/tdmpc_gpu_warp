@@ -1,0 +1,49 @@
+{
+ "task": "cartpole-swingup",
+ "horizon": 30,
+ "extra": "",
+ "S_max_fit": 36,
+ "S_min_oom": 38,
+ "probes": [
+  {
+   "S": 8,
+   "fits": true,
+   "vram": 6556.0
+  },
+  {
+   "S": 16,
+   "fits": true,
+   "vram": 10266.0
+  },
+  {
+   "S": 32,
+   "fits": true,
+   "vram": 19788.0
+  },
+  {
+   "S": 64,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 48,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 40,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 36,
+   "fits": true,
+   "vram": 22192.0
+  },
+  {
+   "S": 38,
+   "fits": false,
+   "vram": null
+  }
+ ]
+}

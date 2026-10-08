@@ -1,0 +1,20 @@
+{
+ "task": "humanoid-run",
+ "mode": "gpu_opt",
+ "slope_mib_per_H": 21.069271758436944,
+ "intercept_mib": 909.6554174067495,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 453,
+ "H_oom_predicted": 1077.794469735289,
+ "probes": [
+  {
+   "H": 453,
+   "fits": true,
+   "vram": 10264.0,
+   "torch_reserved": 8350.0,
+   "s": 41.91792035102844
+  }
+ ],
+ "result": "fits_at_H_max"
+}

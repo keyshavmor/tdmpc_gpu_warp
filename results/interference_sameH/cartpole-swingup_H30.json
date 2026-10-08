@@ -1,0 +1,13 @@
+{
+ "task": "cartpole-swingup",
+ "horizon": 30,
+ "solo_steps_per_s": 13.487552951054035,
+ "n": 2,
+ "rel_speed": [
+  0.6597984785350431,
+  0.6604204483086042
+ ],
+ "min_rel": 0.6597984785350431,
+ "total_steps_per_s": 17.806522682787428,
+ "no_slowdown_capacity": 1
+}

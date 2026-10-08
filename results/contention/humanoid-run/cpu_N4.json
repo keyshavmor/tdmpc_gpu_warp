@@ -1,0 +1,94 @@
+{
+ "specs": [
+  "4*cpu:humanoid-run:5"
+ ],
+ "mps": false,
+ "n_runs": 4,
+ "n_ok": 4,
+ "n_oom": 0,
+ "duration_s": 30.0,
+ "setup_s": 6.012986421585083,
+ "steps_per_s_each": [
+  10.728545321770763,
+  10.72440712300666,
+  10.729790081060672,
+  10.732000394582002
+ ],
+ "steps_per_s_total": 42.914742920420096,
+ "cpu_cores_each": [
+  1.0003843589964092,
+  1.0003604584760404,
+  1.0002768955069554,
+  1.0004669111920999
+ ],
+ "system_cpu_util": 0.2644736349687512,
+ "gpu_util_mean": 92.19047619047619,
+ "gpu_mem_peak_mib": 4235.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "mode": "cpu",
+   "task": "humanoid-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 350,
+   "wall_s": 32.62324849294964,
+   "steps_per_s": 10.728545321770763,
+   "cpu_cores": 1.0003843589964092,
+   "torch_peak_reserved_mib": 498.0,
+   "pid": 402477,
+   "process_vram_mib": 814.0
+  },
+  {
+   "id": "1",
+   "mode": "cpu",
+   "task": "humanoid-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 350,
+   "wall_s": 32.63583674002439,
+   "steps_per_s": 10.72440712300666,
+   "cpu_cores": 1.0003604584760404,
+   "torch_peak_reserved_mib": 498.0,
+   "pid": 402478,
+   "process_vram_mib": 814.0
+  },
+  {
+   "id": "2",
+   "mode": "cpu",
+   "task": "humanoid-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 350,
+   "wall_s": 32.61946388101205,
+   "steps_per_s": 10.729790081060672,
+   "cpu_cores": 1.0002768955069554,
+   "torch_peak_reserved_mib": 498.0,
+   "pid": 402479,
+   "process_vram_mib": 814.0
+  },
+  {
+   "id": "3",
+   "mode": "cpu",
+   "task": "humanoid-run",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 350,
+   "wall_s": 32.61274572601542,
+   "steps_per_s": 10.732000394582002,
+   "cpu_cores": 1.0004669111920999,
+   "torch_peak_reserved_mib": 498.0,
+   "pid": 402480,
+   "process_vram_mib": 814.0
+  }
+ ]
+}

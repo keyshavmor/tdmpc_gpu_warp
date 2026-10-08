@@ -1,0 +1,20 @@
+{
+ "task": "walker-walk",
+ "mode": "cpu",
+ "slope_mib_per_H": 16.46492007104795,
+ "intercept_mib": 412.3219360568383,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 453,
+ "H_oom_predicted": 1409.4011974432974,
+ "probes": [
+  {
+   "H": 453,
+   "fits": true,
+   "vram": 7908.0,
+   "torch_reserved": 7592.0,
+   "s": 45.12032675743103
+  }
+ ],
+ "result": "fits_at_H_max"
+}

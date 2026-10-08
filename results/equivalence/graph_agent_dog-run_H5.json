@@ -1,0 +1,37 @@
+{
+ "task": "dog-run",
+ "horizon": 5,
+ "update_param_max_abs_diff": 5.416572093963623e-06,
+ "update_target_param_max_abs_diff": 1.1920928955078125e-07,
+ "param_scale": 1.0030606985092163,
+ "update_metric_rel_diff": {
+  "consistency_loss": 4.410189967837196e-07,
+  "reward_loss": 1.168338734991788e-05,
+  "value_loss": 6.7531326745806e-06,
+  "pi_loss": 5.746358569757238e-07,
+  "total_loss": 8.166341815455252e-07,
+  "weighted_loss": 8.166341815455252e-07,
+  "grad_norm": 8.975909465041576e-06
+ },
+ "priority_max_abs_diff": 1.8715858459472656e-05,
+ "plan_train_t0_mean_z_max": 1.6248942613601685,
+ "plan_train_t0_std_ratio_minmax": [
+  0.9515392184257507,
+  1.0570027828216553
+ ],
+ "plan_train_chained_mean_z_max": 2.6652023792266846,
+ "plan_train_chained_std_ratio_minmax": [
+  0.9555588364601135,
+  1.071946382522583
+ ],
+ "plan_eval_t0_mean_z_max": 2.0265862941741943,
+ "plan_eval_t0_std_ratio_minmax": [
+  0.9611389636993408,
+  1.04473876953125
+ ],
+ "plan_eval_chained_mean_z_max": 2.885721445083618,
+ "plan_eval_chained_std_ratio_minmax": [
+  0.9490090608596802,
+  1.0518876314163208
+ ]
+}

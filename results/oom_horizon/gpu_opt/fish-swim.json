@@ -1,0 +1,20 @@
+{
+ "task": "fish-swim",
+ "mode": "gpu_opt",
+ "slope_mib_per_H": 19.912966252220247,
+ "intercept_mib": 579.3303730017759,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 1156.968245473196,
+ "probes": [
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 5002.0,
+   "torch_reserved": 3938.0,
+   "s": 17.921748876571655
+  }
+ ],
+ "result": "fits_at_H_max"
+}

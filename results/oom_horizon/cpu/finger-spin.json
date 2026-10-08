@@ -1,0 +1,20 @@
+{
+ "task": "finger-spin",
+ "mode": "cpu",
+ "slope_mib_per_H": 16.416518650088808,
+ "intercept_mib": 387.633214920071,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 453,
+ "H_oom_predicted": 1415.0604814714636,
+ "probes": [
+  {
+   "H": 453,
+   "fits": true,
+   "vram": 7826.0,
+   "torch_reserved": 7510.0,
+   "s": 45.2496018409729
+  }
+ ],
+ "result": "fits_at_H_max"
+}

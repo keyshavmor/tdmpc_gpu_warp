@@ -1,0 +1,20 @@
+{
+ "task": "finger-spin",
+ "horizon": 5,
+ "ckpt": false,
+ "S1": {
+  "ok": true,
+  "vram": 656.0,
+  "step_ms": 16.177118703490123,
+  "seed_steps_per_s": 61.815705152998326,
+  "torch_reserved": 220.0
+ },
+ "S8": {
+  "ok": true,
+  "vram": 1928.0,
+  "step_ms": 66.10180505085737,
+  "seed_steps_per_s": 121.02543937862158,
+  "torch_reserved": 1492.0
+ },
+ "marginal_mib_per_seed": 181.71428571428572
+}

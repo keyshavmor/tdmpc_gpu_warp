@@ -1,0 +1,41 @@
+{
+ "task": "finger-spin",
+ "mode": "vec1_ckpt",
+ "slope_mib_per_H": 4.231578947368427,
+ "intercept_mib": 569.473684210526,
+ "free_mib": 23617.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 453,
+ "H_oom_predicted": 5446.554726368151,
+ "probes": [
+  {
+   "H": 5,
+   "fits": true,
+   "vram": 590.0,
+   "torch_reserved": 150.0,
+   "s": 6.407738447189331
+  },
+  {
+   "H": 15,
+   "fits": true,
+   "vram": 634.0,
+   "torch_reserved": 156.0,
+   "s": 7.098428010940552
+  },
+  {
+   "H": 30,
+   "fits": true,
+   "vram": 696.0,
+   "torch_reserved": 160.0,
+   "s": 8.09398865699768
+  },
+  {
+   "H": 453,
+   "fits": true,
+   "vram": 2456.0,
+   "torch_reserved": 302.0,
+   "s": 36.95211338996887
+  }
+ ],
+ "result": "fits_at_H_max"
+}

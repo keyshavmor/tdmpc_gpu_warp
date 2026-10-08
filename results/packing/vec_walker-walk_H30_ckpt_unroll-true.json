@@ -1,0 +1,59 @@
+{
+ "task": "walker-walk",
+ "horizon": 30,
+ "extra": "ckpt_unroll=true",
+ "S_max_fit": 208,
+ "S_min_oom": 216,
+ "probes": [
+  {
+   "S": 8,
+   "fits": true,
+   "vram": 1612.0
+  },
+  {
+   "S": 16,
+   "fits": true,
+   "vram": 2300.0
+  },
+  {
+   "S": 32,
+   "fits": true,
+   "vram": 3954.0
+  },
+  {
+   "S": 64,
+   "fits": true,
+   "vram": 7386.0
+  },
+  {
+   "S": 128,
+   "fits": true,
+   "vram": 14128.0
+  },
+  {
+   "S": 256,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 192,
+   "fits": true,
+   "vram": 20888.0
+  },
+  {
+   "S": 224,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 208,
+   "fits": true,
+   "vram": 22226.0
+  },
+  {
+   "S": 216,
+   "fits": false,
+   "vram": null
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "task": "reacher-easy",
+ "horizon": 5,
+ "ckpt": true,
+ "S1": {
+  "ok": true,
+  "vram": 572.0,
+  "step_ms": 17.85919620306231,
+  "seed_steps_per_s": 55.993561447548814,
+  "torch_reserved": 132.0
+ },
+ "S8": {
+  "ok": true,
+  "vram": 1134.0,
+  "step_ms": 76.78910290123895,
+  "seed_steps_per_s": 104.18144890023093,
+  "torch_reserved": 696.0
+ },
+ "marginal_mib_per_seed": 80.28571428571429
+}

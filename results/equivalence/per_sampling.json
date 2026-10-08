@@ -1,0 +1,76 @@
+{
+ "task": "walker-walk",
+ "horizon": 5,
+ "batch_size": 512,
+ "n_batches": 3000,
+ "not_full_2_eps": {
+  "n_valid_slots": 1000,
+  "nonzero_slots": 990,
+  "full": false,
+  "original": {
+   "mean_distinct_per_batch": 387.9696666666667,
+   "tv_distance_to_exact_probs": 0.009256122402536373,
+   "max_abs_weight_err": 1.1613734895998817e-07,
+   "zero_prob_slots_sampled": 0
+  },
+  "graph": {
+   "mean_distinct_per_batch": 388.16433333333333,
+   "tv_distance_to_exact_probs": 0.009731447423885889,
+   "max_abs_weight_err": 1.6644727152126393e-07,
+   "zero_prob_slots_sampled": 0
+  },
+  "vec": {
+   "mean_distinct_per_batch": 388.20033333333333,
+   "tv_distance_to_exact_probs": 0.009867977724371788,
+   "max_abs_weight_err": 1.6644727152126393e-07,
+   "zero_prob_slots_sampled": 0
+  }
+ },
+ "not_full_20_eps": {
+  "n_valid_slots": 10000,
+  "nonzero_slots": 9900,
+  "full": false,
+  "original": {
+   "mean_distinct_per_batch": 497.381,
+   "tv_distance_to_exact_probs": 0.030904156638564016,
+   "max_abs_weight_err": 1.195327852254735e-07,
+   "zero_prob_slots_sampled": 0
+  },
+  "graph": {
+   "mean_distinct_per_batch": 497.31166666666667,
+   "tv_distance_to_exact_probs": 0.03155270082691519,
+   "max_abs_weight_err": 1.259040222079122e-07,
+   "zero_prob_slots_sampled": 0
+  },
+  "vec": {
+   "mean_distinct_per_batch": 497.06666666666666,
+   "tv_distance_to_exact_probs": 0.03175719641262306,
+   "max_abs_weight_err": 1.3412032495718762e-07,
+   "zero_prob_slots_sampled": 0
+  }
+ },
+ "full": {
+  "n_valid_slots": 2000,
+  "nonzero_slots": 1980,
+  "full": true,
+  "original": {
+   "mean_distinct_per_batch": 512.0,
+   "tv_distance_to_exact_probs": 0.02157773360995149,
+   "max_abs_weight_err": 1.1749490569368248e-07,
+   "zero_prob_slots_sampled": 0
+  },
+  "graph": {
+   "mean_distinct_per_batch": 512.0,
+   "tv_distance_to_exact_probs": 0.02159368260555008,
+   "max_abs_weight_err": 1.1998014826097858e-07,
+   "zero_prob_slots_sampled": 0
+  },
+  "vec": {
+   "mean_distinct_per_batch": 512.0,
+   "tv_distance_to_exact_probs": 0.021499498072924325,
+   "max_abs_weight_err": 1.2819108674566593e-07,
+   "zero_prob_slots_sampled": 0
+  }
+ },
+ "pass": true
+}

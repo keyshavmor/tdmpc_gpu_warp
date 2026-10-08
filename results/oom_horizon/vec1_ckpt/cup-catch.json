@@ -1,0 +1,41 @@
+{
+ "task": "cup-catch",
+ "mode": "vec1_ckpt",
+ "slope_mib_per_H": 4.326315789473676,
+ "intercept_mib": 593.8947368421054,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 5321.873479318745,
+ "probes": [
+  {
+   "H": 5,
+   "fits": true,
+   "vram": 616.0,
+   "torch_reserved": 152.0,
+   "s": 7.003941535949707
+  },
+  {
+   "H": 15,
+   "fits": true,
+   "vram": 658.0,
+   "torch_reserved": 156.0,
+   "s": 7.600963830947876
+  },
+  {
+   "H": 30,
+   "fits": true,
+   "vram": 724.0,
+   "torch_reserved": 164.0,
+   "s": 8.589231729507446
+  },
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 1530.0,
+   "torch_reserved": 226.0,
+   "s": 21.80885076522827
+  }
+ ],
+ "result": "fits_at_H_max"
+}

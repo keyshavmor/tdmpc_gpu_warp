@@ -1,0 +1,157 @@
+{
+ "cycle": [
+  "gpu:dog-run:5:graph_agent=true,pace_host=true",
+  "gpu:dog-run:10:graph_agent=true,pace_host=true",
+  "gpu:dog-run:20:graph_agent=true,pace_host=true",
+  "gpu:dog-run:30:graph_agent=true,pace_host=true"
+ ],
+ "mps": true,
+ "gpu_mem_baseline_mib": 958.0,
+ "gpu_mem_total_mib": 24576.0,
+ "n_fit": 8,
+ "failure": {
+  "index": 8,
+  "spec": {
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ]
+  },
+  "oom": true,
+  "error": "AcceleratorError: CUDA error: out of memory\nSearch for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n",
+  "gpu_mem_used_mib": 23834.0
+ },
+ "runs": [
+  {
+   "id": "0",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 293848,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 2989.0
+  },
+  {
+   "id": "1",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 10,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1892.0,
+   "pid": 293986,
+   "process_vram_mib": 2372.0,
+   "gpu_mem_used_after_mib": 5362.0
+  },
+  {
+   "id": "2",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 20,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 2622.0,
+   "pid": 294140,
+   "process_vram_mib": 3130.0,
+   "gpu_mem_used_after_mib": 8493.0
+  },
+  {
+   "id": "3",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 30,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 3322.0,
+   "pid": 294300,
+   "process_vram_mib": 3860.0,
+   "gpu_mem_used_after_mib": 12353.0
+  },
+  {
+   "id": "4",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 294485,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 14350.0
+  },
+  {
+   "id": "5",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 10,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1892.0,
+   "pid": 294620,
+   "process_vram_mib": 2372.0,
+   "gpu_mem_used_after_mib": 16723.0
+  },
+  {
+   "id": "6",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 20,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 2622.0,
+   "pid": 294791,
+   "process_vram_mib": 3130.0,
+   "gpu_mem_used_after_mib": 19853.0
+  },
+  {
+   "id": "7",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 30,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 3322.0,
+   "pid": 294922,
+   "process_vram_mib": 3860.0,
+   "gpu_mem_used_after_mib": 23717.0
+  }
+ ]
+}

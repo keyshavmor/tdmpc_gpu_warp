@@ -1,0 +1,94 @@
+{
+ "specs": [
+  "4*cpu:walker-walk:5"
+ ],
+ "mps": false,
+ "n_runs": 4,
+ "n_ok": 4,
+ "n_oom": 0,
+ "duration_s": 30.0,
+ "setup_s": 5.613423824310303,
+ "steps_per_s_each": [
+  15.252347577809912,
+  15.25576441353925,
+  15.227775149961278,
+  15.240578112083522
+ ],
+ "steps_per_s_total": 60.97646525339397,
+ "cpu_cores_each": [
+  1.0004004333003136,
+  1.0004977369198604,
+  1.0005764835214213,
+  1.0003495427503086
+ ],
+ "system_cpu_util": 0.26300740076250284,
+ "gpu_util_mean": 95.33870967741936,
+ "gpu_mem_peak_mib": 2955.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "mode": "cpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 500,
+   "wall_s": 32.781838825088926,
+   "steps_per_s": 15.252347577809912,
+   "cpu_cores": 1.0004004333003136,
+   "torch_peak_reserved_mib": 178.0,
+   "pid": 367931,
+   "process_vram_mib": 494.0
+  },
+  {
+   "id": "1",
+   "mode": "cpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 500,
+   "wall_s": 32.77449667197652,
+   "steps_per_s": 15.25576441353925,
+   "cpu_cores": 1.0004977369198604,
+   "torch_peak_reserved_mib": 178.0,
+   "pid": 367932,
+   "process_vram_mib": 494.0
+  },
+  {
+   "id": "2",
+   "mode": "cpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 500,
+   "wall_s": 32.8347375158919,
+   "steps_per_s": 15.227775149961278,
+   "cpu_cores": 1.0005764835214213,
+   "torch_peak_reserved_mib": 178.0,
+   "pid": 367933,
+   "process_vram_mib": 494.0
+  },
+  {
+   "id": "3",
+   "mode": "cpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 500,
+   "wall_s": 32.80715444800444,
+   "steps_per_s": 15.240578112083522,
+   "cpu_cores": 1.0003495427503086,
+   "torch_peak_reserved_mib": 178.0,
+   "pid": 367934,
+   "process_vram_mib": 494.0
+  }
+ ]
+}

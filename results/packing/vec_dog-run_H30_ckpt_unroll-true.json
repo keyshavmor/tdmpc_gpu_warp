@@ -1,0 +1,44 @@
+{
+ "task": "dog-run",
+ "horizon": 30,
+ "extra": "ckpt_unroll=true",
+ "S_max_fit": 16,
+ "S_min_oom": 17,
+ "probes": [
+  {
+   "S": 8,
+   "fits": true,
+   "vram": 11268.0
+  },
+  {
+   "S": 16,
+   "fits": true,
+   "vram": 22682.0
+  },
+  {
+   "S": 32,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 24,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 20,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 18,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 17,
+   "fits": false,
+   "vram": null
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "task": "cartpole-swingup",
+ "horizon": 5,
+ "ckpt": false,
+ "S1": {
+  "ok": true,
+  "vram": 652.0,
+  "step_ms": 21.537307050311938,
+  "seed_steps_per_s": 46.43106019076403,
+  "torch_reserved": 196.0
+ },
+ "S8": {
+  "ok": true,
+  "vram": 1838.0,
+  "step_ms": 69.79229435091838,
+  "seed_steps_per_s": 114.62583476301391,
+  "torch_reserved": 1382.0
+ },
+ "marginal_mib_per_seed": 169.42857142857142
+}

@@ -1,0 +1,13 @@
+{
+ "task": "reacher-easy",
+ "horizon": 2,
+ "solo_steps_per_s": 108.68431295993736,
+ "n": 2,
+ "rel_speed": [
+  0.7425165306312769,
+  0.7438844095180258
+ ],
+ "min_rel": 0.7425165306312769,
+ "total_steps_per_s": 161.54846496313195,
+ "no_slowdown_capacity": 1
+}

@@ -1,0 +1,13 @@
+{
+ "task": "humanoid-run",
+ "horizon": 2,
+ "solo_steps_per_s": 58.70238836601598,
+ "n": 2,
+ "rel_speed": [
+  0.7418439538963325,
+  0.7434819097912123
+ ],
+ "min_rel": 0.7418439538963325,
+ "total_steps_per_s": 87.19217570027436,
+ "no_slowdown_capacity": 1
+}

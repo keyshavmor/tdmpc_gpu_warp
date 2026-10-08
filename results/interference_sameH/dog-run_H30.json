@@ -1,0 +1,13 @@
+{
+ "task": "dog-run",
+ "horizon": 30,
+ "solo_steps_per_s": 6.121767269270713,
+ "n": 2,
+ "rel_speed": [
+  0.5828133915205654,
+  0.5847214901347558
+ ],
+ "min_rel": 0.5828133915205654,
+ "total_steps_per_s": 7.147376824249401,
+ "no_slowdown_capacity": 1
+}

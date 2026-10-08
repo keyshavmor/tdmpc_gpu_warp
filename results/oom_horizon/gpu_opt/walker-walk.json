@@ -1,0 +1,20 @@
+{
+ "task": "walker-walk",
+ "mode": "gpu_opt",
+ "slope_mib_per_H": 19.968916518650083,
+ "intercept_mib": 590.47513321492,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 453,
+ "H_oom_predicted": 1153.1684678674676,
+ "probes": [
+  {
+   "H": 453,
+   "fits": true,
+   "vram": 9400.0,
+   "torch_reserved": 7724.0,
+   "s": 29.592973470687866
+  }
+ ],
+ "result": "fits_at_H_max"
+}

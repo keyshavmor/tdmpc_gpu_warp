@@ -1,0 +1,13 @@
+{
+ "task": "hopper-hop",
+ "horizon": 2,
+ "solo_steps_per_s": 74.59372622495167,
+ "n": 2,
+ "rel_speed": [
+  0.7773943171896779,
+  0.7727267243703498
+ ],
+ "min_rel": 0.7727267243703498,
+ "total_steps_per_s": 115.62930458966562,
+ "no_slowdown_capacity": 1
+}

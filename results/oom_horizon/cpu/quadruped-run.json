@@ -1,0 +1,20 @@
+{
+ "task": "quadruped-run",
+ "mode": "cpu",
+ "slope_mib_per_H": 16.510657193605677,
+ "intercept_mib": 425.90852575488464,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 1404.6740358237864,
+ "probes": [
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 4174.0,
+   "torch_reserved": 3858.0,
+   "s": 24.08181619644165
+  }
+ ],
+ "result": "fits_at_H_max"
+}

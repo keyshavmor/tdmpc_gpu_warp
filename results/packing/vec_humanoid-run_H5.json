@@ -1,0 +1,49 @@
+{
+ "task": "humanoid-run",
+ "horizon": 5,
+ "extra": "",
+ "S_max_fit": 44,
+ "S_min_oom": 46,
+ "probes": [
+  {
+   "S": 8,
+   "fits": true,
+   "vram": 4668.0
+  },
+  {
+   "S": 16,
+   "fits": true,
+   "vram": 8480.0
+  },
+  {
+   "S": 32,
+   "fits": true,
+   "vram": 16470.0
+  },
+  {
+   "S": 64,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 48,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 40,
+   "fits": true,
+   "vram": 20526.0
+  },
+  {
+   "S": 44,
+   "fits": true,
+   "vram": 22322.0
+  },
+  {
+   "S": 46,
+   "fits": false,
+   "vram": null
+  }
+ ]
+}

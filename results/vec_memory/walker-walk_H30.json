@@ -1,0 +1,20 @@
+{
+ "task": "walker-walk",
+ "horizon": 30,
+ "ckpt": false,
+ "S1": {
+  "ok": true,
+  "vram": 1258.0,
+  "step_ms": 70.8446157979779,
+  "seed_steps_per_s": 14.1153987319463,
+  "torch_reserved": 722.0
+ },
+ "S8": {
+  "ok": true,
+  "vram": 6840.0,
+  "step_ms": 338.0572657973971,
+  "seed_steps_per_s": 23.664629663053958,
+  "torch_reserved": 6310.0
+ },
+ "marginal_mib_per_seed": 797.4285714285714
+}

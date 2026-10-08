@@ -1,0 +1,20 @@
+{
+ "task": "fish-swim",
+ "horizon": 5,
+ "ckpt": true,
+ "S1": {
+  "ok": true,
+  "vram": 620.0,
+  "step_ms": 26.197769353166223,
+  "seed_steps_per_s": 38.17118879547436,
+  "torch_reserved": 152.0
+ },
+ "S8": {
+  "ok": true,
+  "vram": 1276.0,
+  "step_ms": 85.21759739960544,
+  "seed_steps_per_s": 93.87732398140857,
+  "torch_reserved": 810.0
+ },
+ "marginal_mib_per_seed": 93.71428571428571
+}

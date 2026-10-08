@@ -1,0 +1,94 @@
+{
+ "specs": [
+  "4*gpu:walker-walk:5"
+ ],
+ "mps": false,
+ "n_runs": 4,
+ "n_ok": 4,
+ "n_oom": 0,
+ "duration_s": 30.0,
+ "setup_s": 6.80672550201416,
+ "steps_per_s_each": [
+  11.506891769886087,
+  11.507244938552923,
+  11.513406930087156,
+  11.513467632010387
+ ],
+ "steps_per_s_total": 46.04101127053656,
+ "cpu_cores_each": [
+  1.0005023929329102,
+  1.0004325425084386,
+  1.0005307213461758,
+  1.0004667782808507
+ ],
+ "system_cpu_util": 0.26273479168277036,
+ "gpu_util_mean": 90.50819672131148,
+ "gpu_mem_peak_mib": 3411.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "mode": "gpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 350,
+   "wall_s": 30.41655444400385,
+   "steps_per_s": 11.506891769886087,
+   "cpu_cores": 1.0005023929329102,
+   "torch_peak_reserved_mib": 180.0,
+   "pid": 396853,
+   "process_vram_mib": 608.0
+  },
+  {
+   "id": "1",
+   "mode": "gpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 350,
+   "wall_s": 30.415620930027217,
+   "steps_per_s": 11.507244938552923,
+   "cpu_cores": 1.0004325425084386,
+   "torch_peak_reserved_mib": 180.0,
+   "pid": 396854,
+   "process_vram_mib": 608.0
+  },
+  {
+   "id": "2",
+   "mode": "gpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 350,
+   "wall_s": 30.39934244705364,
+   "steps_per_s": 11.513406930087156,
+   "cpu_cores": 1.0005307213461758,
+   "torch_peak_reserved_mib": 180.0,
+   "pid": 396855,
+   "process_vram_mib": 608.0
+  },
+  {
+   "id": "3",
+   "mode": "gpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 350,
+   "wall_s": 30.399182174005546,
+   "steps_per_s": 11.513467632010387,
+   "cpu_cores": 1.0004667782808507,
+   "torch_peak_reserved_mib": 180.0,
+   "pid": 396856,
+   "process_vram_mib": 608.0
+  }
+ ]
+}

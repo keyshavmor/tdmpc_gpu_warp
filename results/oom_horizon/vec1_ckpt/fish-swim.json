@@ -1,0 +1,41 @@
+{
+ "task": "fish-swim",
+ "mode": "vec1_ckpt",
+ "slope_mib_per_H": 4.326315789473694,
+ "intercept_mib": 597.8947368421047,
+ "free_mib": 23617.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 5320.717761557166,
+ "probes": [
+  {
+   "H": 5,
+   "fits": true,
+   "vram": 620.0,
+   "torch_reserved": 152.0,
+   "s": 6.790222406387329
+  },
+  {
+   "H": 15,
+   "fits": true,
+   "vram": 662.0,
+   "torch_reserved": 156.0,
+   "s": 7.447901248931885
+  },
+  {
+   "H": 30,
+   "fits": true,
+   "vram": 728.0,
+   "torch_reserved": 164.0,
+   "s": 8.415268898010254
+  },
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 1572.0,
+   "torch_reserved": 264.0,
+   "s": 21.701500415802002
+  }
+ ],
+ "result": "fits_at_H_max"
+}

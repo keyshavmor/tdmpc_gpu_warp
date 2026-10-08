@@ -1,0 +1,53 @@
+{
+ "sensor_skip": {
+  "cartpole-swingup": {
+   "max_obs_diff": 0.0,
+   "max_reward_diff": 0.0,
+   "steps": 100
+  },
+  "walker-walk": {
+   "max_obs_diff": 0.0,
+   "max_reward_diff": 0.0,
+   "steps": 100
+  },
+  "finger-turn-hard": {
+   "max_obs_diff": 0.0,
+   "max_reward_diff": 0.0,
+   "steps": 100
+  },
+  "quadruped-run": {
+   "max_obs_diff": 0.0,
+   "max_reward_diff": 0.0,
+   "steps": 100
+  },
+  "hopper-hop": {
+   "max_obs_diff": 0.0,
+   "max_reward_diff": 0.0,
+   "steps": 100
+  },
+  "cheetah-run": {
+   "max_obs_diff": 0.0,
+   "max_reward_diff": 0.0,
+   "steps": 100
+  },
+  "cup-catch": {
+   "max_obs_diff": 0.0,
+   "max_reward_diff": 0.0,
+   "steps": 100
+  }
+ },
+ "batched_update": {
+  "walker-walk_H5": {
+   "param_max_abs_diff": 1.0379590094089508e-06,
+   "metric_max_rel_diff": 7.839258842068375e-08
+  },
+  "walker-walk_H30": {
+   "param_max_abs_diff": 1.519918441772461e-06,
+   "metric_max_rel_diff": 1.3066344308754196e-06
+  },
+  "dog-run_H10": {
+   "param_max_abs_diff": 3.0916184186935425e-05,
+   "metric_max_rel_diff": 1.7217279264514218e-06
+  }
+ }
+}

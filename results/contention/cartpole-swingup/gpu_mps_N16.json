@@ -1,0 +1,358 @@
+{
+ "specs": [
+  "16*gpu:cartpole-swingup:5:graph_agent=true,pace_host=true"
+ ],
+ "mps": true,
+ "n_runs": 16,
+ "n_ok": 16,
+ "n_oom": 0,
+ "duration_s": 30.0,
+ "setup_s": 13.233434438705444,
+ "steps_per_s_each": [
+  8.245593569608792,
+  8.239686399775312,
+  8.238703497354656,
+  8.272044573297512,
+  8.238750113665008,
+  8.239462581629173,
+  8.247564267249961,
+  8.240828395493018,
+  8.241080615571398,
+  8.23693034903494,
+  8.239031946186756,
+  8.244924937486166,
+  8.248424120594862,
+  8.244019076938045,
+  8.24124118346261,
+  8.241338845076609
+ ],
+ "steps_per_s_total": 131.8996244724248,
+ "cpu_cores_each": [
+  0.05824038534269593,
+  0.05859554001495431,
+  0.060568344616336624,
+  0.057022012760958626,
+  0.05721952523494786,
+  0.05888326581606394,
+  0.05900496923341837,
+  0.061374255837549636,
+  0.05865670807131141,
+  0.060321775013799775,
+  0.06288850059151818,
+  0.05822909448041869,
+  0.05805702741838028,
+  0.061176925455483776,
+  0.05925424126969875,
+  0.059765055428131854
+ ],
+ "system_cpu_util": 0.19250255106607705,
+ "gpu_util_mean": 85.76190476190476,
+ "gpu_mem_peak_mib": 11374.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.319224187987857,
+   "steps_per_s": 8.245593569608792,
+   "cpu_cores": 0.05824038534269593,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359557,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "1",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.340960550005548,
+   "steps_per_s": 8.239686399775312,
+   "cpu_cores": 0.05859554001495431,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359558,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "2",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.344580319011584,
+   "steps_per_s": 8.238703497354656,
+   "cpu_cores": 0.060568344616336624,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359559,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "3",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.22227428597398,
+   "steps_per_s": 8.272044573297512,
+   "cpu_cores": 0.057022012760958626,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359560,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "4",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.344408623990603,
+   "steps_per_s": 8.238750113665008,
+   "cpu_cores": 0.05721952523494786,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359561,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "5",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.34178473695647,
+   "steps_per_s": 8.239462581629173,
+   "cpu_cores": 0.05888326581606394,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359562,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "6",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.311979621998034,
+   "steps_per_s": 8.247564267249961,
+   "cpu_cores": 0.05900496923341837,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359563,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "7",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.3367559670005,
+   "steps_per_s": 8.240828395493018,
+   "cpu_cores": 0.061374255837549636,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359564,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "8",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.335827503935434,
+   "steps_per_s": 8.241080615571398,
+   "cpu_cores": 0.05865670807131141,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359565,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "9",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.35111253906507,
+   "steps_per_s": 8.23693034903494,
+   "cpu_cores": 0.060321775013799775,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359566,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "10",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.34337063296698,
+   "steps_per_s": 8.239031946186756,
+   "cpu_cores": 0.06288850059151818,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359567,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "11",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.32168296200689,
+   "steps_per_s": 8.244924937486166,
+   "cpu_cores": 0.05822909448041869,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359568,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "12",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.30881976301316,
+   "steps_per_s": 8.248424120594862,
+   "cpu_cores": 0.05805702741838028,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359569,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "13",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.325014736969024,
+   "steps_per_s": 8.244019076938045,
+   "cpu_cores": 0.061176925455483776,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359570,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "14",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.33523645706009,
+   "steps_per_s": 8.24124118346261,
+   "cpu_cores": 0.05925424126969875,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359571,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "15",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 250,
+   "wall_s": 30.334876978071406,
+   "steps_per_s": 8.241338845076609,
+   "cpu_cores": 0.059765055428131854,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 359572,
+   "process_vram_mib": 648.0
+  }
+ ]
+}

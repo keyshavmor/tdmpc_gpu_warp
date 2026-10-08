@@ -1,0 +1,60 @@
+{
+ "task": "dog-run",
+ "order": [
+  5,
+  30,
+  15,
+  2,
+  25,
+  10,
+  20
+ ],
+ "unpartitioned_solo": {
+  "5": 23.707846004510177,
+  "30": 6.121767269270713,
+  "15": 11.113154972043708,
+  "2": 38.58718172760929
+ },
+ "shares": [
+  {
+   "sm_pct": 50,
+   "n": 2,
+   "horizons": [
+    5,
+    30
+   ],
+   "n_ok": 2,
+   "solo_partitioned": {
+    "5": 20.763588506060128,
+    "30": 4.875214860910711
+   },
+   "isolation_min": 0.7768277886639654,
+   "isolation_mean": 0.8134239922114014,
+   "speed_vs_unpartitioned_solo_min": 0.6769337853203614,
+   "speed_vs_unpartitioned_solo_mean": 0.6786439914320958,
+   "total_steps_per_s": 20.273763634328937
+  },
+  {
+   "sm_pct": 25,
+   "n": 4,
+   "horizons": [
+    5,
+    30,
+    15,
+    2
+   ],
+   "n_ok": 4,
+   "solo_partitioned": {
+    "2": 25.33921081032059,
+    "5": 14.339860261492325,
+    "15": 5.939703999646811,
+    "30": 3.1419127419094757
+   },
+   "isolation_min": 0.6640021088325383,
+   "isolation_mean": 0.7168131244700957,
+   "speed_vs_unpartitioned_solo_min": 0.38909455111354274,
+   "speed_vs_unpartitioned_solo_mean": 0.4116666144920799,
+   "total_steps_per_s": 33.653485554971596
+  }
+ ]
+}

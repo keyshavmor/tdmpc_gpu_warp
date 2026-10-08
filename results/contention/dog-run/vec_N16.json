@@ -1,0 +1,33 @@
+{
+ "specs": [
+  "1*gpu:dog-run:5:vec_agent=true,num_seeds=16,pace_host=true"
+ ],
+ "mps": false,
+ "n_runs": 1,
+ "n_ok": 0,
+ "n_oom": 1,
+ "duration_s": 30.0,
+ "setup_s": 9.006671667098999,
+ "steps_per_s_each": [],
+ "steps_per_s_total": 0,
+ "cpu_cores_each": [],
+ "system_cpu_util": 0.06351351351351353,
+ "gpu_util_mean": 25.0,
+ "gpu_mem_peak_mib": 24041.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "vec_agent=true",
+    "num_seeds=16",
+    "pace_host=true"
+   ],
+   "ok": false,
+   "oom": true,
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 64.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 80.31 MiB is free. Process 6749 has 260.00 MiB memory in use. Process 17065 has 215.41 MiB memory in use. Process 8271 has 6.78 MiB memory in use. Process 905448 has 97.78 MiB memory in use. Process 2108121 has 43.04 MiB memory in use. Including non-PyTorch memory, this process has 22.54 GiB memory in use. Of the allocated memory 22.06 GiB is allocated by PyTorch, with 91.86 MiB al"
+  }
+ ]
+}

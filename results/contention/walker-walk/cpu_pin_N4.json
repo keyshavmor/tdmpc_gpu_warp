@@ -1,0 +1,94 @@
+{
+ "specs": [
+  "4*cpu:walker-walk:5"
+ ],
+ "mps": false,
+ "n_runs": 4,
+ "n_ok": 4,
+ "n_oom": 0,
+ "duration_s": 30.0,
+ "setup_s": 3.8039724826812744,
+ "steps_per_s_each": [
+  15.08780054073554,
+  15.2754564460013,
+  15.30213385192685,
+  15.250687675458051
+ ],
+ "steps_per_s_total": 60.91607851412174,
+ "cpu_cores_each": [
+  1.0003988640824233,
+  1.0003660807764225,
+  1.0004825069157668,
+  1.0005359188321812
+ ],
+ "system_cpu_util": 0.26086552576323463,
+ "gpu_util_mean": 92.84126984126983,
+ "gpu_mem_peak_mib": 2955.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "mode": "cpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 500,
+   "wall_s": 33.13935643900186,
+   "steps_per_s": 15.08780054073554,
+   "cpu_cores": 1.0003988640824233,
+   "torch_peak_reserved_mib": 178.0,
+   "pid": 391064,
+   "process_vram_mib": 494.0
+  },
+  {
+   "id": "1",
+   "mode": "cpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 500,
+   "wall_s": 32.73224612092599,
+   "steps_per_s": 15.2754564460013,
+   "cpu_cores": 1.0003660807764225,
+   "torch_peak_reserved_mib": 178.0,
+   "pid": 391065,
+   "process_vram_mib": 494.0
+  },
+  {
+   "id": "2",
+   "mode": "cpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 500,
+   "wall_s": 32.675181437982246,
+   "steps_per_s": 15.30213385192685,
+   "cpu_cores": 1.0004825069157668,
+   "torch_peak_reserved_mib": 178.0,
+   "pid": 391066,
+   "process_vram_mib": 494.0
+  },
+  {
+   "id": "3",
+   "mode": "cpu",
+   "task": "walker-walk",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 500,
+   "wall_s": 32.78540683805477,
+   "steps_per_s": 15.250687675458051,
+   "cpu_cores": 1.0005359188321812,
+   "torch_peak_reserved_mib": 178.0,
+   "pid": 391067,
+   "process_vram_mib": 494.0
+  }
+ ]
+}

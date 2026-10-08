@@ -1,0 +1,20 @@
+{
+ "task": "acrobot-swingup",
+ "horizon": 30,
+ "ckpt": false,
+ "S1": {
+  "ok": true,
+  "vram": 1202.0,
+  "step_ms": 69.17445504805073,
+  "seed_steps_per_s": 14.45620351190868,
+  "torch_reserved": 674.0
+ },
+ "S8": {
+  "ok": true,
+  "vram": 6546.0,
+  "step_ms": 329.0434159513097,
+  "seed_steps_per_s": 24.31290100995001,
+  "torch_reserved": 6026.0
+ },
+ "marginal_mib_per_seed": 763.4285714285714
+}

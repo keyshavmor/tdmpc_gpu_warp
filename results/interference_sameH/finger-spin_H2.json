@@ -1,0 +1,13 @@
+{
+ "task": "finger-spin",
+ "horizon": 2,
+ "solo_steps_per_s": 106.13728863062592,
+ "n": 2,
+ "rel_speed": [
+  0.7436269664842323,
+  0.7451630497993879
+ ],
+ "min_rel": 0.7436269664842323,
+ "total_steps_per_s": 158.01613566868883,
+ "no_slowdown_capacity": 1
+}

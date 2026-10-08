@@ -1,0 +1,202 @@
+{
+ "cycle": [
+  "gpu:dog-run:5:graph_agent=true,pace_host=true"
+ ],
+ "mps": false,
+ "gpu_mem_baseline_mib": 21439.0,
+ "gpu_mem_total_mib": 24576.0,
+ "n_fit": 11,
+ "failure": {
+  "index": 11,
+  "spec": {
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ]
+  },
+  "oom": true,
+  "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 852.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 709.88 MiB is free. Process 6749 has 260.00 MiB memory in use. Process 17065 has 215.41 MiB memory in use. Process 8271 has 6.78 MiB memory in use. Process 905448 has 97.78 MiB memory in use. Process 2108121 has 43.04 MiB memory in use. Process 286976 has 1.95 GiB memory in use. Process 287113 has 1.95 GiB memory in use. Process 287254 has 1.95 GiB memory in use. Process 287376 ha",
+  "gpu_mem_used_mib": 23412.0
+ },
+ "runs": [
+  {
+   "id": "0",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 286976,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 2959.0
+  },
+  {
+   "id": "1",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 287113,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 4961.0
+  },
+  {
+   "id": "2",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 287254,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 6962.0
+  },
+  {
+   "id": "3",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 287376,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 8963.0
+  },
+  {
+   "id": "4",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 287524,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 10965.0
+  },
+  {
+   "id": "5",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 287670,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 12967.0
+  },
+  {
+   "id": "6",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 287802,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 14967.0
+  },
+  {
+   "id": "7",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 287939,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 16971.0
+  },
+  {
+   "id": "8",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 288083,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 18972.0
+  },
+  {
+   "id": "9",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 288222,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 20973.0
+  },
+  {
+   "id": "10",
+   "mode": "gpu",
+   "task": "dog-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "torch_peak_reserved_mib": 1532.0,
+   "pid": 288354,
+   "process_vram_mib": 1996.0,
+   "gpu_mem_used_after_mib": 22974.0
+  }
+ ]
+}

@@ -1,0 +1,94 @@
+{
+ "specs": [
+  "4*cpu:cartpole-swingup:5"
+ ],
+ "mps": false,
+ "n_runs": 4,
+ "n_ok": 4,
+ "n_oom": 0,
+ "duration_s": 30.0,
+ "setup_s": 6.616088151931763,
+ "steps_per_s_each": [
+  15.51507847485279,
+  15.264241551315276,
+  14.641441377963725,
+  15.415324017313472
+ ],
+ "steps_per_s_total": 60.83608542144526,
+ "cpu_cores_each": [
+  1.0003292104189352,
+  1.0004963179433577,
+  1.0004182985289218,
+  1.0003576058296357
+ ],
+ "system_cpu_util": 0.2597361040525533,
+ "gpu_util_mean": 94.35483870967742,
+ "gpu_mem_peak_mib": 2771.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "mode": "cpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 500,
+   "wall_s": 32.226714212913066,
+   "steps_per_s": 15.51507847485279,
+   "cpu_cores": 1.0003292104189352,
+   "torch_peak_reserved_mib": 132.0,
+   "pid": 344688,
+   "process_vram_mib": 448.0
+  },
+  {
+   "id": "1",
+   "mode": "cpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 500,
+   "wall_s": 32.75629505200777,
+   "steps_per_s": 15.264241551315276,
+   "cpu_cores": 1.0004963179433577,
+   "torch_peak_reserved_mib": 132.0,
+   "pid": 344689,
+   "process_vram_mib": 448.0
+  },
+  {
+   "id": "2",
+   "mode": "cpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 450,
+   "wall_s": 30.73467894201167,
+   "steps_per_s": 14.641441377963725,
+   "cpu_cores": 1.0004182985289218,
+   "torch_peak_reserved_mib": 132.0,
+   "pid": 344690,
+   "process_vram_mib": 448.0
+  },
+  {
+   "id": "3",
+   "mode": "cpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 500,
+   "wall_s": 32.43525724392384,
+   "steps_per_s": 15.415324017313472,
+   "cpu_cores": 1.0003576058296357,
+   "torch_peak_reserved_mib": 132.0,
+   "pid": 344691,
+   "process_vram_mib": 448.0
+  }
+ ]
+}

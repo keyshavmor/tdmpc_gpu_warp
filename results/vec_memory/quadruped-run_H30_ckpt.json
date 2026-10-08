@@ -1,0 +1,20 @@
+{
+ "task": "quadruped-run",
+ "horizon": 30,
+ "ckpt": true,
+ "S1": {
+  "ok": true,
+  "vram": 762.0,
+  "step_ms": 84.24886210123077,
+  "seed_steps_per_s": 11.869596515124817,
+  "torch_reserved": 206.0
+ },
+ "S8": {
+  "ok": true,
+  "vram": 1952.0,
+  "step_ms": 407.207669201307,
+  "seed_steps_per_s": 19.64599540988783,
+  "torch_reserved": 1178.0
+ },
+ "marginal_mib_per_seed": 170.0
+}

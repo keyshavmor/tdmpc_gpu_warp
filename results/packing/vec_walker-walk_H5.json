@@ -1,0 +1,59 @@
+{
+ "task": "walker-walk",
+ "horizon": 5,
+ "extra": "",
+ "S_max_fit": 136,
+ "S_min_oom": 144,
+ "probes": [
+  {
+   "S": 8,
+   "fits": true,
+   "vram": 2110.0
+  },
+  {
+   "S": 16,
+   "fits": true,
+   "vram": 3162.0
+  },
+  {
+   "S": 32,
+   "fits": true,
+   "vram": 5798.0
+  },
+  {
+   "S": 64,
+   "fits": true,
+   "vram": 11076.0
+  },
+  {
+   "S": 128,
+   "fits": true,
+   "vram": 21672.0
+  },
+  {
+   "S": 256,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 192,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 160,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 144,
+   "fits": false,
+   "vram": null
+  },
+  {
+   "S": 136,
+   "fits": true,
+   "vram": 23072.0
+  }
+ ]
+}

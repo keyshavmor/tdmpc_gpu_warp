@@ -1,0 +1,106 @@
+{
+ "specs": [
+  "4*gpu:cartpole-swingup:5:graph_agent=true,pace_host=true"
+ ],
+ "mps": false,
+ "n_runs": 4,
+ "n_ok": 4,
+ "n_oom": 0,
+ "duration_s": 30.0,
+ "setup_s": 6.606354475021362,
+ "steps_per_s_each": [
+  12.334628790320458,
+  12.341432771344582,
+  12.337750049123152,
+  12.334234974908973
+ ],
+ "steps_per_s_total": 49.34804658569717,
+ "cpu_cores_each": [
+  0.04975068282627851,
+  0.05837502443041529,
+  0.05017281831330781,
+  0.05044632311469163
+ ],
+ "system_cpu_util": 0.03783231083844585,
+ "gpu_util_mean": 91.53125,
+ "gpu_mem_peak_mib": 3571.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 400,
+   "wall_s": 32.42902618309017,
+   "steps_per_s": 12.334628790320458,
+   "cpu_cores": 0.04975068282627851,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 351324,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "1",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 400,
+   "wall_s": 32.411147669074126,
+   "steps_per_s": 12.341432771344582,
+   "cpu_cores": 0.05837502443041529,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 351325,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "2",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 400,
+   "wall_s": 32.42082214402035,
+   "steps_per_s": 12.337750049123152,
+   "cpu_cores": 0.05017281831330781,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 351326,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "3",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 400,
+   "wall_s": 32.43006159795914,
+   "steps_per_s": 12.334234974908973,
+   "cpu_cores": 0.05044632311469163,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 351327,
+   "process_vram_mib": 648.0
+  }
+ ]
+}

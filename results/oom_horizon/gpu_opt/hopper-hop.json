@@ -1,0 +1,20 @@
+{
+ "task": "hopper-hop",
+ "mode": "gpu_opt",
+ "slope_mib_per_H": 19.835257548845476,
+ "intercept_mib": 566.5182060390762,
+ "free_mib": 23617.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 1162.0964203362507,
+ "probes": [
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 4954.0,
+   "torch_reserved": 3904.0,
+   "s": 17.903477668762207
+  }
+ ],
+ "result": "fits_at_H_max"
+}

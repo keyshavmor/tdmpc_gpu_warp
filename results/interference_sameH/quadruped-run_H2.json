@@ -1,0 +1,13 @@
+{
+ "task": "quadruped-run",
+ "horizon": 2,
+ "solo_steps_per_s": 65.71000796039152,
+ "n": 2,
+ "rel_speed": [
+  0.7703599617427341,
+  0.7693982350173884
+ ],
+ "min_rel": 0.7693982350173884,
+ "total_steps_per_s": 101.17752336618574,
+ "no_slowdown_capacity": 1
+}

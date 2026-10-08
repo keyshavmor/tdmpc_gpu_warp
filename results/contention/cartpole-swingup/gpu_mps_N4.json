@@ -1,0 +1,106 @@
+{
+ "specs": [
+  "4*gpu:cartpole-swingup:5:graph_agent=true,pace_host=true"
+ ],
+ "mps": true,
+ "n_runs": 4,
+ "n_ok": 4,
+ "n_oom": 0,
+ "duration_s": 30.0,
+ "setup_s": 6.205734491348267,
+ "steps_per_s_each": [
+  24.824049202127636,
+  24.766127258871236,
+  24.790092447202326,
+  24.834192399437118
+ ],
+ "steps_per_s_total": 99.21446130763832,
+ "cpu_cores_each": [
+  0.09112942616682881,
+  0.09376775626486822,
+  0.08807227462514283,
+  0.08925290944882633
+ ],
+ "system_cpu_util": 0.04836345872007819,
+ "gpu_util_mean": 91.35,
+ "gpu_mem_peak_mib": 3587.0,
+ "gpu_mem_baseline_mib": 958.0,
+ "runs": [
+  {
+   "id": "0",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 750,
+   "wall_s": 30.212637507007457,
+   "steps_per_s": 24.824049202127636,
+   "cpu_cores": 0.09112942616682881,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 357207,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "1",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 750,
+   "wall_s": 30.2832975119818,
+   "steps_per_s": 24.766127258871236,
+   "cpu_cores": 0.09376775626486822,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 357208,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "2",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 750,
+   "wall_s": 30.25402190804016,
+   "steps_per_s": 24.790092447202326,
+   "cpu_cores": 0.08807227462514283,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 357209,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "3",
+   "mode": "gpu",
+   "task": "cartpole-swingup",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 750,
+   "wall_s": 30.200297554954886,
+   "steps_per_s": 24.834192399437118,
+   "cpu_cores": 0.08925290944882633,
+   "torch_peak_reserved_mib": 196.0,
+   "pid": 357210,
+   "process_vram_mib": 648.0
+  }
+ ]
+}

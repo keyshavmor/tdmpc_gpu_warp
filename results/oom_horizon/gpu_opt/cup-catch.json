@@ -1,0 +1,20 @@
+{
+ "task": "cup-catch",
+ "mode": "gpu_opt",
+ "slope_mib_per_H": 19.91030195381882,
+ "intercept_mib": 574.228241563055,
+ "free_mib": 23618.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 225,
+ "H_oom_predicted": 1157.3793211115576,
+ "probes": [
+  {
+   "H": 225,
+   "fits": true,
+   "vram": 4954.0,
+   "torch_reserved": 3894.0,
+   "s": 18.125346183776855
+  }
+ ],
+ "result": "fits_at_H_max"
+}

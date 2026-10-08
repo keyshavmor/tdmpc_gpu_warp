@@ -1,0 +1,20 @@
+{
+ "task": "hopper-hop",
+ "horizon": 30,
+ "ckpt": true,
+ "S1": {
+  "ok": true,
+  "vram": 716.0,
+  "step_ms": 82.74391985032707,
+  "seed_steps_per_s": 12.085480139312581,
+  "torch_reserved": 164.0
+ },
+ "S8": {
+  "ok": true,
+  "vram": 1412.0,
+  "step_ms": 400.57300265179947,
+  "seed_steps_per_s": 19.97139085020677,
+  "torch_reserved": 866.0
+ },
+ "marginal_mib_per_seed": 99.42857142857143
+}

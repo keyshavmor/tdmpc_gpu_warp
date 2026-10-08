@@ -1,0 +1,20 @@
+{
+ "task": "cup-catch",
+ "horizon": 5,
+ "ckpt": true,
+ "S1": {
+  "ok": true,
+  "vram": 616.0,
+  "step_ms": 25.923976296326146,
+  "seed_steps_per_s": 38.574329360952106,
+  "torch_reserved": 152.0
+ },
+ "S8": {
+  "ok": true,
+  "vram": 1170.0,
+  "step_ms": 85.00123384874314,
+  "seed_steps_per_s": 94.11628087935445,
+  "torch_reserved": 708.0
+ },
+ "marginal_mib_per_seed": 79.14285714285714
+}

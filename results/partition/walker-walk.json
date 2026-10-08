@@ -1,0 +1,60 @@
+{
+ "task": "walker-walk",
+ "order": [
+  5,
+  30,
+  15,
+  2,
+  25,
+  10,
+  20
+ ],
+ "unpartitioned_solo": {
+  "5": 48.1319807486627,
+  "30": 13.45609518391222,
+  "15": 23.571651929862924,
+  "2": 69.73221857167752
+ },
+ "shares": [
+  {
+   "sm_pct": 50,
+   "n": 2,
+   "horizons": [
+    5,
+    30
+   ],
+   "n_ok": 2,
+   "solo_partitioned": {
+    "5": 41.89141123075673,
+    "30": 10.907940188753551
+   },
+   "isolation_min": 0.8174644112074282,
+   "isolation_mean": 0.8368998022480856,
+   "speed_vs_unpartitioned_solo_min": 0.6941726364336376,
+   "speed_vs_unpartitioned_solo_mean": 0.7028242006366094,
+   "total_steps_per_s": 43.585590886317114
+  },
+  {
+   "sm_pct": 25,
+   "n": 4,
+   "horizons": [
+    5,
+    30,
+    15,
+    2
+   ],
+   "n_ok": 4,
+   "solo_partitioned": {
+    "2": 52.29119397664618,
+    "5": 32.76848617283815,
+    "15": 14.478747398238488,
+    "30": 7.909250646063951
+   },
+   "isolation_min": 0.6991064457676643,
+   "isolation_mean": 0.7278736346913455,
+   "speed_vs_unpartitioned_solo_min": 0.4431946960065084,
+   "speed_vs_unpartitioned_solo_mean": 0.4777269235968617,
+   "total_steps_per_s": 76.7335303853026
+  }
+ ]
+}

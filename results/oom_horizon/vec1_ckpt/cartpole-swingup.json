@@ -1,0 +1,41 @@
+{
+ "task": "cartpole-swingup",
+ "mode": "vec1_ckpt",
+ "slope_mib_per_H": 4.15789473684211,
+ "intercept_mib": 569.3684210526311,
+ "free_mib": 23617.0,
+ "total_mib": 24576.0,
+ "H_max_valid": 112,
+ "H_oom_predicted": 5543.101265822779,
+ "probes": [
+  {
+   "H": 5,
+   "fits": true,
+   "vram": 590.0,
+   "torch_reserved": 130.0,
+   "s": 6.640342712402344
+  },
+  {
+   "H": 15,
+   "fits": true,
+   "vram": 632.0,
+   "torch_reserved": 134.0,
+   "s": 7.263340950012207
+  },
+  {
+   "H": 30,
+   "fits": true,
+   "vram": 694.0,
+   "torch_reserved": 138.0,
+   "s": 8.237645149230957
+  },
+  {
+   "H": 112,
+   "fits": true,
+   "vram": 1042.0,
+   "torch_reserved": 174.0,
+   "s": 13.94038462638855
+  }
+ ],
+ "result": "fits_at_H_max"
+}
