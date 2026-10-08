@@ -1,0 +1,11 @@
+{
+ "test": "warp module load/unload instrumentation over a full single-seed training cycle (walker-walk, graph agent, 22k env steps: seeding, 5000+ updates, 2 evaluations, final gc.collect())",
+ "module_loads": 37,
+ "module_reloads": 1,
+ "module_unloads": 0,
+ "capture_while_calls": 47,
+ "reloaded_modules": [
+  "mujoco_warp._src.forward"
+ ],
+ "conclusion": "no module is unloaded during training; the reloaded forward module stays loaded (retained by the captured graph) -> hypothesis \"graph references unloaded module code\" ruled out for this path"
+}

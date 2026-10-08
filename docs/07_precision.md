@@ -61,7 +61,8 @@ activation memory without changing a single bit.
 | 20k | 447 +- 212 | 554 +- 222 | 489 +- 155 | 564 +- 96 |
 | 40k | 954 +- 6 | 910 +- 67 | 944 +- 8 | 936 +- 28 |
 
-bf16 and fp16 learn like fp32 on walker-walk (A/B vs fp32: p = 0.33-0.94; vs reference: p >= 0.14) within the
+bf16 and fp16 learn like fp32 on walker-walk (A/B vs fp32: p = 0.33-0.94; vs reference: p >= 0.14; these runs were made
+before the PER replacement-flag fix of docs/06 section 6.4, with the same sampling in the fp32 comparison runs) within the
 resolution of 3 seeds. The fp16 run uses dynamic loss scaling; an early fp16 run exposed a bug in the capturable
 scaler (growth counter not persisted across graph replays), fixed before the reported run.
 

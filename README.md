@@ -24,7 +24,7 @@ core, so many runs can share one GPU without CPU contention.
 | Tasks | all 21 state-based DMControl tasks of TD-MPC (`tasks.txt`), incl. humanoid and dog |
 | Speed-up per run vs. the original | **2.4-4.8x** (mean 3.7x) at H = 5, 3.1-3.8x at H = 30; dog 2.0x / 1.7x |
 | 21 tasks x 5 seeds (H = 5, default budgets) | **~17 days** (5 seeds in parallel, MPS) vs. ~77 days (original, back-to-back) |
-| Learning | statistically indistinguishable from the paper's reference curves (cartpole-swingup, walker-walk, 5 seeds) |
+| Learning | statistically indistinguishable from the paper's reference curves (cartpole-swingup, walker-walk, 5 seeds, 100k steps) |
 | CPU use | 16 concurrent GPU runs use 17 % of a 16-core CPU (16 original runs: 99 %) |
 | Hardware used for all measurements | NVIDIA RTX 3090 (24 GiB), 16-core CPU |
 
@@ -254,8 +254,8 @@ Yes in the mathematics, and statistically yes in behaviour.
   not reproduce the exact same run.
 
 **Learning curves**
-- cartpole-swingup and walker-walk, 5 seeds, match the paper's reference (p >= 0.14 at every evaluation but one
-  marginal point).
+- cartpole-swingup and walker-walk, 5 seeds, 100k steps: after the replay-sampling fix the GPU agent matches the
+  paper's reference at every evaluation from 20k to 100k steps (p >= 0.14).
 - The other 19 tasks are validated at the environment level.
 
 Details: [docs/01](docs/01_design_and_faithfulness.md), [docs/03](docs/03_validation.md),

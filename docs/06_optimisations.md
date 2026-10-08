@@ -15,7 +15,7 @@ permitted differences are floating-point summation order (ulp-level) and the ran
 | 2 | whole agent step in one CUDA graph (env) | env CPU time 5 ms -> 0.3-1 ms per agent step | bitwise identical to eager env | n/a | n/a | covered by 3/6 | approved |
 | 3 | CUDA-graph agent (`graph_agent`, plan + update captured; multinomial sampling on GPU - replacement flag fixed, 6.4) | **2.4-4.8x (mean 3.7x)** single-run speed-up vs CPU baseline at H = 5 (with 1, 4) | unchanged | params identical to 2e-6..7e-6 after 12 updates; plan distributions identical | **bitwise identical** to the eager agent over 200 updates | covered by 5 (same code path) | **approved** |
 | 4 | host pacing + blocking sync (`pace_host`) | CPU per run 1.0 -> 0.03-0.17 cores; -7 % single-run speed | unchanged | unchanged (only *when* the CPU waits) | n/a | n/a | approved |
-| 5 | vectorised seeds (`train_vec.py num_seeds=S`) | one CUDA context + one N-world physics launch for all seeds: 4x more seeds per GPU, ~2.2x total throughput | per-world bitwise identical to separate envs | per-seed params identical to 3e-6..1e-4 (Adam-amplified ulps) | n/a | 5 seeds vs paper: cartpole p = 0.14-0.83 (0-60k), walker p = 0.20-0.49 | **approved** |
+| 5 | vectorised seeds (`train_vec.py num_seeds=S`) | one CUDA context + one N-world physics launch for all seeds: 4x more seeds per GPU, ~2.2x total throughput | per-world bitwise identical to separate envs | per-seed params identical to 3e-6..1e-4 (Adam-amplified ulps) | n/a | 5 seeds vs paper, 20k-100k, after the PER fix: cartpole p = 0.14-0.89, walker p = 0.22-0.86 | **approved** |
 | 6 | noslip solver on GPU, tile Cholesky | dog physics step 2.9 -> 1.47 ms | reproduces C MuJoCo noslip (same max effect 3.011e-2) | n/a | n/a | covered by 1 | approved |
 | 7 | activation checkpointing (`ckpt_unroll`) | H-term of VRAM 4-9x smaller (dog H=30: 4.1 -> 1.9 GiB, walker H=30: 208 vs 34 seeds per GPU); -10..-18 % speed | unchanged | **bitwise identical** parameters | bitwise (deterministic recompute) | identical by construction | approved |
 | 8 | batched update (`batched_update`) | 1.03-1.13x at H = 5, 1.11-1.26x at H = 30 | unchanged | params within 1e-6 (walker) / 3e-5 (dog) after 12 updates | loss rel. diff <= 1.3e-4, 8e-6 at update 200; params 1e-3 (rounding amplified by Adam) | 5 vs 5 seeds A/B: cartpole p = 0.24-1.0, walker p = 0.47-0.86 - no detectable difference | **approved** |
@@ -34,12 +34,20 @@ permitted differences are floating-point summation order (ulp-level) and the ran
 
 ## 6.3 Learning-mechanism verdict
 
-Learning curves (eval return at 0 / 20k / 40k / 60k / 80k env steps, 5 seeds; docs/results_learning.md):
-every GPU variant is statistically indistinguishable from the paper's reference curves of the original code
-(Welch test, all p >= 0.14 except one point: cartpole at 80k, 832 +- 19 vs 855 +- 4, p = 0.02, which is not
-significant after correcting for the ~10 comparisons and where the original code on this machine also lands
-below the paper value, 847). The A/B test batched-update vs exact agent shows no difference at any step
-(p = 0.24-1.0). The learning mechanism is unchanged by the port and by optimisations 1-9.
+**After the PER fix (section 6.4)** the vectorised CUDA-graph agent was re-run (`vec_fp32_fixed`, 5 seeds,
+cartpole-swingup and walker-walk, 100k env steps, docs/results_learning.md). It is statistically
+indistinguishable from the paper's reference curves at every evaluation from 20k to 100k steps (Welch test,
+cartpole p = 0.14-0.89, walker p = 0.22-0.86). Examples: walker 933 +- 46 vs 954 +- 6 at 40k and 962 +- 14 vs 963 +- 5 at 100k; cartpole
+854 +- 13 vs 855 +- 4 at 80k. At step 0 the untrained agent's cartpole return (124 +- 17) differs from the paper
+(94 +- 8), but the original code on this machine gives the same value (127), so this is not a port effect.
+
+**Before the fix** (runs kept and labelled in results_learning.md), all variants were also within the reference
+except one point: cartpole at 80k, 832 +- 19 vs 855 +- 4, p = 0.02. With the fix that point is 854 +- 13 (p = 0.83),
+so the earlier marginal deviation was plausibly the sampling bug.
+
+The A/B tests of batched update, bf16 and fp16 against the exact agent (run before the fix, with identical sampling
+on both sides) show no difference at any step (p = 0.24-1.0). The learning mechanism is unchanged by the port and
+by optimisations 1-9.
 
 ## 6.4 Correction: replay-sampling replacement flag (found while documenting the code, fixed)
 
@@ -80,6 +88,7 @@ to 2e-7, and zero-priority slots are never drawn.
   does not apply to the original algorithm. Its true limit is H <= L - 1 (L = episode length). The OOM conclusions are
   unchanged: only dog can go OOM within that range ([results_memory.md](results_memory.md)).
 * **Learning curves:** the earlier vectorised runs (`vec_fp32`, `vec_fp32_opt`, `vec_bf16`, `vec_fp16`) used the
-  inverted flag. They are kept in [results_learning.md](results_learning.md), labelled "before PER fix". Re-runs
-  with the fix are in progress: the vectorised agent (`vec_fp32_fixed`, cartpole-swingup and walker-walk, 5 seeds,
-  100k steps), and full-budget 5-seed runs of the recommended single-seed configuration under MPS.
+  inverted flag. They are kept in [results_learning.md](results_learning.md), labelled "before PER fix". The
+  vectorised agent was re-run with the fix (`vec_fp32_fixed`, cartpole-swingup and walker-walk, 5 seeds, 100k steps).
+  It matches the reference at every step (section 6.3). Full-budget 5-seed runs of the recommended single-seed
+  configuration under MPS are planned.
