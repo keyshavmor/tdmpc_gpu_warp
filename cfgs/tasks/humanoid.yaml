@@ -1,0 +1,8 @@
+# Original TD-MPC configuration (Nicklas Hansen, Xiaolong Wang and Hao Su, ICML 2022;
+# https://github.com/nicklashansen/tdmpc, MIT License, Copyright (c) 2021 Nicklas Hansen).
+# Values unchanged in tdmpc_gpu_warp (GPU port by Keyshav Mor), so every run uses the original hyperparameters.
+# Task-specific overrides for this domain (merged over default.yaml).
+train_steps: 3000000/${action_repeat}
+action_repeat: 2
+iterations: 12
+latent_dim: 100

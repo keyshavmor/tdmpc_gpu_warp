@@ -1,0 +1,494 @@
+GPU noslip solver for MuJoCo Warp (author: Keyshav Mor), needed by the dog tasks of the DeepMind Control Suite.
+Adds mujoco_warp/_src/noslip.py (port of MuJoCo's mj_solNoSlip, pyramidal cones) and hooks it into the
+constraint solver (solver.py), the Option fields (types.py) and the model checks (io.py).
+Base: https://github.com/google-deepmind/mujoco_warp commit 2c09ab908e5cd50cdabd1194713ba58e601899ee.
+Apply with scripts/setup_mujoco_warp.sh (or: git apply 0001-gpu-noslip-solver.patch). License: Apache 2.0, as MuJoCo Warp.
+
+diff --git a/mujoco_warp/_src/io.py b/mujoco_warp/_src/io.py
+index 2fa6049..1d3333b 100644
+--- a/mujoco_warp/_src/io.py
++++ b/mujoco_warp/_src/io.py
+@@ -348,8 +348,12 @@ def put_model(mjm: mujoco.MjModel, batch_sizes: dict[str, int] | None = None) ->
+   if (mjm.opt.enableflags & mujoco.mjtEnableBit.mjENBL_SLEEP) and (mjm.eq_type == mujoco.mjtEq.mjEQ_FLEX).any():
+     raise NotImplementedError("Flex equality constraints are not supported with sleeping enabled.")
+ 
+-  if mjm.opt.noslip_iterations > 0:
+-    raise NotImplementedError(f"noslip solver not implemented.")
++  # noslip solver (noslip.py, added by Keyshav Mor): supported for pyramidal cones without sleeping
++  if mjm.opt.noslip_iterations > 0 and mjm.opt.cone == mujoco.mjtCone.mjCONE_ELLIPTIC:
++    raise NotImplementedError("noslip solver is only implemented for pyramidal cones.")
++
++  if mjm.opt.noslip_iterations > 0 and (mjm.opt.enableflags & mujoco.mjtEnableBit.mjENBL_SLEEP):
++    raise NotImplementedError("noslip solver is not implemented with sleeping enabled.")
+ 
+   if (mjm.body_plugin != -1).any():
+     raise NotImplementedError("Body plugins not supported.")
+diff --git a/mujoco_warp/_src/noslip.py b/mujoco_warp/_src/noslip.py
+new file mode 100644
+index 0000000..5ce3a17
+--- /dev/null
++++ b/mujoco_warp/_src/noslip.py
+@@ -0,0 +1,418 @@
++# Copyright 2026 Keyshav Mor
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#     http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++# ==============================================================================
++
++"""NoSlip post-processing solver (port of MuJoCo C `mj_solNoSlip`, engine_solver.c).
++
++Author: Keyshav Mor. Written for tdmpc_warp (TD-MPC on GPU MuJoCo), where it is required by the dog tasks of
++the DeepMind Control Suite; the algorithm follows MuJoCo (https://github.com/google-deepmind/mujoco,
++Apache License 2.0, Copyright DeepMind Technologies).
++
++Runs after the main (Newton/CG) solve when `opt.noslip_iterations > 0`. It performs projected
++Gauss-Seidel sweeps over (1) dof/tendon friction-loss rows and (2) pairs of opposing pyramid edges
++of frictional contacts, using the unregularized constraint-space inverse inertia A = J M^-1 J'
++(i.e. MuJoCo's efc_AR with R subtracted from the diagonal), then maps the constraint force back
++to joint space (`dualFinish`): qfrc_constraint = J' f, qacc = qacc_smooth + M^-1 J' f.
++
++Differences to the C implementation (all mathematically equivalent):
++  - the residual b + A f is updated incrementally after each block update instead of being
++    recomputed from scratch with a dot product (same quantity, different rounding),
++  - A is formed densely from a dense (tile) Cholesky factor of M.
++Not supported: elliptic cones (raises in put_model), efc_state / solver statistics updates.
++"""
++
++import warp as wp
++
++from mujoco_warp._src import support
++from mujoco_warp._src import types
++from mujoco_warp._src.warp_util import cache_kernel
++from mujoco_warp._src.warp_util import event_scope
++
++_MINVAL = types.MJ_MINVAL
++_FRICTION_DOF = wp.constant(int(types.ConstraintType.FRICTION_DOF))
++_FRICTION_TENDON = wp.constant(int(types.ConstraintType.FRICTION_TENDON))
++_CONTACT_PYRAMIDAL = wp.constant(int(types.ConstraintType.CONTACT_PYRAMIDAL))
++
++_SCRATCH = {}
++_CH = 16  # column chunk of J' solved per tile
++
++
++def _round_up(x, k):
++  return ((x + k - 1) // k) * k
++
++
++def _scratch(d: types.Data, nv: int):
++  key = (d.nworld, d.njmax, nv, str(d.qacc.device))
++  s = _SCRATCH.get(key)
++  if s is None:
++    nw = d.nworld
++    npad = _round_up(max(nv, 16), 16)
++    njp = _round_up(d.njmax, _CH)
++    dev = d.qacc.device
++    s = dict(
++      npad=npad,
++      Mdense=wp.zeros((nw, npad, npad), dtype=float, device=dev),  # identity-padded M
++      JT=wp.zeros((nw, npad, njp), dtype=float, device=dev),  # J' (zero-padded)
++      XT=wp.zeros((nw, npad, njp), dtype=float, device=dev),  # M^-1 J'
++      A=wp.zeros((nw, d.njmax, d.njmax), dtype=float, device=dev),
++      res=wp.zeros((nw, d.njmax), dtype=float, device=dev),
++    )
++    _SCRATCH[key] = s
++  return s
++
++
++@wp.kernel
++def _init_M(nv: int, Mdense_out: wp.array3d[float]):
++  worldid, i, j = wp.tid()
++  val = float(0.0)
++  if i == j and i >= nv:
++    val = 1.0
++  Mdense_out[worldid, i, j] = val
++
++
++@wp.kernel
++def _densify_M(
++  # Model:
++  M_rownnz: wp.array[int],
++  M_rowadr: wp.array[int],
++  M_colind: wp.array[int],
++  # Data in:
++  M_in: wp.array2d[float],
++  # Out:
++  Mdense_out: wp.array3d[float],
++):
++  worldid, i = wp.tid()
++  rowadr = M_rowadr[i]
++  for k in range(M_rownnz[i]):
++    adr = rowadr + k
++    j = M_colind[adr]
++    val = M_in[worldid, adr]
++    Mdense_out[worldid, i, j] = val
++    Mdense_out[worldid, j, i] = val
++
++
++@cache_kernel
++def _densify_JT(is_sparse: bool):
++  @wp.kernel(module="unique", enable_backward=False)
++  def kernel(
++    # Data in:
++    nefc_in: wp.array[int],
++    efc_J_rownnz_in: wp.array2d[int],
++    efc_J_rowadr_in: wp.array2d[int],
++    efc_J_colind_in: wp.array3d[int],
++    efc_J_in: wp.array3d[float],
++    nv: int,
++    # Out:
++    JT_out: wp.array3d[float],
++  ):
++    worldid, efcid = wp.tid()
++    npad = JT_out.shape[1]
++    for j in range(npad):
++      JT_out[worldid, j, efcid] = 0.0
++    if efcid >= nefc_in[worldid]:
++      return
++    if wp.static(is_sparse):
++      rowadr = efc_J_rowadr_in[worldid, efcid]
++      for k in range(efc_J_rownnz_in[worldid, efcid]):
++        adr = rowadr + k
++        JT_out[worldid, efc_J_colind_in[worldid, 0, adr], efcid] = efc_J_in[worldid, 0, adr]
++    else:
++      for j in range(nv):
++        JT_out[worldid, j, efcid] = efc_J_in[worldid, efcid, j]
++
++  return kernel
++
++
++@cache_kernel
++def _tile_minv_jt(npad: int, ch: int):
++  """XT = M^-1 J' with a block-parallel tile Cholesky (one block per world)."""
++
++  @wp.kernel(module="unique", enable_backward=False)
++  def kernel(
++    # Data in:
++    nefc_in: wp.array[int],
++    # In:
++    Mdense_in: wp.array3d[float],
++    JT_in: wp.array3d[float],
++    # Out:
++    XT_out: wp.array3d[float],
++  ):
++    worldid = wp.tid()
++    nefc = nefc_in[worldid]
++    if nefc == 0:
++      return
++    M = wp.tile_load(Mdense_in[worldid], shape=(wp.static(npad), wp.static(npad)))
++    L = wp.tile_cholesky(M)
++    for c0 in range(0, nefc, wp.static(ch)):
++      y = wp.tile_load(JT_in[worldid], shape=(wp.static(npad), wp.static(ch)), offset=(0, c0))
++      x = wp.tile_cholesky_solve(L, y)
++      wp.tile_store(XT_out[worldid], x, offset=(0, c0))
++
++  return kernel
++
++
++@wp.kernel
++def _form_A(
++  # Data in:
++  nefc_in: wp.array[int],
++  # In:
++  JT_in: wp.array3d[float],
++  XT_in: wp.array3d[float],
++  nv: int,
++  # Out:
++  A_out: wp.array3d[float],
++):
++  worldid, i, j = wp.tid()
++  nefc = nefc_in[worldid]
++  if i >= nefc or j >= nefc:
++    return
++  s = float(0.0)
++  for k in range(nv):
++    s += JT_in[worldid, k, i] * XT_in[worldid, k, j]
++  A_out[worldid, i, j] = s
++
++
++@wp.kernel
++def _init_residual(
++  # Data in:
++  nefc_in: wp.array[int],
++  qacc_smooth_in: wp.array2d[float],
++  efc_aref_in: wp.array2d[float],
++  efc_force_in: wp.array2d[float],
++  # In:
++  JT_in: wp.array3d[float],
++  A_in: wp.array3d[float],
++  nv: int,
++  # Out:
++  res_out: wp.array2d[float],
++):
++  """res = b + A f, with b = J qacc_smooth - aref (residual with R subtracted)."""
++  worldid, i = wp.tid()
++  nefc = nefc_in[worldid]
++  if i >= nefc:
++    return
++  b = -efc_aref_in[worldid, i]
++  for k in range(nv):
++    b += JT_in[worldid, k, i] * qacc_smooth_in[worldid, k]
++  for j in range(nefc):
++    b += A_in[worldid, i, j] * efc_force_in[worldid, j]
++  res_out[worldid, i] = b
++
++
++@wp.func
++def _apply_delta(worldid: int, nefc: int, j: int, delta: float, A: wp.array3d[float], res: wp.array2d[float]):
++  if delta != 0.0:
++    for k in range(nefc):
++      res[worldid, k] += A[worldid, k, j] * delta
++
++
++@wp.kernel
++def _noslip_iterations(
++  # Model:
++  opt_noslip_iterations: int,
++  opt_noslip_tolerance: float,
++  nv: int,
++  stat_meaninertia: wp.array[float],
++  # Data in:
++  nefc_in: wp.array[int],
++  contact_dim_in: wp.array[int],
++  efc_type_in: wp.array2d[int],
++  efc_id_in: wp.array2d[int],
++  efc_D_in: wp.array2d[float],
++  efc_frictionloss_in: wp.array2d[float],
++  # In:
++  A_in: wp.array3d[float],
++  # In/Out:
++  res: wp.array2d[float],
++  efc_force: wp.array2d[float],
++):
++  """Sequential projected Gauss-Seidel sweeps (one thread per world), as in mj_solNoSlip."""
++  worldid = wp.tid()
++  nefc = nefc_in[worldid]
++  if nefc == 0:
++    return
++  scale = 1.0 / (stat_meaninertia[worldid % stat_meaninertia.shape[0]] * float(wp.max(1, nv)))
++
++  for it in range(opt_noslip_iterations):
++    improvement = float(0.0)
++
++    # correct for cost change at iter 0
++    if it == 0:
++      for i in range(nefc):
++        f = efc_force[worldid, i]
++        improvement += 0.5 * f * f / efc_D_in[worldid, i]
++
++    # sweep: dry friction
++    for i in range(nefc):
++      t = efc_type_in[worldid, i]
++      if t == _FRICTION_DOF or t == _FRICTION_TENDON:
++        arinv = 1.0 / wp.max(_MINVAL, A_in[worldid, i, i])
++        r = res[worldid, i]
++        old = efc_force[worldid, i]
++        f = old - r * arinv
++        floss = efc_frictionloss_in[worldid, i]
++        if f < -floss:
++          f = -floss
++        elif f > floss:
++          f = floss
++        efc_force[worldid, i] = f
++        delta = f - old
++        improvement -= 0.5 * delta * delta / arinv + delta * r
++        _apply_delta(worldid, nefc, i, delta, A_in, res)
++
++    # sweep: contact friction (pyramidal)
++    i = int(0)
++    while i < nefc:
++      t = efc_type_in[worldid, i]
++      if t == _CONTACT_PYRAMIDAL:
++        dim = contact_dim_in[efc_id_in[worldid, i]]
++        nrow = 2 * (dim - 1)
++        for p in range(dim - 1):
++          j = i + 2 * p
++          r0 = res[worldid, j]
++          r1 = res[worldid, j + 1]
++          o0 = efc_force[worldid, j]
++          o1 = efc_force[worldid, j + 1]
++
++          a00 = wp.max(1.0e-10, A_in[worldid, j, j])
++          a01 = A_in[worldid, j, j + 1]
++          a10 = A_in[worldid, j + 1, j]
++          a11 = wp.max(1.0e-10, A_in[worldid, j + 1, j + 1])
++
++          # bc = res - Ac * oldforce
++          bc0 = r0 - (a00 * o0 + a01 * o1)
++          bc1 = r1 - (a10 * o0 + a11 * o1)
++
++          mid = 0.5 * (o0 + o1)
++          K1 = a00 + a11 - a01 - a10
++          K0 = mid * (a00 - a11) + bc0 - bc1
++
++          f0 = mid
++          f1 = mid
++          if K1 >= _MINVAL:
++            y = -K0 / K1
++            if y < -mid:
++              f0 = 0.0
++              f1 = 2.0 * mid
++            elif y > mid:
++              f0 = 2.0 * mid
++              f1 = 0.0
++            else:
++              f0 = mid + y
++              f1 = mid - y
++
++          # cost change; positive change: restore force
++          d0 = f0 - o0
++          d1 = f1 - o1
++          change = 0.5 * (d0 * (a00 * d0 + a01 * d1) + d1 * (a10 * d0 + a11 * d1)) + d0 * r0 + d1 * r1
++          if change > 1.0e-10:
++            f0 = o0
++            f1 = o1
++            d0 = 0.0
++            d1 = 0.0
++            change = 0.0
++          improvement -= change
++
++          efc_force[worldid, j] = f0
++          efc_force[worldid, j + 1] = f1
++          _apply_delta(worldid, nefc, j, d0, A_in, res)
++          _apply_delta(worldid, nefc, j + 1, d1, A_in, res)
++        i += wp.max(nrow, 1)
++      else:
++        i += 1
++
++    improvement *= scale
++    if improvement < opt_noslip_tolerance:
++      break
++
++
++@wp.kernel
++def _dual_finish(
++  # Data in:
++  nefc_in: wp.array[int],
++  qacc_smooth_in: wp.array2d[float],
++  efc_force_in: wp.array2d[float],
++  # In:
++  JT_in: wp.array3d[float],
++  XT_in: wp.array3d[float],
++  # Data out:
++  qfrc_constraint_out: wp.array2d[float],
++  qacc_out: wp.array2d[float],
++):
++  """qfrc_constraint = J' f; qacc = qacc_smooth + M^-1 J' f = qacc_smooth + sum_i f_i X_i."""
++  worldid, k = wp.tid()
++  nefc = nefc_in[worldid]
++  if nefc == 0:
++    return
++  qfrc = float(0.0)
++  dq = float(0.0)
++  for i in range(nefc):
++    f = efc_force_in[worldid, i]
++    qfrc += JT_in[worldid, k, i] * f
++    dq += XT_in[worldid, k, i] * f
++  qfrc_constraint_out[worldid, k] = qfrc
++  qacc_out[worldid, k] = qacc_smooth_in[worldid, k] + dq
++
++
++@event_scope
++def noslip(m: types.Model, d: types.Data):
++  """NoSlip solver: removes slip from frictional constraints after the main solve."""
++  nv = m.nv
++  s = _scratch(d, nv)
++  nw, nj, npad = d.nworld, d.njmax, s["npad"]
++
++  wp.launch(_init_M, dim=(nw, npad, npad), inputs=[nv], outputs=[s["Mdense"]])
++  wp.launch(_densify_M, dim=(nw, nv), inputs=[m.M_rownnz, m.M_rowadr, m.M_colind, d.M], outputs=[s["Mdense"]])
++  wp.launch(
++    _densify_JT(m.is_sparse),
++    dim=(nw, nj),
++    inputs=[d.nefc, d.efc.J_rownnz, d.efc.J_rowadr, d.efc.J_colind, d.efc.J, nv],
++    outputs=[s["JT"]],
++  )
++  wp.launch_tiled(
++    _tile_minv_jt(npad, _CH), dim=nw, inputs=[d.nefc, s["Mdense"], s["JT"]], outputs=[s["XT"]], block_dim=128
++  )
++  wp.launch(_form_A, dim=(nw, nj, nj), inputs=[d.nefc, s["JT"], s["XT"], nv], outputs=[s["A"]])
++  wp.launch(
++    _init_residual,
++    dim=(nw, nj),
++    inputs=[d.nefc, d.qacc_smooth, d.efc.aref, d.efc.force, s["JT"], s["A"], nv],
++    outputs=[s["res"]],
++  )
++  wp.launch(
++    _noslip_iterations,
++    dim=nw,
++    inputs=[
++      m.opt.noslip_iterations,
++      m.opt.noslip_tolerance,
++      nv,
++      m.stat.meaninertia,
++      d.nefc,
++      d.contact.dim,
++      d.efc.type,
++      d.efc.id,
++      d.efc.D,
++      d.efc.frictionloss,
++      s["A"],
++    ],
++    outputs=[s["res"], d.efc.force],
++  )
++  wp.launch(
++    _dual_finish,
++    dim=(nw, nv),
++    inputs=[d.nefc, d.qacc_smooth, d.efc.force, s["JT"], s["XT"]],
++    outputs=[d.qfrc_constraint, d.qacc],
++  )
++  # integrators (Euler damping / implicit) use Ma = M qacc as right-hand side
++  support.mul_m(m, d, d.efc.Ma, d.qacc)
+diff --git a/mujoco_warp/_src/solver.py b/mujoco_warp/_src/solver.py
+index 0900617..a379ac2 100644
+--- a/mujoco_warp/_src/solver.py
++++ b/mujoco_warp/_src/solver.py
+@@ -22,6 +22,7 @@ import warp as wp
+ from mujoco_warp._src import derivative
+ from mujoco_warp._src import island
+ from mujoco_warp._src import math
++from mujoco_warp._src import noslip
+ from mujoco_warp._src import smooth
+ from mujoco_warp._src import support
+ from mujoco_warp._src import types
+@@ -3931,6 +3932,9 @@ def solve(m: types.Model, d: types.Data):
+   else:
+     ctx = _create_solver_context(m, d)
+     _solve(m, d, ctx)
++    if m.opt.noslip_iterations > 0:
++      # noslip post-processing, as in C MuJoCo mj_fwdConstraint (noslip.py, added by Keyshav Mor)
++      noslip.noslip(m, d)
+ 
+   if (m.opt.enableflags & types.EnableBit.SLEEP) and m.opt.integrator == types.IntegratorType.DISCRETE and m.ntree > 1:
+     island.compute_island_mapping(m, d)
+diff --git a/mujoco_warp/_src/types.py b/mujoco_warp/_src/types.py
+index 2ccc907..720d26d 100644
+--- a/mujoco_warp/_src/types.py
++++ b/mujoco_warp/_src/types.py
+@@ -933,6 +933,8 @@ class Option:
+     enableflags: bit flags for enabling optional features
+     sdf_initpoints: number of starting points for gradient descent
+     sdf_iterations: max number of iterations for gradient descent
++    noslip_iterations: maximum number of noslip solver iterations
++    noslip_tolerance: noslip solver tolerance
+ 
+   warp only fields:
+     impratio_invsqrt: ratio of friction-to-normal contact impedance (stored as inverse square root)
+@@ -969,6 +971,9 @@ class Option:
+   enableflags: int
+   sdf_initpoints: int
+   sdf_iterations: int
++  # noslip solver options (added by Keyshav Mor for the GPU noslip solver, noslip.py)
++  noslip_iterations: int
++  noslip_tolerance: float
+   # warp only fields:
+   impratio_invsqrt: array("*", float)
+   broadphase: BroadphaseType

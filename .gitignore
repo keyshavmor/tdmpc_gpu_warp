@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+# training outputs (logs, checkpoints, models, wandb) - created next to the code by default
+logs/
+logs_cpu/
+wandb/
+*.pt
+checkpoint_meta.json
+wandb_history.jsonl
+wandb_run_id.txt
+# raw console logs of the measurement runs (the data files in results/ are kept)
+results/logs/
+results/learning/logs/*.log

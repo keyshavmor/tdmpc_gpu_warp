@@ -1,0 +1,10 @@
+# Original TD-MPC configuration (Nicklas Hansen, Xiaolong Wang and Hao Su, ICML 2022;
+# https://github.com/nicklashansen/tdmpc, MIT License, Copyright (c) 2021 Nicklas Hansen).
+# Values unchanged in tdmpc_gpu_warp (GPU port by Keyshav Mor), so every run uses the original hyperparameters.
+# Pixel observations are not supported by the GPU port (state modality only); kept for reference.
+train_steps: 3000000/${action_repeat}
+frame_stack: 3
+num_channels: 32
+img_size: 84
+lr: 3e-4
+batch_size: 256
