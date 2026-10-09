@@ -35,3 +35,19 @@ CPU MuJoCo + GPU learning = original tdmpc code (physics on CPU, agent on GPU). 
 | walker-run | 0.5M | 5.4 h | 4.4 h | 1.7 h | 27.2 h | 8.7 h | 8.1 h | 3.8 h | 4.4 h |
 | walker-walk | 0.5M | 5.6 h | 4.4 h | 1.7 h | 28.1 h | 8.7 h | 8.3 h | 3.8 h | 4.5 h |
 | **all 21 tasks** | | **372 h (15.5 d)** | **285 h (11.9 d)** | **155 h (6.5 d)** | **1858 h (77.4 d)** | **776 h (32.4 d)** | **878 h (36.6 d)** | **414 h (17.3 d)** | **511 h (21.3 d)** |
+
+## Measured: real 5-seed batches under MPS (6 tasks, full 500k-step budget)
+
+Measured end to end with `bench/mps_batches.py` (5 single-seed runs of the optimised GPU port in parallel under CUDA MPS, checkpoints every 15 min, W&B logging, no crash). Details and learning curves: [results_mps_batches.md](results_mps_batches.md).
+
+| task | measured, 5 seeds parallel + MPS | predicted above | measured parallel factor (5 x single run / batch) | vs CPU original, 5 seeds parallel | vs CPU original, back-to-back |
+|---|---|---|---|---|---|
+| walker-walk | 3.90 h | 3.8 h | 2.18x | 2.1x faster | 7.2x faster |
+| cheetah-run | 1.65 h | 1.5 h | 2.12x | 2.4x faster | 8.0x faster |
+| finger-spin | 3.31 h | 2.7 h | 1.81x | 2.4x faster | 8.0x faster |
+| cartpole-swingup | 0.97 h | 1.0 h | 2.59x | 2.2x faster | 7.4x faster |
+| reacher-easy | 1.63 h | 1.3 h | 1.84x | 2.3x faster | 7.8x faster |
+| cup-catch | 2.17 h | 2.3 h | 2.31x | 1.9x faster | 6.4x faster |
+| **6 tasks** | **13.6 h** | 12.6 h | | **2.2x** | **7.5x** |
+
+The prediction used the parallel-throughput factor measured for cartpole / walker (2.27x at 5 runs) for every small task. For tasks whose physics step is very cheap (finger-spin 0.9 ms, reacher-easy 0.75 ms per agent step), planning and learning dominate and 5 runs share the GPU less efficiently: measured factors 1.8x, so their batches take 20-25 % longer than predicted. For the other tasks the prediction was within -6 % to +10 %. The 5-seed MPS totals in the tables above are therefore optimistic by up to ~25 % for tasks with very cheap physics (acrobot, finger-turn-hard, reacher-hard are of the same kind).

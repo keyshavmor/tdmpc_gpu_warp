@@ -32,6 +32,11 @@ training processes plus the stated extra processes. A round ends at the first fa
 | + 2 non-MPS minimal torch processes (20 s each) | 5.5 | 0 | 0 [0, 0.67] |
 | + 1 process creating Vulkan instances every second | 5.0 | 0 | 0 [0, 0.74] |
 
+**Long-run validation under the rule:** the six real 5-seed training batches (docs/04 section 4.9) ran 13.6 h with
+5 MPS clients at all times. That is 68 process-hours with 0 crashes, 0 restarts and 0 Xid records. MPS-only
+operation in total (stress tests + batches): **0 faults in about 110 process-hours** (exact 95 % upper bound 0.034 per
+process-hour).
+
 **How strong the evidence is:**
 - Each mixed setup has an exact MPS-only control: same processes, same restart pattern, but the extra processes go
   through MPS. All three controls had 0 faults in 45 min each.

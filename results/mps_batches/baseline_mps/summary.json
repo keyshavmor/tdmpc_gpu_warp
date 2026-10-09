@@ -1,0 +1,65 @@
+{
+ "batches": [
+  {
+   "task": "walker-walk",
+   "wall_h": 3.895540264248848,
+   "launches": 5,
+   "crashes": 0,
+   "restarts": 0,
+   "finished": 5,
+   "complete": true,
+   "crash_times": []
+  },
+  {
+   "task": "cheetah-run",
+   "wall_h": 1.6529100147883098,
+   "launches": 5,
+   "crashes": 0,
+   "restarts": 0,
+   "finished": 5,
+   "complete": true,
+   "crash_times": []
+  },
+  {
+   "task": "finger-spin",
+   "wall_h": 3.3099589301480186,
+   "launches": 5,
+   "crashes": 0,
+   "restarts": 0,
+   "finished": 5,
+   "complete": true,
+   "crash_times": []
+  },
+  {
+   "task": "cartpole-swingup",
+   "wall_h": 0.9651364950339,
+   "launches": 5,
+   "crashes": 0,
+   "restarts": 0,
+   "finished": 5,
+   "complete": true,
+   "crash_times": []
+  },
+  {
+   "task": "reacher-easy",
+   "wall_h": 1.6320895918210347,
+   "launches": 5,
+   "crashes": 0,
+   "restarts": 0,
+   "finished": 5,
+   "complete": true,
+   "crash_times": []
+  },
+  {
+   "task": "cup-catch",
+   "wall_h": 2.166027532087432,
+   "launches": 5,
+   "crashes": 0,
+   "restarts": 0,
+   "finished": 5,
+   "complete": true,
+   "crash_times": []
+  }
+ ],
+ "xid": []
+}

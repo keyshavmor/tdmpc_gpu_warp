@@ -24,6 +24,7 @@ core, so many runs can share one GPU without CPU contention.
 | Tasks | all 21 state-based DMControl tasks of TD-MPC (`tasks.txt`), incl. humanoid and dog |
 | Speed-up per run vs. the original | **2.4-4.8x** (mean 3.7x) at H = 5, 3.1-3.8x at H = 30; dog 2.0x / 1.7x |
 | 21 tasks x 5 seeds (H = 5, default budgets) | **~17 days** (5 seeds in parallel, MPS) vs. ~77 days (original, back-to-back) |
+| Measured: 6 tasks x 5 seeds, full budget, under MPS | **13.6 h** - 2.2x faster than the original with 5 seeds in parallel, 7.5x faster than back-to-back; 0 crashes; learning matches the paper |
 | Learning | statistically indistinguishable from the paper's reference curves (cartpole-swingup, walker-walk, 5 seeds, 100k steps) |
 | CPU use | 16 concurrent GPU runs use 17 % of a 16-core CPU (16 original runs: 99 %) |
 | Hardware used for all measurements | NVIDIA RTX 3090 (24 GiB), 16-core CPU |
@@ -174,6 +175,7 @@ The table covers state observations, H = 5 and each task's default TD-MPC traini
 - **Why parallel wins:** a single run cannot saturate the GPU, so concurrent runs raise the total throughput even
   though each individual run slows down.
 - **All-on-CPU** (physics and learning on the CPU) was not measured.
+- **Measured validation:** 6 of the 15 tasks were run end to end as 5-seed MPS batches (docs/04 section 4.9, [results_mps_batches.md](docs/results_mps_batches.md)). The predictions held within -6 % to +10 %, except for tasks with very cheap physics (finger-spin, reacher-easy: +20-25 %).
 
 For the 15 tasks without humanoid and dog (the scope of the baseline):
 
@@ -307,6 +309,7 @@ Details: [docs/01](docs/01_design_and_faithfulness.md), [docs/03](docs/03_valida
   - MPS-only operation: 0 faults in 41.7 process-hours, including exact controls with the extra processes routed
     through MPS.
 - **Root cause:** in the NVIDIA driver / MPS layer, not in this repository's code.
+- **Validated in real use:** six full 5-seed training batches under the rule ran 68 process-hours without a crash.
 - **Mitigation:**
   - keep every CUDA process on that GPU inside MPS while a batch runs ([user guide, section 4.4](docs/USER_GUIDE.md));
   - the launcher guards against foreign CUDA processes;

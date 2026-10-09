@@ -188,3 +188,33 @@ Advice:
    seed) is the more efficient design but has the highest fault rate; use it for shorter runs, without MPS.
 4. Order heavy tasks (dog, humanoid: long budgets) first and fill the remaining slots with light tasks, so the GPU never
    runs a single straggler alone at the end.
+
+## 4.9 Validation: real 5-seed batches under MPS
+
+The recommended configuration (5 single-seed runs in parallel under MPS, `src/launch_parallel.py --mps`, checkpoints
+every 15 min) was run end to end. Setup:
+- 6 tasks (walker-walk, cheetah-run, finger-spin, cartpole-swingup, reacher-easy, cup-catch);
+- the full 500k-step budget, one task after another;
+- no other CUDA process on the GPU (`bench/mps_batches.py`, [results_mps_batches.md](results_mps_batches.md)).
+
+| task | measured batch time | vs original CPU code, 5 seeds parallel | vs original, back-to-back |
+|---|---|---|---|
+| walker-walk | 3.90 h | 2.1x faster | 7.2x faster |
+| cheetah-run | 1.65 h | 2.4x | 8.0x |
+| finger-spin | 3.31 h | 2.4x | 8.0x |
+| cartpole-swingup | 0.97 h | 2.2x | 7.4x |
+| reacher-easy | 1.63 h | 2.3x | 7.8x |
+| cup-catch | 2.17 h | 1.9x | 6.4x |
+| **6 tasks** | **13.6 h** | **2.2x** | **7.5x** |
+
+**Stability:**
+- 68 process-hours of real training under MPS with 0 crashes, 0 restarts and 0 kernel GPU fault records.
+- Together with the stress tests of docs/08 that makes 0 faults in about 110 process-hours of MPS-only operation.
+
+**Learning:**
+- Per-seed mean return over the whole run vs the paper's reference (Welch tests):
+  - walker +0.4 % (p = 0.65), finger -0.8 % (0.53), cartpole +0.3 % (0.32), reacher -1.2 % (0.32), cup +0.3 % (0.74);
+  - cheetah-run +6.0 % (p = 0.085): a trend above the paper, not significant; checked against the original code run
+    on this machine (see results_mps_batches.md).
+- Measured times were within -6 % to +10 % of the prediction, except for tasks with very cheap physics (finger-spin,
+  reacher-easy: +20-25 %, measured parallel factor 1.8x instead of 2.3x; results_runtime.md).
