@@ -25,7 +25,11 @@ Modifications for the GPU port (tdmpc_gpu_warp) by Keyshav Mor:
   * per-episode timing is written to <work_dir>/train.log,
   * optional checkpoint / resume (src/checkpoint.py): `checkpoint_minutes=N` writes <work_dir>/checkpoint.pt at
     the first episode boundary after every N minutes; `resume=true` continues from it if it exists (otherwise the
-    run starts from scratch). Used by src/launch_parallel.py to restart runs after a crash.
+    run starts from scratch). Used by src/launch_parallel.py to restart runs after a crash,
+  * graceful stop: SIGTERM / SIGINT (Ctrl-C) stop the run at the next environment step or update, after
+    synchronising the GPU, so no GPU work is in flight when the process exits (NVIDIA documents that terminating an
+    MPS client with outstanding GPU work can corrupt the MPS server and its other clients). A second signal
+    stops immediately. Resume with resume=true continues from the last checkpoint.
 """
 import os
 # single-threaded CPU libraries (set before numpy / torch are imported)
@@ -48,8 +52,29 @@ from algorithm.tdmpc import TDMPC
 from algorithm.helper import Episode, ReplayBuffer
 import logger
 import checkpoint
+import signal
+import sys
 torch.backends.cudnn.benchmark = True
 __CONFIG__, __LOGS__ = 'cfgs', 'logs'
+
+
+_STOP = {'requested': False}
+
+
+def _request_stop(signum, frame):
+	"""First SIGTERM / SIGINT: stop at the next step boundary; a second one: default behaviour (immediate)."""
+	if _STOP['requested']:
+		signal.signal(signum, signal.SIG_DFL)
+		os.kill(os.getpid(), signum)
+	_STOP['requested'] = True
+
+
+def _stop_if_requested():
+	"""Exit cleanly if a stop was requested: wait for all queued GPU work, then leave the process."""
+	if _STOP['requested']:
+		torch.cuda.synchronize()
+		print('Stopped on request (GPU synchronised); continue later with resume=true.', flush=True)
+		sys.exit(0)
 
 
 def set_seed(seed):
@@ -74,6 +99,7 @@ def evaluate(env, agent, num_episodes, step, env_step, video):
 			obs, reward, done, _ = env.step(action)
 			ep_reward += reward
 			t += 1
+			_stop_if_requested()
 		episode_rewards.append(float(ep_reward))
 	return np.nanmean(episode_rewards)
 
@@ -85,6 +111,8 @@ def train(cfg):
 	<log_root>/<task>/<modality>/<exp_name>/<seed>/.
 	"""
 	assert torch.cuda.is_available()
+	signal.signal(signal.SIGTERM, _request_stop)
+	signal.signal(signal.SIGINT, _request_stop)
 	cfg.save_video = False
 	set_seed(cfg.seed)
 	work_dir = Path(cfg.get('log_root', Path().cwd() / __LOGS__)) / cfg.task / cfg.modality / cfg.exp_name / str(cfg.seed)
@@ -139,6 +167,7 @@ def train(cfg):
 			episode += (obs, action, reward, done)
 			if pace is not None:
 				pace.record(); pace.synchronize()
+			_stop_if_requested()
 		assert len(episode) == cfg.episode_length
 		buffer += episode
 
@@ -150,6 +179,7 @@ def train(cfg):
 				train_metrics.update(agent.update(buffer, step+i))
 				if pace is not None:
 					pace.record(); pace.synchronize()
+				_stop_if_requested()
 
 		# Log training episode (metrics may be 0-d CUDA tensors: read once per episode)
 		train_metrics = {k: float(v) for k, v in train_metrics.items()}

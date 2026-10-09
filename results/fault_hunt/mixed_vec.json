@@ -1,0 +1,395 @@
+{
+ "variant": "mixed_vec",
+ "diag": [],
+ "extra": [],
+ "script": "src/train_vec.py",
+ "task": "walker-walk",
+ "nproc": 6,
+ "num_seeds": 3,
+ "faults": 13,
+ "process_hours": 8.014462303585479,
+ "minutes": 60.09542118708293,
+ "rounds": [
+  {
+   "round": 0,
+   "duration_s": 214.48831415176392,
+   "process_hours": 0.36105952044328055,
+   "starts_s": [
+    0.0004634857177734375,
+    15.004329919815063,
+    30.008129835128784,
+    45.012197494506836,
+    60.01660084724426,
+    75.02116823196411,
+    90.02647566795349,
+    105.02763509750366,
+    210.46355319023132
+   ],
+   "n_starts": 9,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 211.76316332817078,
+    "mps_client_index": 1,
+    "t_since_last_start_s": 1.2996101379394531,
+    "xid_process_index": 1
+   },
+   "xid": [
+    "Oct 09 02:24:03 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 31, pid=1807547, name=python, channel 0x00000051, intr 00000000. MMU Fault: ENGINE GRAPHICS GPC2 GPCCLIENT_GCC faulted @ 0x744b_b6a64000. Fault is of type FAULT_PDE ACCESS_TYPE_VIRT_READ"
+   ]
+  },
+  {
+   "round": 1,
+   "duration_s": 288.80556559562683,
+   "process_hours": 0.5641639001501931,
+   "starts_s": [
+    0.0006656646728515625,
+    15.004437446594238,
+    30.008198499679565,
+    45.01214575767517,
+    60.01652193069458,
+    75.02162528038025,
+    90.02673959732056,
+    105.02780723571777,
+    210.43839812278748,
+    226.50907588005066
+   ],
+   "n_starts": 10,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 287.2151508331299,
+    "mps_client_index": 2,
+    "t_since_last_start_s": 60.706074953079224,
+    "xid_process_index": 5
+   },
+   "xid": [
+    "Oct 09 02:28:58 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 31, pid=1813787, name=python, channel 0x00000089, intr 00000000. MMU Fault: ENGINE GRAPHICS GPC2 GPCCLIENT_GCC faulted @ 0x729e_cc3e5000. Fault is of type FAULT_PDE ACCESS_TYPE_VIRT_READ"
+   ]
+  },
+  {
+   "round": 2,
+   "duration_s": 122.03802847862244,
+   "process_hours": 0.15449638287226358,
+   "starts_s": [
+    0.0005173683166503906,
+    15.004687309265137,
+    30.008471250534058,
+    45.01231598854065,
+    60.01662302017212,
+    75.02122116088867,
+    90.0261754989624,
+    105.02723789215088
+   ],
+   "n_starts": 8,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 119.36458921432495,
+    "mps_client_index": 2,
+    "t_since_last_start_s": 14.337351322174072,
+    "xid_process_index": 5
+   },
+   "xid": [
+    "Oct 09 02:31:04 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 31, pid=1820396, name=python, channel 0x00000089, intr 00000000. MMU Fault: ENGINE GRAPHICS GPC2 GPCCLIENT_GCC faulted @ 0x7a73_bc884000. Fault is of type FAULT_PDE ACCESS_TYPE_VIRT_READ"
+   ]
+  },
+  {
+   "round": 3,
+   "duration_s": 258.6712894439697,
+   "process_hours": 0.4804512361023161,
+   "starts_s": [
+    0.0005190372467041016,
+    15.005135774612427,
+    30.008774995803833,
+    45.012643814086914,
+    60.01664638519287,
+    75.02209067344666,
+    90.02699255943298,
+    105.02807807922363,
+    210.44775080680847,
+    226.51981234550476
+   ],
+   "n_starts": 10,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 257.27106165885925,
+    "mps_client_index": 3,
+    "t_since_last_start_s": 30.751249313354492,
+    "xid_process_index": 5
+   },
+   "xid": [
+    "Oct 09 02:35:29 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 31, pid=1823200, name=python, channel 0x00000089, intr 00000000. MMU Fault: ENGINE GRAPHICS GPC2 GPCCLIENT_GCC faulted @ 0x7e67_4aa64000. Fault is of type FAULT_PDE ACCESS_TYPE_VIRT_READ"
+   ]
+  },
+  {
+   "round": 4,
+   "duration_s": 180.30091428756714,
+   "process_hours": 0.2839706305000517,
+   "starts_s": [
+    0.0005431175231933594,
+    15.004406452178955,
+    30.007776737213135,
+    45.01157832145691,
+    60.016021966934204,
+    75.0205934047699,
+    90.0255765914917,
+    105.02654790878296
+   ],
+   "n_starts": 8,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 177.55223274230957,
+    "mps_client_index": 3,
+    "t_since_last_start_s": 72.52568483352661
+   },
+   "xid": [
+    "Oct 09 02:38:33 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 13, Graphics Exception: SKEDCHECK22_INVALIDATE_ACTIVE_QMD failed",
+    "Oct 09 02:38:33 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 13, Graphics Exception: ESR 0x407020=0x20000000 0x407028=0x7f3d 0x40702c=0x2035084 0x407030=0x0",
+    "Oct 09 02:38:33 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 13, pid=1828403, name=python, Graphics Exception: channel 0x0000006d, Class 0000c7c0, Offset 00000000, Data 00000000"
+   ]
+  },
+  {
+   "round": 5,
+   "duration_s": 977.9707963466644,
+   "process_hours": 3.603676129049725,
+   "starts_s": [
+    0.0005650520324707031,
+    15.004212856292725,
+    30.007994174957275,
+    45.011778354644775,
+    60.01651740074158,
+    75.02115893363953,
+    90.02598524093628,
+    105.02703595161438,
+    210.45519709587097,
+    226.53236293792725,
+    330.99699664115906,
+    347.06874990463257,
+    451.5554757118225,
+    467.62962102890015,
+    572.0998656749725,
+    588.1700882911682,
+    692.6591975688934,
+    708.7312686443329,
+    813.210667848587,
+    829.2840898036957,
+    933.7686731815338,
+    949.8459527492523
+   ],
+   "n_starts": 22,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 977.1953995227814,
+    "mps_client_index": 2,
+    "t_since_last_start_s": 27.349446773529053,
+    "xid_process_index": 5
+   },
+   "xid": [
+    "Oct 09 02:54:58 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 31, pid=1832998, name=python, channel 0x00000089, intr 00000000. MMU Fault: ENGINE GRAPHICS GPC0 GPCCLIENT_GCC faulted @ 0x7588_54182000. Fault is of type FAULT_PDE ACCESS_TYPE_VIRT_READ"
+   ]
+  },
+  {
+   "round": 6,
+   "duration_s": 180.30537366867065,
+   "process_hours": 0.2839787995153003,
+   "starts_s": [
+    0.0006530284881591797,
+    15.004693269729614,
+    30.00847029685974,
+    45.012654066085815,
+    60.01709008216858,
+    75.02161002159119,
+    90.02655482292175,
+    105.02758550643921
+   ],
+   "n_starts": 8,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 179.17735028266907,
+    "mps_client_index": 1,
+    "t_since_last_start_s": 74.14976477622986,
+    "xid_process_index": 5
+   },
+   "xid": [
+    "Oct 09 02:58:03 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 31, pid=1855978, name=python, channel 0x00000089, intr 00000000. MMU Fault: ENGINE GRAPHICS GPC2 GPCCLIENT_GCC faulted @ 0x7416_78da0000. Fault is of type FAULT_PDE ACCESS_TYPE_VIRT_READ"
+   ]
+  },
+  {
+   "round": 7,
+   "duration_s": 156.20364046096802,
+   "process_hours": 0.23042069852352143,
+   "starts_s": [
+    0.0004897117614746094,
+    15.004331111907959,
+    30.008089065551758,
+    45.01204323768616,
+    60.01630210876465,
+    75.02094602584839,
+    90.02572536468506,
+    105.02668237686157
+   ],
+   "n_starts": 8,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 154.82453870773315,
+    "mps_client_index": 1,
+    "t_since_last_start_s": 49.79785633087158,
+    "xid_process_index": 1
+   },
+   "xid": [
+    "Oct 09 03:00:44 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 31, pid=1858742, name=python, channel 0x00000051, intr 00000000. MMU Fault: ENGINE GRAPHICS GPC2 GPCCLIENT_GCC faulted @ 0x723c_b8da0000. Fault is of type FAULT_PDE ACCESS_TYPE_VIRT_READ"
+   ]
+  },
+  {
+   "round": 8,
+   "duration_s": 443.5467154979706,
+   "process_hours": 1.052032699783643,
+   "starts_s": [
+    0.0005679130554199219,
+    15.004527807235718,
+    30.00862765312195,
+    45.01228165626526,
+    60.016616106033325,
+    75.02107548713684,
+    90.02595019340515,
+    105.02681684494019,
+    210.4562051296234,
+    226.54005765914917,
+    331.025190114975,
+    347.10495018959045
+   ],
+   "n_starts": 12,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 442.5764400959015,
+    "mps_client_index": 3,
+    "t_since_last_start_s": 95.47148990631104,
+    "xid_process_index": 1
+   },
+   "xid": [
+    "Oct 09 03:08:13 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 31, pid=1862260, name=python, channel 0x0000002e, intr 00000000. MMU Fault: ENGINE GRAPHICS GPC2 GPCCLIENT_GCC faulted @ 0x7522_b0922000. Fault is of type FAULT_PDE ACCESS_TYPE_VIRT_READ"
+   ]
+  },
+  {
+   "round": 9,
+   "duration_s": 140.1182553768158,
+   "process_hours": 0.19467498977979025,
+   "starts_s": [
+    0.0005681514739990234,
+    15.004523992538452,
+    30.00837469100952,
+    45.01225161552429,
+    60.01645517349243,
+    75.02085161209106,
+    90.02589845657349,
+    105.02715611457825
+   ],
+   "n_starts": 8,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 138.98501682281494,
+    "mps_client_index": 2,
+    "t_since_last_start_s": 33.957860708236694,
+    "xid_process_index": 4
+   },
+   "xid": [
+    "Oct 09 03:10:38 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 31, pid=1873513, name=python, channel 0x0000007e, intr 00000000. MMU Fault: ENGINE GRAPHICS GPC2 GPCCLIENT_GCC faulted @ 0x72ff_9cac8000. Fault is of type FAULT_PDE ACCESS_TYPE_VIRT_READ"
+   ]
+  },
+  {
+   "round": 10,
+   "duration_s": 120.02725481987,
+   "process_hours": 0.15002888712618087,
+   "starts_s": [
+    0.0005099773406982422,
+    15.004370212554932,
+    30.00810480117798,
+    45.011754751205444,
+    60.015891313552856,
+    75.02052211761475,
+    90.02599906921387,
+    105.02689266204834
+   ],
+   "n_starts": 8,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 113.81879377365112,
+    "mps_client_index": 2,
+    "t_since_last_start_s": 8.791901111602783,
+    "xid_process_index": 3
+   },
+   "xid": [
+    "Oct 09 03:12:38 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 31, pid=1876254, name=python, channel 0x0000006d, intr 00000000. MMU Fault: ENGINE GRAPHICS GPC2 GPCCLIENT_GCC faulted @ 0x7bb8_cea64000. Fault is of type FAULT_PDE ACCESS_TYPE_VIRT_READ"
+   ]
+  },
+  {
+   "round": 11,
+   "duration_s": 178.29922723770142,
+   "process_hours": 0.2795210750235452,
+   "starts_s": [
+    0.0005097389221191406,
+    15.004510402679443,
+    30.008378267288208,
+    45.012322664260864,
+    60.016894817352295,
+    75.02157711982727,
+    90.02643013000488,
+    105.02732467651367
+   ],
+   "n_starts": 8,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 175.72445106506348,
+    "mps_client_index": 0,
+    "t_since_last_start_s": 70.6971263885498,
+    "xid_process_index": 1
+   },
+   "xid": [
+    "Oct 09 03:15:45 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 31, pid=1878168, name=python, channel 0x00000051, intr 00000000. MMU Fault: ENGINE GRAPHICS GPC2 GPCCLIENT_GCC faulted @ 0x7b4d_3ea64000. Fault is of type FAULT_PDE ACCESS_TYPE_VIRT_READ"
+   ]
+  },
+  {
+   "round": 12,
+   "duration_s": 120.02694010734558,
+   "process_hours": 0.15002788464228312,
+   "starts_s": [
+    0.0005197525024414062,
+    15.004483938217163,
+    30.008397340774536,
+    45.01228451728821,
+    60.01623010635376,
+    75.02102637290955,
+    90.02567219734192,
+    105.02652192115784
+   ],
+   "n_starts": 8,
+   "non_mps": 2,
+   "fault": {
+    "t_since_round_s": 119.37706398963928,
+    "mps_client_index": 1,
+    "t_since_last_start_s": 14.350542068481445,
+    "xid_process_index": 3
+   },
+   "xid": [
+    "Oct 09 03:17:52 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 31, pid=1882797, name=python, channel 0x0000006d, intr 00000000. MMU Fault: ENGINE GRAPHICS GPC2 GPCCLIENT_GCC faulted @ 0x7eb0_c2a64000. Fault is of type FAULT_PDE ACCESS_TYPE_VIRT_READ"
+   ]
+  },
+  {
+   "round": 13,
+   "duration_s": 154.19644236564636,
+   "process_hours": 0.22595947007338205,
+   "starts_s": [
+    0.0005316734313964844,
+    15.004419326782227,
+    30.00831937789917,
+    45.01227927207947,
+    60.016695737838745,
+    75.02123785018921,
+    90.02642464637756,
+    105.0275387763977
+   ],
+   "n_starts": 8,
+   "non_mps": 2,
+   "fault": null,
+   "xid": []
+  }
+ ]
+}
