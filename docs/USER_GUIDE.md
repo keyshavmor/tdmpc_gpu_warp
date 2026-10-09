@@ -237,10 +237,9 @@ python src/train_vec.py task=walker-walk num_seeds=8 seed=1 horizon=5
 **Why MPS is needed:** without CUDA MPS, processes on one GPU are time-sliced, so running them in parallel gains
 nothing. **Start the MPS daemon first**; then the processes' kernels run concurrently.
 
-> **Risk under MPS:** a rare GPU fault (open issue, [docs/08](08_known_issues.md)) in one MPS client ends **all**
-> co-running runs. It was seen once with single-seed processes and more often with vectorised ones. Check the runs
-> regularly. If that risk is unacceptable, run the same commands without starting MPS: no fault has been observed
-> without MPS, but the runs then take as long as running them one after another.
+> **MPS crash and how to avoid it:** a GPU fault in one MPS client ends **all** co-running runs. It is triggered by
+> ordinary (non-MPS) CUDA processes running next to the MPS clients. Follow the rules in section 4.4, and use the
+> launcher with checkpoints (section 4.3).
 
 ```bash
 # start MPS (user-level, no root needed). Keep the pipe path short: unix sockets are limited to ~108 characters.
@@ -358,6 +357,38 @@ when a process is killed is lost.
   and must be enabled for the account by W&B support; without it, keep the default.
 
 **Limitation:** checkpointing is implemented for `train.py` (single seed). The vectorised `train_vec.py` has none.
+
+### 4.4 Rules for running under MPS (avoid the MPS crash)
+
+**The rule:** while runs are active under MPS, **every CUDA process on that GPU must be an MPS client**.
+
+**Why:** an ordinary CUDA process that executes CUDA graphs next to MPS clients makes one of the MPS clients fault
+within minutes. That covers any training or physics process of this repository started without the MPS environment.
+The fault ends all MPS runs at once. With only MPS clients on the GPU, no fault occurred in 41.7 process-hours of
+stress tests ([docs/08](08_known_issues.md), [results_fault_hunt.md](results_fault_hunt.md)).
+
+**In practice:**
+1. Start other GPU jobs on the same GPU (evaluations, notebooks, further experiments) **from a shell with the same
+   MPS variables**:
+   ```bash
+   export CUDA_MPS_PIPE_DIRECTORY=/tmp/tdmpc_gpu_warp/mps_$(id -u)/pipe CUDA_MPS_LOG_DIRECTORY=/tmp/tdmpc_gpu_warp/mps_$(id -u)/log
+   ```
+   This is the launcher's default MPS directory. Otherwise, wait until the batch has finished.
+2. Don't start a second launcher with a different `--mps_dir` on the same GPU. Its MPS server would be a foreign
+   process to the first one.
+3. **The launcher's guard:**
+   - with `--mps` it waits until no ordinary CUDA process uses the GPU before it starts (`--foreign wait`, default;
+     `warn` / `abort` are also available);
+   - during the batch it logs any that appear as `foreign_process` events in the event CSV.
+4. Stop runs with Ctrl-C or `kill` (SIGTERM): they finish the current step, synchronise the GPU and exit, and continue
+   later with `resume=true`. Avoid `kill -9` on single MPS runs while others keep running.
+5. **Optional, needs root; NVIDIA's recommended setting for MPS, not tested here:** `sudo nvidia-smi -c
+   EXCLUSIVE_PROCESS`.
+   - Ordinary CUDA programs then fail to start on that GPU instead of crashing the MPS runs. Desktop graphics are
+     unaffected.
+   - Revert with `sudo nvidia-smi -c DEFAULT`.
+6. Keep checkpoints on (`--checkpoint_minutes 15`): if a crash happens anyway, the launcher resumes all runs from
+   their last checkpoint.
 
 ## 5. Outputs
 

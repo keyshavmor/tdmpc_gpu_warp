@@ -1,0 +1,153 @@
+<nvidia_smi_log>
+	<gpu id="00000000:07:00.0">
+		<product_name>NVIDIA GeForce RTX 3090</product_name>
+		<compute_mode>Default</compute_mode>
+		<processes>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>6749</pid>
+				<type>C+G</type>
+				<process_name>/usr/libexec/gnome-remote-desktop-daemon</process_name>
+				<used_memory>260 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>6791</pid>
+				<type>G</type>
+				<process_name>/usr/bin/gnome-shell</process_name>
+				<used_memory>176 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>7199</pid>
+				<type>G</type>
+				<process_name>/usr/bin/Xwayland</process_name>
+				<used_memory>6 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>8271</pid>
+				<type>C+G</type>
+				<process_name>/snap/snapd-desktop-integration/391/usr/bin/snapd-desktop-integration</process_name>
+				<used_memory>6 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>17065</pid>
+				<type>C+G</type>
+				<process_name>/usr/share/code/code --type=gpu-process</process_name>
+				<used_memory>261 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>745758</pid>
+				<type>G</type>
+				<process_name>/snap/firefox/8995/usr/lib/firefox/firefox</process_name>
+				<used_memory>230 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>905448</pid>
+				<type>C+G</type>
+				<process_name>/usr/bin/nautilus</process_name>
+				<used_memory>97 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>1394672</pid>
+				<type>C+G</type>
+				<process_name>/usr/bin/gnome-text-editor</process_name>
+				<used_memory>47 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>1831473</pid>
+				<type>M+C</type>
+				<process_name>/opt/conda/envs/tdmpc-warp/bin/python</process_name>
+				<used_memory>1100 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>1831522</pid>
+				<type>C</type>
+				<process_name>nvidia-cuda-mps-server</process_name>
+				<used_memory>30 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>1831774</pid>
+				<type>M+C</type>
+				<process_name>/opt/conda/envs/tdmpc-warp/bin/python</process_name>
+				<used_memory>1100 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>1832081</pid>
+				<type>M+C</type>
+				<process_name>/opt/conda/envs/tdmpc-warp/bin/python</process_name>
+				<used_memory>1100 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>1832395</pid>
+				<type>M+C</type>
+				<process_name>/opt/conda/envs/tdmpc-warp/bin/python</process_name>
+				<used_memory>1100 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>1832701</pid>
+				<type>M+C</type>
+				<process_name>/opt/conda/envs/tdmpc-warp/bin/python</process_name>
+				<used_memory>1100 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>1832998</pid>
+				<type>M+C</type>
+				<process_name>/opt/conda/envs/tdmpc-warp/bin/python</process_name>
+				<used_memory>1100 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>1850316</pid>
+				<type>C</type>
+				<process_name>/opt/conda/envs/tdmpc-warp/bin/python</process_name>
+				<used_memory>604 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>1850710</pid>
+				<type>C</type>
+				<process_name>/opt/conda/envs/tdmpc-warp/bin/python</process_name>
+				<used_memory>604 MiB</used_memory>
+			</process_info>
+			<process_info>
+				<gpu_instance_id>N/A</gpu_instance_id>
+				<compute_instance_id>N/A</compute_instance_id>
+				<pid>2108121</pid>
+				<type>C+G</type>
+				<process_name>ptyxis</process_name>
+				<used_memory>75 MiB</used_memory>
+			</process_info>
+		</processes>
+		</gpu>
+
+</nvidia_smi_log>

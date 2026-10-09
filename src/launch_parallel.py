@@ -5,6 +5,10 @@ seed with staggered starts, checkpointing enabled (`checkpoint_minutes`) and, wh
 (e.g. the rare GPU fault of docs/08_known_issues.md, which under MPS ends all co-running runs), relaunches it with
 `resume=true` so it continues from its last checkpoint. If restarted runs cannot connect to MPS, the MPS daemon is
 restarted once no run is alive. Every start / exit / restart is appended to an event log (CSV).
+With --mps the launcher guards against the trigger of the MPS fault (docs/08_known_issues.md): ordinary (non-MPS)
+CUDA processes on the same GPU. It waits for them before starting (--foreign wait, default; or warn / abort) and logs
+any that appear during the run ('foreign_process' events). Stopping the launcher (Ctrl-C / SIGTERM) stops the runs
+gracefully (they synchronise the GPU before exiting).
 
 Usage (from the repository root, tdmpc-warp environment):
 	python src/launch_parallel.py --task walker-walk --seeds 1 2 3 4 5 --mps
@@ -27,6 +31,7 @@ import signal
 import subprocess
 import sys
 import time
+import xml.etree.ElementTree as ET
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -65,6 +70,36 @@ class MPS:
 
 	def restart(self):
 		self.stop(); self.start()
+
+
+def gpu_processes(xml_text=None):
+	"""Processes on the GPUs as reported by `nvidia-smi -q -x`: list of dicts (pid, type, name).
+
+	type: 'C' = ordinary CUDA (compute) context, 'M+C' = MPS client, 'G' = graphics, 'C+G' = both (desktop programs)."""
+	if xml_text is None:
+		try:
+			xml_text = subprocess.run(['nvidia-smi', '-q', '-x'], capture_output=True, text=True, timeout=60).stdout
+		except (OSError, subprocess.SubprocessError):
+			return []
+	try:
+		root = ET.fromstring(xml_text)
+	except ET.ParseError:
+		return []
+	out = []
+	for gpu in root.findall('gpu'):
+		procs = gpu.find('processes')
+		for p in (procs.findall('process_info') if procs is not None else []):
+			out.append({'pid': int(p.findtext('pid') or -1), 'type': (p.findtext('type') or '').strip(),
+						'name': (p.findtext('process_name') or '').strip()})
+	return out
+
+
+def foreign_compute(procs):
+	"""Ordinary (non-MPS) CUDA compute processes, excluding the MPS server itself.
+
+	Such processes starting, running or ending next to MPS clients trigger the fatal MPS fault of
+	docs/08_known_issues.md; MPS clients ('M+C') and long-lived desktop programs ('G', 'C+G') are not reported."""
+	return [p for p in procs if p['type'] == 'C' and 'nvidia-cuda-mps-server' not in p['name']]
 
 
 class Run:
@@ -112,6 +147,9 @@ def main():
 	p.add_argument('--log_root', default=os.path.join(ROOT, 'logs'))
 	p.add_argument('--exp_name', default='default')
 	p.add_argument('--events', default=None, help='event log CSV (default <log_root>/launcher_events_<task>.csv)')
+	p.add_argument('--foreign', choices=['wait', 'warn', 'abort'], default='wait',
+				   help='with --mps: what to do if ordinary (non-MPS) CUDA processes use the GPU before the start '
+						'(they trigger the fatal MPS fault); during the run they are always logged and reported')
 	a, extra = p.parse_known_args()
 	extra = [x for x in extra if x != '--']
 
@@ -139,7 +177,19 @@ def main():
 
 	env = dict(os.environ)
 	mps = None
-	if a.mps:
+	if a.mps:  # guard: no ordinary CUDA process may share the GPU with the MPS clients (docs/08)
+		while True:
+			foreign = foreign_compute(gpu_processes())
+			if not foreign:
+				break
+			names = ', '.join(f"{p['pid']} ({os.path.basename(p['name'].split()[0])})" for p in foreign)
+			print(f'[launcher] WARNING: non-MPS CUDA processes on the GPU: {names}. Under MPS they can crash all runs.', flush=True)
+			if a.foreign == 'abort':
+				sys.exit('[launcher] aborted (--foreign abort): stop them, or route them through MPS')
+			if a.foreign == 'warn':
+				break
+			print('[launcher] waiting for them to finish (--foreign wait) ...', flush=True)
+			time.sleep(30)
 		mps = MPS(a.mps_dir); mps.start(); env.update(mps.env)
 		log('mps_start', note=a.mps_dir)
 
@@ -157,8 +207,15 @@ def main():
 
 	pending = {}  # seed -> earliest restart time
 	quick_failures = 0
+	seen_foreign, t_guard = set(), 0.0
 	while not stop['flag']:
 		time.sleep(5)
+		if mps is not None and time.time() - t_guard > 30:  # report foreign CUDA processes during the run
+			t_guard = time.time()
+			for p in foreign_compute(gpu_processes()):
+				if p['pid'] not in seen_foreign:
+					seen_foreign.add(p['pid'])
+					log('foreign_process', note=f"pid {p['pid']} {p['name'][:80]} (non-MPS CUDA process next to MPS clients)")
 		if a.time_limit_h and time.time() - t0 > a.time_limit_h * 3600:
 			log('time_limit'); break
 		for r in runs:

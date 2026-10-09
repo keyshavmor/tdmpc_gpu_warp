@@ -1,0 +1,39 @@
+{
+ "parser": {
+  "processes": 18,
+  "types": [
+   "C",
+   "C+G",
+   "G",
+   "M+C"
+  ],
+  "foreign_found": [
+   [
+    1850316,
+    "C"
+   ],
+   [
+    1850710,
+    "C"
+   ]
+  ],
+  "pass": true
+ },
+ "guard_live": {
+  "foreign_visible": true,
+  "warned": true,
+  "run_started_after_foreign_ended": true,
+  "wait_s": 63.78792929649353,
+  "launcher_exit": 0,
+  "pass": true
+ },
+ "graceful_stop": {
+  "exit_code": 0,
+  "synchronised_message": true,
+  "resumed": true,
+  "resume_exit_code": 0,
+  "completed": true,
+  "pass": true
+ },
+ "pass": true
+}

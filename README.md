@@ -298,20 +298,20 @@ Details: [docs/01](docs/01_design_and_faithfulness.md), [docs/03](docs/03_valida
 | [docs/results_runtime.md](docs/results_runtime.md) | total run time per task, 1 seed vs. 5 seeds, per hardware configuration |
 | `docs/results_*.md`, `docs/figures/` | full result tables and comparison figures |
 
-## Known issue
+## Known issue: MPS crash (trigger found, mitigated)
 
-- **Symptom:** a rare `illegal memory access` (driver: Xid 31 MMU fault), root cause not yet found.
-- **Where it occurs:**
-  - mostly under **CUDA MPS**: 7 times in vectorised `train_vec.py` processes, once in a single-seed `train.py`
-    process;
-  - without MPS: once in ~6 vectorised process-hours, never in single-seed processes.
-- **How it ends:** under MPS one fault ends **all** co-running runs. No effect on completed results was observed.
-- **Mitigation:** checkpoint / resume. `src/launch_parallel.py --mps --checkpoint_minutes 15` restarts crashed runs
-  from their last checkpoint, so a fault costs at most one checkpoint interval, and W&B curves stay exact (see the
-  [user guide, section 4.3](docs/USER_GUIDE.md)). Without MPS no fault has been seen in single-seed runs, but there
-  is no parallel speed-up.
-- **Root-cause investigation:** in progress ([docs/08](docs/08_known_issues.md)).
-- Details: [docs/08](docs/08_known_issues.md).
+- **Symptom:** under CUDA MPS, an `illegal memory access` (Xid 31 MMU fault) in one run ends **all** co-running runs.
+- **Trigger, reproduced and confirmed:** an **ordinary, non-MPS CUDA process executing CUDA graphs** on the same GPU
+  while MPS runs are active.
+  - Mixed operation: 32 faults in 15.5 process-hours.
+  - MPS-only operation: 0 faults in 41.7 process-hours, including exact controls with the extra processes routed
+    through MPS.
+- **Root cause:** in the NVIDIA driver / MPS layer, not in this repository's code.
+- **Mitigation:**
+  - keep every CUDA process on that GPU inside MPS while a batch runs ([user guide, section 4.4](docs/USER_GUIDE.md));
+  - the launcher guards against foreign CUDA processes;
+  - runs stop gracefully and resume from checkpoints, with exact W&B curves.
+- Details and statistics: [docs/08](docs/08_known_issues.md), [results_fault_hunt.md](docs/results_fault_hunt.md).
 
 ## Acknowledgements, citation and licenses
 

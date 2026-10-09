@@ -47,12 +47,19 @@ training processes plus the stated extra processes. A round ends at the first fa
 - MPS-only operation of the same code is clean.
 - The faulting process is an MPS client hit by another, non-MPS context's activity.
 - The kernel-level fault is in the MPS server's address space.
-- **Which feature of the triggering process matters:**
-  - CUDA graphs with conditional nodes: `mixed_nocond` - the fault persists without them (5 of 5 rounds so far; test running);
-  - CUDA graphs at all: `mixed_eager` (test pending);
-  - memory-pool activity.
+- **Which feature of the triggering process matters: CUDA-graph execution.**
 
-  This determines what exactly to report to NVIDIA, but not the mitigation.
+  | the non-MPS process runs the physics ... | faults |
+  |---|---|
+  | in CUDA graphs (default) | 9-13 per variant (table above) |
+  | in CUDA graphs without conditional nodes (`mixed_nocond`) | 6 in 7 rounds (5.1 process-h) |
+  | eagerly, without CUDA graphs (`mixed_eager`) | 0 in 45 min (5.6 process-h) |
+
+  A minimal torch process without graphs never triggered it either. So the trigger is a non-MPS context *executing
+  CUDA graphs*. warp's captured graphs contain graph memory nodes, whose launches map and unmap GPU memory, which
+  would fit the page-directory faults (`FAULT_PDE`) in the MPS clients. That is a hypothesis for a report to NVIDIA,
+  not something verified here. It does not change the mitigation: every training process of this repository uses
+  CUDA graphs.
 
 **Ruled out along the way:**
 - warp modules being unloaded under a live graph (instrumented: 0 unloads in a full training cycle);
@@ -65,7 +72,7 @@ training processes plus the stated extra processes. A round ends at the first fa
    to evaluation scripts, notebooks and other experiments, and also to a second launcher with a different MPS
    directory, whose server would be a non-MPS process to the first one. The controls above show that MPS clients
    may start, stop and even be killed freely without faults.
-2. **Guard in `src/launch_parallel.py --mps`** (being validated; committed once its live test passes):
+2. **Guard in `src/launch_parallel.py --mps`:**
    - before starting, it waits for (or aborts on) ordinary CUDA processes on the GPU (`--foreign wait|warn|abort`),
      using `nvidia-smi` process types: `C` = ordinary, `M+C` = MPS client, `C+G` / `G` = desktop graphics;
    - during the run, it logs any that appear (`foreign_process` events), so a crash can be attributed.

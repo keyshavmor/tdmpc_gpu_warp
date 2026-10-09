@@ -13,8 +13,10 @@ Each variant runs rounds of up to 20-30 min under a private CUDA MPS daemon (ben
 | routed_graceful | MPS only: 6 training + 2 extra physics processes through MPS, clean exit every 120 s | 45 | 57 | 5.6 | 0 | 0.00 [0.00, 0.66] | - |
 | routed_kill | MPS only: 6 training + 2 extra physics processes through MPS, restarted every 120 s by SIGKILL | 45 | 57 | 5.5 | 0 | 0.00 [0.00, 0.67] | - |
 | routed_vec_kill | MPS only: 6 training + 2 extra vectorised training processes through MPS, SIGKILL every 120 s | 45 | 57 | 5.5 | 0 | 0.00 [0.00, 0.67] | - |
+| mixed_eager | MIXED: 6 MPS training + 2 non-MPS physics processes with eager (non-graph) physics | 45 | 24 | 5.6 | 0 | 0.00 [0.00, 0.66] | - |
 | mixed_graceful | MIXED: 6 MPS training + 2 non-MPS physics processes (clean exit every 120 s) | 45 | 99 | 4.7 | 9 | 1.93 [0.88, 3.66] | 2.3 min |
 | mixed_kill | MIXED: 6 MPS training + 2 non-MPS physics processes (SIGKILL every 120 s) | 45 | 106 | 4.6 | 10 | 2.17 [1.04, 4.00] | 2.4 min |
+| mixed_nocond | MIXED: 6 MPS training + 2 non-MPS physics processes without CUDA-graph conditional nodes | 45 | 56 | 5.1 | 6 | 1.17 [0.43, 2.55] | 2.8 min |
 | mixed_ping | MIXED: 6 MPS training + 2 non-MPS minimal torch processes (20 s each, clean exit) | 45 | 236 | 5.5 | 0 | 0.00 [0.00, 0.67] | - |
 | mixed_vec | MIXED: 6 MPS training + 2 non-MPS vectorised training processes (restarted every 120 s) | 60 | 135 | 6.2 | 13 | 2.09 [1.11, 3.58] | 3.0 min |
 | mixed_vulkan | MIXED: 6 MPS training + 1 process creating Vulkan instances every second | 45 | 132 | 5.0 | 0 | 0.00 [0.00, 0.74] | - |
