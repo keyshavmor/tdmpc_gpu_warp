@@ -12,7 +12,8 @@ cheetah); no environment is created, the replay buffer is filled with random epi
 
 Environment: tdmpc-warp (a CUDA GPU).
 Usage: python bench/test_graph_agent.py [task] [horizon]      (defaults: walker-walk 5)
-Writes results/equivalence/graph_agent_<task>_H<horizon>.json (also printed).
+Optional agent options after the horizon (e.g. fused_adam=true compile_model=true) are passed to the configuration;
+the original agent ignores them. Writes results/equivalence/graph_agent_<task>_H<horizon>[_<options>].json (also printed).
 Results: docs/03_validation.md, section 3.5 (rows "CUDA-graph agent vs original"); approval of
 optimisation 3 in docs/06_optimisations.md.
 
@@ -35,7 +36,8 @@ from algorithm.tdmpc_graph import GraphTDMPC, GraphReplayBuffer
 
 task = sys.argv[1] if len(sys.argv) > 1 else 'walker-walk'
 H = int(sys.argv[2]) if len(sys.argv) > 2 else 5
-sys.argv = [sys.argv[0], f'task={task}', f'horizon={H}']  # parse_cfg reads overrides from sys.argv
+EXTRA = sys.argv[3:]  # optional agent options, e.g. fused_adam=true compile_model=true (applied to the graph agent)
+sys.argv = [sys.argv[0], f'task={task}', f'horizon={H}'] + EXTRA  # parse_cfg reads overrides from sys.argv
 cfg = parse_cfg(Path(os.path.join(os.path.dirname(__file__), '..', 'cfgs')))
 OBS = {'walker': 24, 'dog': 223, 'humanoid': 67, 'cartpole': 5, 'quadruped': 78, 'cheetah': 17}[task.split('-')[0]]
 ACT = {'walker': 6, 'dog': 38, 'humanoid': 21, 'cartpole': 1, 'quadruped': 12, 'cheetah': 6}[task.split('-')[0]]
@@ -104,4 +106,5 @@ for eval_mode in (False, True):
 print(json.dumps(res, indent=1))
 out = os.path.join(os.path.dirname(__file__), '..', 'results', 'equivalence')
 os.makedirs(out, exist_ok=True)
-json.dump(res, open(os.path.join(out, f'graph_agent_{task}_H{H}.json'), 'w'), indent=1)
+res['options'] = EXTRA
+json.dump(res, open(os.path.join(out, f'graph_agent_{task}_H{H}' + ''.join('_' + e.split('=')[0] for e in EXTRA) + '.json'), 'w'), indent=1)

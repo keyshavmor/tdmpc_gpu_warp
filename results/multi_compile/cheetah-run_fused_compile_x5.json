@@ -1,0 +1,142 @@
+{
+ "specs": [
+  "gpu:cheetah-run:5:graph_agent=true,pace_host=true,compile_model=true,fused_adam=true",
+  "gpu:cheetah-run:5:graph_agent=true,pace_host=true,compile_model=true,fused_adam=true",
+  "gpu:cheetah-run:5:graph_agent=true,pace_host=true,compile_model=true,fused_adam=true",
+  "gpu:cheetah-run:5:graph_agent=true,pace_host=true,compile_model=true,fused_adam=true",
+  "gpu:cheetah-run:5:graph_agent=true,pace_host=true,compile_model=true,fused_adam=true"
+ ],
+ "mps": true,
+ "sm_pct": null,
+ "n_runs": 5,
+ "n_ok": 5,
+ "n_oom": 0,
+ "duration_s": 120.0,
+ "setup_s": 0.00010061264038085938,
+ "steps_per_s_each": [
+  27.19870746650383,
+  27.245720541736862,
+  27.198869518715153,
+  27.20428135098226,
+  27.080929100642415
+ ],
+ "steps_per_s_total": 135.9285079785805,
+ "cpu_cores_each": [
+  0.07304637793282866,
+  0.07639546778596829,
+  0.07630682440908515,
+  0.08216588988816523,
+  0.08949551740326507
+ ],
+ "system_cpu_util": 0.05350894097838543,
+ "gpu_util_mean": 96.89237668161435,
+ "gpu_mem_peak_mib": 4692.0,
+ "gpu_mem_baseline_mib": 1408.0,
+ "runs": [
+  {
+   "id": "0",
+   "mode": "gpu",
+   "task": "cheetah-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true",
+    "compile_model=true",
+    "fused_adam=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 3300,
+   "wall_s": 121.32929493300617,
+   "steps_per_s": 27.19870746650383,
+   "cpu_cores": 0.07304637793282866,
+   "torch_peak_reserved_mib": 212.0,
+   "pid": 2680020,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "1",
+   "mode": "gpu",
+   "task": "cheetah-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true",
+    "compile_model=true",
+    "fused_adam=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 3300,
+   "wall_s": 121.11993863200769,
+   "steps_per_s": 27.245720541736862,
+   "cpu_cores": 0.07639546778596829,
+   "torch_peak_reserved_mib": 212.0,
+   "pid": 2680311,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "2",
+   "mode": "gpu",
+   "task": "cheetah-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true",
+    "compile_model=true",
+    "fused_adam=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 3300,
+   "wall_s": 121.32857204705942,
+   "steps_per_s": 27.198869518715153,
+   "cpu_cores": 0.07630682440908515,
+   "torch_peak_reserved_mib": 212.0,
+   "pid": 2680563,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "3",
+   "mode": "gpu",
+   "task": "cheetah-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true",
+    "compile_model=true",
+    "fused_adam=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 3300,
+   "wall_s": 121.30443577701226,
+   "steps_per_s": 27.20428135098226,
+   "cpu_cores": 0.08216588988816523,
+   "torch_peak_reserved_mib": 212.0,
+   "pid": 2680812,
+   "process_vram_mib": 648.0
+  },
+  {
+   "id": "4",
+   "mode": "gpu",
+   "task": "cheetah-run",
+   "horizon": 5,
+   "extra": [
+    "graph_agent=true",
+    "pace_host=true",
+    "compile_model=true",
+    "fused_adam=true"
+   ],
+   "ok": true,
+   "num_seeds": 1,
+   "agent_steps": 3250,
+   "wall_s": 120.01065354596358,
+   "steps_per_s": 27.080929100642415,
+   "cpu_cores": 0.08949551740326507,
+   "torch_peak_reserved_mib": 212.0,
+   "pid": 2681074,
+   "process_vram_mib": 648.0
+  }
+ ]
+}

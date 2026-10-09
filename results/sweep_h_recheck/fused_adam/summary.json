@@ -1,0 +1,134 @@
+[
+ {
+  "task": "walker-walk",
+  "H": 5,
+  "step_ms_new": 19.186754051285487,
+  "step_ms_ref": 19.339925116704155,
+  "ratio": 0.9920800590232703,
+  "update_ms_new": 7.754593049564089,
+  "update_ms_ref": 7.93552923326691,
+  "vram_new": 690.0,
+  "vram_ref": 690.0
+ },
+ {
+  "task": "walker-walk",
+  "H": 30,
+  "step_ms_new": 69.41938178303342,
+  "step_ms_ref": 68.90504216620079,
+  "ratio": 1.0074644699526056,
+  "update_ms_new": 40.293649898376316,
+  "update_ms_ref": 40.262754482682794,
+  "vram_new": 1184.0,
+  "vram_ref": 1186.0
+ },
+ {
+  "task": "cartpole-swingup",
+  "H": 5,
+  "step_ms_new": 20.17197173360425,
+  "step_ms_ref": 20.429952066236485,
+  "ratio": 0.987372445525284,
+  "update_ms_new": 7.6046945837636795,
+  "update_ms_ref": 7.863112116077294,
+  "vram_new": 648.0,
+  "vram_ref": 648.0
+ },
+ {
+  "task": "cartpole-swingup",
+  "H": 30,
+  "step_ms_new": 69.44556638288002,
+  "step_ms_ref": 69.80438086708696,
+  "ratio": 0.9948597139642259,
+  "update_ms_new": 39.616197533905506,
+  "update_ms_ref": 39.8759833498237,
+  "vram_new": 1146.0,
+  "vram_ref": 1150.0
+ },
+ {
+  "task": "cheetah-run",
+  "H": 5,
+  "step_ms_new": 15.255375150203083,
+  "step_ms_ref": 15.766499965684488,
+  "ratio": 0.9675815928332947,
+  "update_ms_new": 7.659071565528089,
+  "update_ms_ref": 7.948857782563816,
+  "vram_new": 652.0,
+  "vram_ref": 652.0
+ },
+ {
+  "task": "cheetah-run",
+  "H": 30,
+  "step_ms_new": 65.5682775483001,
+  "step_ms_ref": 65.77770006648886,
+  "ratio": 0.9968162079553242,
+  "update_ms_new": 40.2136018325109,
+  "update_ms_ref": 40.56808513317568,
+  "vram_new": 1152.0,
+  "vram_ref": 1154.0
+ },
+ {
+  "task": "finger-spin",
+  "H": 5,
+  "step_ms_new": 14.584466283364842,
+  "step_ms_ref": 14.519698766525835,
+  "ratio": 1.0044606653264958,
+  "update_ms_new": 7.875526217200482,
+  "update_ms_ref": 7.917440015201766,
+  "vram_new": 648.0,
+  "vram_ref": 648.0
+ },
+ {
+  "task": "finger-spin",
+  "H": 30,
+  "step_ms_new": 64.7038689814508,
+  "step_ms_ref": 64.84445521685605,
+  "ratio": 0.9978319466955949,
+  "update_ms_new": 40.31764849981603,
+  "update_ms_ref": 40.51039221618945,
+  "vram_new": 1142.0,
+  "vram_ref": 1144.0
+ },
+ {
+  "task": "cup-catch",
+  "H": 5,
+  "step_ms_new": 22.83073136738191,
+  "step_ms_ref": 22.703908533245947,
+  "ratio": 1.00558594719276,
+  "update_ms_new": 7.7853875506358845,
+  "update_ms_ref": 7.927224833595877,
+  "vram_new": 672.0,
+  "vram_ref": 672.0
+ },
+ {
+  "task": "cup-catch",
+  "H": 30,
+  "step_ms_new": 72.33628705143929,
+  "step_ms_ref": 72.68432303292987,
+  "ratio": 0.9952116774709052,
+  "update_ms_new": 40.09189593489282,
+  "update_ms_ref": 40.41287491757733,
+  "vram_new": 1168.0,
+  "vram_ref": 1170.0
+ },
+ {
+  "task": "reacher-easy",
+  "H": 5,
+  "step_ms_new": 14.125863666413352,
+  "step_ms_ref": 14.356814450972402,
+  "ratio": 0.9839135077389394,
+  "update_ms_new": 7.696777599630877,
+  "update_ms_ref": 7.913850717401752,
+  "vram_new": 632.0,
+  "vram_ref": 632.0
+ },
+ {
+  "task": "reacher-easy",
+  "H": 30,
+  "step_ms_new": 66.64272181612128,
+  "step_ms_ref": 64.42169968310434,
+  "ratio": 1.0344763044741498,
+  "update_ms_new": 41.2156010667483,
+  "update_ms_ref": 40.3963750655142,
+  "vram_new": 1122.0,
+  "vram_ref": 1124.0
+ }
+]

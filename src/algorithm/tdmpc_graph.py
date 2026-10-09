@@ -101,9 +101,30 @@ class GraphTDMPC(TDMPC):
 	"""
 	def __init__(self, cfg):
 		super().__init__(cfg)
-		# capturable Adam: same update rule, step counter on the device (required for graph replay)
-		self.optim = torch.optim.Adam(self.model.parameters(), lr=self.cfg.lr, capturable=True)
-		self.pi_optim = torch.optim.Adam(self.model._pi.parameters(), lr=self.cfg.lr, capturable=True)
+		# capturable Adam: same update rule, step counter on the device (required for graph replay).
+		# Opt-in `fused_adam=true`: torch's fused Adam kernel (same formula, one kernel per parameter group;
+		# results equal up to float rounding; evaluated as opt-in, docs/06_optimisations.md section 6.5).
+		fused = bool(cfg.get('fused_adam', False))
+		self.optim = torch.optim.Adam(self.model.parameters(), lr=self.cfg.lr, capturable=True, fused=fused or None)
+		self.pi_optim = torch.optim.Adam(self.model._pi.parameters(), lr=self.cfg.lr, capturable=True, fused=fused or None)
+		# Opt-in `compile_model=true`: compile every TOLD sub-network (encoder, dynamics, reward, policy, Q-functions;
+		# online and target model) with torch.compile in place (parameter names unchanged). Fuses the small
+		# element-wise kernels into the matrix multiplications; the compiled kernels are captured into the same CUDA
+		# graphs. Same maths, results equal up to float rounding; evaluated as opt-in (+5-10 % throughput), docs/06 section 6.5.
+		if cfg.get('compile_model', False):
+			import torch._dynamo.config as dynamo_cfg
+			# all sub-networks share one compiled wrapper: allow enough specialisations (networks x batch shapes)
+			for k in ('recompile_limit', 'cache_size_limit'):
+				if hasattr(dynamo_cfg, k):
+					setattr(dynamo_cfg, k, max(getattr(dynamo_cfg, k), 256))
+			for k in ('accumulated_recompile_limit', 'accumulated_cache_size_limit'):
+				if hasattr(dynamo_cfg, k):
+					setattr(dynamo_cfg, k, max(getattr(dynamo_cfg, k), 4096))
+			for model in (self.model, self.model_target):
+				for name in ('_encoder', '_dynamics', '_reward', '_pi', '_Q1', '_Q2'):
+					mod = getattr(model, name)
+					# compile the bound forward (nn.Module.compile() is a no-op in torch 2.11); parameters untouched
+					mod.forward = torch.compile(mod.forward, dynamic=False)
 		A = cfg.action_dim
 		dev = self.device
 		# persistent graph inputs, written in place before each replay

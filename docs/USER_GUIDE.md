@@ -197,6 +197,8 @@ code.
 | `cuda_graph_env` | `true` | capture the environment step in a CUDA graph |
 | `env_graph_mode` | `fused` | `fused` (one graph per agent step) or `split` (separate physics / reward / observation graphs; bit-identical) |
 | `skip_substep_sensors` | `false` | skip sensor evaluation in intermediate physics sub-steps (bit-identical observations; negligible gain) |
+| `fused_adam` | `false` | with `graph_agent=true`: fused Adam kernel (equal to float rounding; ~0 % alone) |
+| `compile_model` | `false` | with `graph_agent=true`: `torch.compile` of the TOLD networks (equal to float rounding; +5-10 % throughput together with `fused_adam`; not part of the validated baseline, docs/06 section 6.5) |
 
 **Environment variable:** `TDMPC_BLOCKING_SYNC=0` disables the blocking-sync CUDA context flag. That flag makes waiting
 host threads sleep instead of spin, and is on by default.

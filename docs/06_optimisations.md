@@ -94,3 +94,48 @@ to 2e-7, and zero-priority slots are never drawn.
   vectorised agent was re-run with the fix (`vec_fp32_fixed`, cartpole-swingup and walker-walk, 5 seeds, 100k steps).
   It matches the reference at every step (section 6.3). Full-budget 5-seed runs of the recommended single-seed
   configuration under MPS are planned.
+
+## 6.5 Further candidates: fused Adam and compiled TOLD networks (evaluated; opt-in, not adopted)
+
+Two more candidates for the CUDA-graph agent (`src/algorithm/tdmpc_graph.py`), both off by default:
+- **`fused_adam=true`:** torch's fused Adam kernel. Same formula, one kernel per parameter group.
+- **`compile_model=true`:** `torch.compile` on every TOLD sub-network (encoder, dynamics, reward, policy, Q-functions;
+  online and target model), captured into the same CUDA graphs. It fuses the element-wise operations into fewer
+  kernels.
+
+Two implementation details:
+- `nn.Module.compile()` silently does nothing in torch 2.11, so the bound `forward` methods are compiled instead.
+- All sub-networks share one compiled wrapper, so the Dynamo recompile limit is raised (default 8) so that every
+  network and batch-shape combination is compiled rather than falling back to eager.
+
+**Equivalence** (`bench/test_graph_agent.py <task> 5 <options>`): maximum parameter difference to the original agent
+after 12 deterministic updates. Plan-distribution statistics are identical in all variants.
+
+| variant | walker-walk | cartpole-swingup |
+|---|---|---|
+| CUDA-graph agent (approved, optimisation 3) | 7.2e-6 | 5.0e-6 |
+| + fused Adam | 1.8e-6 | 1.5e-6 |
+| + compiled networks | 3.2e-5 | 5.0e-6 |
+| + both | 1.7e-6 | 1.5e-6 |
+
+All are at float-rounding level (metrics <= 1.6e-5 relative), within the range accepted for the vectorised agent.
+
+**Speed:**
+- **Single run** (`bench/recheck_timing.py`, 6 tasks x H = 5 / 30, relative to the docs/02 sweep; the post-fix
+  baseline itself is +2 %):
+  - fused Adam 0.997x (noise);
+  - compiled 0.940x (planning ~10 % faster, update ~4 %);
+  - both 0.924x.
+- **5 runs in parallel under MPS** (`bench/multi_run.py`, total seed-steps/s, `results/multi_compile/`):
+
+| task | baseline | compiled | compiled + fused Adam |
+|---|---|---|---|
+| walker-walk | 111.6 | 117.7 (+5.5 %) | 119.7 (+7.3 %) |
+| cheetah-run | 123.7 | 132.9 (+7.5 %) | 135.9 (+9.9 %) |
+
+**Decision: kept as validated opt-in switches, not part of the recommended baseline.**
+- **Gain:** about 7-10 % throughput. For the 15-task x 5-seed schedule that is ~31 h -> ~28.5 h.
+- **Why not adopt:** the gain is not large. Adopting it would require a learning-curve A/B, and it gives up the
+  bit-closeness of the baseline to the original agent (fused kernels round differently).
+- **Startup cost:** compiling adds to the first start of each configuration. Compiled kernels are cached in
+  `$TORCHINDUCTOR_CACHE_DIR`.
