@@ -69,6 +69,16 @@
    "finished": 5,
    "complete": true,
    "crash_times": []
+  },
+  {
+   "task": "cartpole-swingup-sparse",
+   "wall_h": 0.958184877038002,
+   "launches": 5,
+   "crashes": 0,
+   "restarts": 0,
+   "finished": 5,
+   "complete": true,
+   "crash_times": []
   }
  ],
  "xid": []
