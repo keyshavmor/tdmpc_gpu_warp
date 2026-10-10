@@ -112,8 +112,11 @@ open(os.path.join(ROOT, 'docs', 'results_mps_batches.md'), 'w').write('\n'.join(
 # figure: one panel per task
 n = len(curves)
 if n:
-	fig, axes = plt.subplots(1, n, figsize=(3.4 * n, 3.0), dpi=130, squeeze=False)
-	for ax, (t, runs) in zip(axes[0], curves.items()):
+	ncol = min(n, 5); nrow = (n + ncol - 1) // ncol
+	fig, axes = plt.subplots(nrow, ncol, figsize=(3.4 * ncol, 2.9 * nrow), dpi=130, squeeze=False)
+	for ax in axes.flat[n:]:
+		ax.axis('off')
+	for ax, (t, runs) in zip(axes.flat, curves.items()):
 		ref = pd.read_csv(os.path.join(REF, f'{t}.csv'))
 		rg = ref.groupby('step')['return']
 		ax.plot(rg.mean().index, rg.mean().values, color='#52514e', lw=2, label='paper (5 seeds)')
@@ -123,6 +126,8 @@ if n:
 			ax.plot(df.index, df.mean(1), color='#2a78d6', lw=2, label='GPU port, MPS (5 seeds)')
 			ax.fill_between(df.index, df.mean(1) - df.std(1), df.mean(1) + df.std(1), color='#2a78d6', alpha=0.2)
 		ax.set_title(t, fontsize=9); ax.set_xlabel('env steps', fontsize=8); ax.tick_params(labelsize=7)
-	axes[0][0].set_ylabel('evaluation return', fontsize=8); axes[0][0].legend(fontsize=7)
+	for row in axes:
+		row[0].set_ylabel('evaluation return', fontsize=8)
+	axes[0][0].legend(fontsize=7)
 	fig.tight_layout(); fig.savefig(os.path.join(ROOT, 'docs', 'figures', 'mps_batches_learning.png')); plt.close(fig)
 print('\n'.join(md))
