@@ -110,6 +110,7 @@ class GpuUtilSampler(threading.Thread):
 		self.samples, self.stop = [], False
 
 	def run(self):
+		"""Append one GPU utilisation sample (%) every 0.25 s until `stop` is set (nvidia-smi errors are skipped)."""
 		while not self.stop:
 			try:
 				o = subprocess.run(['nvidia-smi', '--query-gpu=utilization.gpu', '--format=csv,noheader,nounits'],
@@ -159,6 +160,11 @@ def main():
 	pace = torch.cuda.Event(blocking=True) if cfg.get('pace_host', False) else None
 
 	def collect(k):
+		"""Run k agent steps of `plan + env.step` from a fresh env.reset(), resetting at episode end.
+
+		Plans at step BIG (full horizon H, minimum std); t0 marks the first step of an episode. With pace_host the
+		host waits on a blocking CUDA event after every step. Transitions are not stored (cost measurement only).
+		"""
 		obs, t = env.reset(), 0
 		for i in range(k):
 			a = agent.plan(obs, step=BIG, t0=(t == 0))
@@ -170,6 +176,7 @@ def main():
 				obs, t = env.reset(), 0
 
 	def updates(k):
+		"""Run k agent updates on the synthetic buffer at steps BIG, BIG + 1, ... (host pacing as in collect)."""
 		for i in range(k):
 			agent.update(buffer, BIG + i)
 			if pace is not None:

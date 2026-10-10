@@ -76,6 +76,11 @@ def xid_since(t0):
 _Popen = subprocess.Popen
 t_started, ended = {}, {}
 def _tracked_popen(*args, **kw):
+	"""subprocess.Popen wrapper that records the start time of every fault_variant_wrapper.py process.
+
+	Installed module-wide (subprocess.Popen = _tracked_popen), together with _tracked_kill which records when
+	a pid is killed; t_started / ended give the exact per-process lifetimes (process-hours) of each round.
+	"""
 	p = _Popen(*args, **kw)
 	if args and isinstance(args[0], list) and 'fault_variant_wrapper.py' in ' '.join(args[0]):
 		t_started[p.pid] = time.time()
@@ -83,6 +88,7 @@ def _tracked_popen(*args, **kw):
 subprocess.Popen = _tracked_popen
 _kill = os.kill
 def _tracked_kill(pid, sig):
+	"""os.kill wrapper that records the first kill time of each pid in `ended` (for the process lifetimes)."""
 	ended.setdefault(pid, time.time())
 	return _kill(pid, sig)
 os.kill = _tracked_kill
@@ -122,6 +128,12 @@ while time.time() - t_budget < a.budget_min * 60:
 		env_plain[DIAG[k]] = '1'
 	plain, nplain = {}, 0
 	def start_plain():
+		"""Launch one additional training process WITHOUT MPS (own CUDA context, env_plain) for mixed mode.
+
+		Each launch gets a new seed and uses --non_mps_script / --non_mps_extra if given; with --non_mps_end
+		graceful and --non_mps_restart > 0 it is given max_seconds so that it exits by itself. The pid is recorded
+		in `plain` (start time, for restarts) and in `procs`/`starts` (round bookkeeping).
+		"""
 		global nplain
 		nplain += 1
 		pargs = [f'task={a.task}', f'seed={1000 * r + 800 + nplain}', f'exp_name=hunt_{a.variant}_plain',

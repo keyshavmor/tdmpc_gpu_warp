@@ -45,6 +45,11 @@ class ActionRepeatWrapper(dm_env.Environment):
 		self._num_repeats = num_repeats
 
 	def step(self, action):
+		"""Step the wrapped env up to num_repeats times with the same action.
+
+		Rewards are summed weighted by the running product of discounts (None rewards count as 0); stops early
+		at the last step of an episode. Returns the final time step with the accumulated reward and discount.
+		"""
 		reward = 0.0
 		discount = 1.0
 		for i in range(self._num_repeats):
@@ -91,17 +96,20 @@ class FrameStackWrapper(dm_env.Environment):
 											name='observation')
 
 	def _transform_observation(self, time_step):
+		"""Replace the observation of a time step by the frame stack concatenated along the channel axis."""
 		assert len(self._frames) == self._num_frames
 		obs = np.concatenate(list(self._frames), axis=0)
 		return time_step._replace(observation=obs)
 
 	def _extract_pixels(self, time_step):
+		"""Pixel observation of a time step as a (C, H, W) array (first frame if batched)."""
 		pixels = time_step.observation[self._pixels_key]
 		if len(pixels.shape) == 4:
 			pixels = pixels[0]
 		return pixels.transpose(2, 0, 1).copy()
 
 	def reset(self):
+		"""Reset the env and fill the frame stack with num_frames copies of the first frame."""
 		time_step = self._env.reset()
 		pixels = self._extract_pixels(time_step)
 		for _ in range(self._num_frames):
@@ -109,6 +117,7 @@ class FrameStackWrapper(dm_env.Environment):
 		return self._transform_observation(time_step)
 
 	def step(self, action):
+		"""Step the env, push the new frame and return the time step with the stacked observation."""
 		time_step = self._env.step(action)
 		pixels = self._extract_pixels(time_step)
 		self._frames.append(pixels)
@@ -136,6 +145,7 @@ class ActionDTypeWrapper(dm_env.Environment):
 											   'action')
 
 	def step(self, action):
+		"""Cast the action to the wrapped env's action dtype and step it."""
 		action = action.astype(self._env.action_spec().dtype)
 		return self._env.step(action)
 
@@ -158,14 +168,17 @@ class ExtendedTimeStepWrapper(dm_env.Environment):
 		self._env = env
 
 	def reset(self):
+		"""Reset the wrapped env and return an ExtendedTimeStep (zero action)."""
 		time_step = self._env.reset()
 		return self._augment_time_step(time_step)
 
 	def step(self, action):
+		"""Step the wrapped env and return an ExtendedTimeStep carrying the action."""
 		time_step = self._env.step(action)
 		return self._augment_time_step(time_step, action)
 
 	def _augment_time_step(self, time_step, action=None):
+		"""Convert a dm_env TimeStep to an ExtendedTimeStep (zero action at reset, reward None -> 0, discount None -> 1)."""
 		if action is None:
 			action_spec = self.action_spec()
 			action = np.zeros(action_spec.shape, dtype=action_spec.dtype)
@@ -240,20 +253,24 @@ class TimeStepToGymWrapper(object):
 		return None
 	
 	def _obs_to_array(self, obs):
+		"""State modality: concatenate the flattened entries of the observation dict into one array; pixels are returned as is."""
 		if self.modality != 'pixels':
 			return np.concatenate([v.flatten() for v in obs.values()])
 		return obs
 
 	def reset(self):
+		"""Reset the episode step counter and the env; returns the initial observation array."""
 		self.t = 0
 		return self._obs_to_array(self.env.reset().observation)
 	
 	def step(self, action):
+		"""Step the env; returns (obs, reward, done, info) with done at the env's last step or after ep_len steps, info a defaultdict(float)."""
 		self.t += 1
 		time_step = self.env.step(action)
 		return self._obs_to_array(time_step.observation), time_step.reward, time_step.last() or self.t == self.ep_len, defaultdict(float)
 
 	def render(self, mode='rgb_array', width=384, height=384, camera_id=0):
+		"""Render an RGB frame of the physics (camera 2 for quadruped, camera_id otherwise)."""
 		camera_id = dict(quadruped=2).get(self.domain, camera_id)
 		return self.env.physics.render(height, width, camera_id)
 
@@ -264,6 +281,7 @@ class DefaultDictWrapper(gym.Wrapper):
 		gym.Wrapper.__init__(self, env)
 
 	def step(self, action):
+		"""Step the env and return its info dict as a defaultdict(float)."""
 		obs, reward, done, info = self.env.step(action)
 		return obs, reward, done, defaultdict(float, info)
 

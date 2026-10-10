@@ -73,6 +73,7 @@ class BatchedLinear(nn.Module):
 			nn.init.orthogonal_(self.weight.data[s])
 
 	def forward(self, x):  # x: (S, B, in)
+		"""x (S, B, in) -> (S, B, out): per-seed affine map bias[s] + x[s] @ weight[s]^T."""
 		# y[s] = bias[s] + x[s] @ weight[s]^T  ==  nn.Linear of seed s
 		return torch.baddbmm(self.bias.unsqueeze(1), x, self.weight.transpose(1, 2))
 
@@ -720,6 +721,7 @@ class VecTDMPC:
 	def load_seed_from(self, s, agent):
 		"""Copy the weights of an original algorithm.tdmpc.TDMPC agent into seed slot s (for tests)."""
 		def copy(dst_mod, src_mod):
+			"""Copy every parameter of src_mod into slot s of the matching stacked parameter of dst_mod (same parameter order)."""
 			for (n1, p1), (n2, p2) in zip(dst_mod.named_parameters(), src_mod.named_parameters()):
 				p1.data[s].copy_(p2.data)
 		copy(self.model, agent.model)

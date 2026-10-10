@@ -70,6 +70,7 @@ class Sampler(threading.Thread):
 		self.pids, self.util, self.mem, self.proc_mem, self.stop = pids, [], [], {}, False
 
 	def run(self):
+		"""Every 0.5 s until `stop` is set: append GPU utilisation and total memory used, and update the peak VRAM of each worker pid (nvidia-smi errors are skipped)."""
 		while not self.stop:
 			try:
 				u, m = smi('gpu=utilization.gpu,memory.used')[0]

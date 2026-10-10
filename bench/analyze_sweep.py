@@ -73,6 +73,13 @@ def style(ax):
 
 
 def main():
+	"""Write docs/results_sweep_h.md and the sweep figures from the records in results/sweep_h.
+
+	Per task of tasks.txt: one table row per horizon H with the step time of each mode, the speed-up of gpu /
+	gpu_opt over cpu, the process VRAM and the extrapolated full-run hours (full_run_hours); missing or failed
+	points are shown as 'OOM' or '–'. Figures: step time vs H and VRAM vs H (one panel per task) and the
+	speed-up bars at H = 5 (or the smallest swept H if 5 is missing).
+	"""
 	data = load()
 	tasks = [l.strip() for l in open(os.path.join(ROOT, 'tasks.txt')) if l.strip()]
 	Hs = sorted({k[2] for k in data})

@@ -44,6 +44,7 @@ class MPS:
 		self.env = {'CUDA_MPS_PIPE_DIRECTORY': self.pipe, 'CUDA_MPS_LOG_DIRECTORY': self.log}
 
 	def _ctl(self, cmd=None, daemon=False):
+		"""Run nvidia-cuda-mps-control with this daemon's pipe/log directories (`cmd` on stdin, `-d` if daemon); returns the CompletedProcess."""
 		env = dict(os.environ, **self.env)
 		args = ['nvidia-cuda-mps-control'] + (['-d'] if daemon else [])
 		return subprocess.run(args, input=cmd, env=env, capture_output=True, text=True, timeout=60)
@@ -132,6 +133,13 @@ class Run:
 
 
 def main():
+	"""Parse the arguments, start MPS (optional), launch the runs and supervise them until done.
+
+	Every 5 s: reports foreign (non-MPS) CUDA processes (with --mps), detects finished / crashed runs and
+	relaunches crashed ones with resume=true after --restart_delay (up to --max_restarts); the MPS daemon is
+	restarted when restarts keep failing quickly and no run is alive. On the time limit or SIGINT/SIGTERM the
+	remaining runs are terminated and MPS is stopped.
+	"""
 	p = argparse.ArgumentParser(description=__doc__.split('\n')[0])
 	p.add_argument('--task', required=True)
 	p.add_argument('--seeds', type=int, nargs='+', required=True)
@@ -162,6 +170,7 @@ def main():
 		ev.writerow(['time', 'unix_time', 'event', 'seed', 'pid', 'returncode', 'env_step', 'alive_runs', 'note'])
 
 	def log(event, run=None, rc='', note=''):
+		"""Append one event row to the event-log CSV and print it (alive run count and the run's last env step)."""
 		alive = sum(1 for r in runs if r.proc is not None and r.proc.poll() is None)
 		step = run.last_env_step(work_dir(run)) if run else ''
 		ev.writerow([time.strftime('%Y-%m-%d %H:%M:%S'), f'{time.time():.1f}', event, run.seed if run else '',

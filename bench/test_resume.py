@@ -38,11 +38,13 @@ if a.wandb_entity:
 
 
 def last_ckpt(out):
+	"""Env step of the last 'Checkpoint at env step N' line in the run's output file, or None if there is none yet."""
 	m = re.findall(r'^Checkpoint at env step (\d+)', open(out).read(), re.M)
 	return int(m[-1]) if m else None
 
 
 def last_step():
+	"""Env step of the last row of the run's train.log (second CSV column); -1 if the file is missing or has no data row yet."""
 	try:
 		return int(open(os.path.join(wd, 'train.log')).read().strip().splitlines()[-1].split(',')[1])
 	except (OSError, ValueError, IndexError):
@@ -50,6 +52,7 @@ def last_step():
 
 
 def start(i, resume):
+	"""Launch training run i (with resume=true if `resume`); returns (Popen, path of its output file)."""
 	out = os.path.join(log_root, f'run{i}.out')
 	return subprocess.Popen(args + (['resume=true'] if resume else []), cwd=ROOT, stdout=open(out, 'w'), stderr=subprocess.STDOUT), out
 

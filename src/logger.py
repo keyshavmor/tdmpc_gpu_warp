@@ -216,6 +216,7 @@ class Logger(object):
 		print_run(self._cfg, self._eval[-1][-1])
 
 	def _format(self, key, value, ty):
+		"""Format one console metric as 'key: value' for type 'int' (thousands separators), 'float' (1 decimal) or 'time' (H:MM:SS)."""
 		if ty == 'int':
 			return f'{colored(key+":", "grey")} {int(value):,}'
 		elif ty == 'float':
@@ -227,6 +228,7 @@ class Logger(object):
 			raise f'invalid log format type: {ty}'
 
 	def _print(self, d, category):
+		"""Print one console line for a train/eval metrics dict, using the keys and formats of CONSOLE_FORMAT."""
 		category = colored(category, 'blue' if category == 'train' else 'green')
 		pieces = [f' {category:<14}']
 		for k, disp_k, ty in CONSOLE_FORMAT:

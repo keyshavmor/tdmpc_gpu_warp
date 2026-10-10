@@ -29,6 +29,7 @@ if os.environ.get('TDMPC_DIAG_NO_CONDITIONAL') == '1':
 	import mujoco_warp as mjw
 	_put = mjw.put_model
 	def put_model(*a, **k):
+		"""mujoco_warp.put_model that also sets opt.graph_conditional = False (solver without CUDA-graph conditional nodes)."""
 		m = _put(*a, **k)
 		m.opt.graph_conditional = False
 		return m
@@ -44,6 +45,7 @@ if os.environ.get('TDMPC_DIAG_GC_OFF') == '1':
 	active.append('gc_off')
 if os.environ.get('TDMPC_DIAG_SYNC_GC') == '1':
 	def _collector():
+		"""Background loop: gc.collect() every 30 s for the lifetime of the process."""
 		while True:
 			time.sleep(30)
 			gc.collect()

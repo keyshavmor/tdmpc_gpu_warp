@@ -70,6 +70,7 @@ class TruncatedNormal(pyd.Normal):
 		self.eps = eps
 
 	def _clamp(self, x):
+		"""Clamp x to (low + eps, high - eps) in the forward pass while passing the gradient through unchanged."""
 		clamped_x = torch.clamp(x, self.low + self.eps, self.high - self.eps)
 		x = x - x.detach() + clamped_x.detach()
 		return x
@@ -148,6 +149,11 @@ class RandomShiftsAug(nn.Module):
 		self.pad = int(cfg.img_size/21) if cfg.modality == 'pixels' else None
 
 	def forward(self, x):
+		"""Random shift of a batch of square images x (n, c, h, w); returns x unchanged if pad is unset (state modality).
+
+		Pads by `pad` pixels with edge replication and resamples an h x w window at an integer offset in
+		[0, 2 * pad] drawn independently per image (F.grid_sample on a shifted base grid). Output shape = input shape.
+		"""
 		if not self.pad:
 			return x
 		n, c, h, w = x.size()

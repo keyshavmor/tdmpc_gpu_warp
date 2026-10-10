@@ -108,6 +108,11 @@ def main():
 	pace =torch.cuda.Event(blocking=True) if cfg.get('pace_host', False) else None
 
 	def collect(k):
+		"""Run k agent steps of `plan + env.step` at step BIG, continuing the episode held in `state`.
+
+		The episode carries over between calls (timed chunks); the env is reset at episode end. With pace_host
+		the host waits on a blocking CUDA event after every step. Transitions are not stored (cost measurement only).
+		"""
 		for _ in range(k):
 			a = agent.plan(state['obs'], step=BIG, t0=(state['t'] == 0))
 			state['obs'], r, done, _ = env.step(to_env(a))
@@ -118,6 +123,7 @@ def main():
 				state['obs'], state['t'] = env.reset(), 0
 
 	def updates(k):
+		"""Run k agent updates on the synthetic buffer at steps BIG, BIG + 1, ... (host pacing as in collect)."""
 		for i in range(k):
 			agent.update(buffer, BIG + i)
 			if pace is not None:
