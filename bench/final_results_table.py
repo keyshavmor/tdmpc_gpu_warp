@@ -36,6 +36,14 @@ def last_row(path):
 	return rows[-1] if rows else None
 
 
+def last_k_mean(path, k=5):
+	"""Mean evaluation return over the last k evaluations of a run (robust end-of-training value), or None."""
+	if not os.path.exists(path):
+		return None
+	rows = list(csv.DictReader(open(path)))
+	return float(np.mean([float(r['episode_reward']) for r in rows[-k:]])) if len(rows) >= k else None
+
+
 def paper_final(task):
 	"""Paper reference (original TD-MPC, 5 seeds) at 500k env steps (or its last step): mean, sd (n - 1), step."""
 	f = os.path.join(ROOT, '..', 'tdmpc', 'results', f'{task}.csv')
@@ -60,6 +68,7 @@ md = ['# Baseline results: 15 tasks x 5 seeds (GPU port, 5 seeds in parallel und
 	  '| task | seed 1 | seed 2 | seed 3 | seed 4 | seed 5 | mean | std. dev. | paper (mean +- sd) | run time mean (h) | run time std. dev. (h) | batch crashes |',
 	  '|---|---|---|---|---|---|---|---|---|---|---|---|']
 done = 0
+robust, notes = [], []
 for t in TASKS15:
 	d = os.path.join(base, t, 'state', a.label)
 	finals, times = [], []
@@ -73,6 +82,12 @@ for t in TASKS15:
 	refs = f'{ref[0]:.1f} +- {ref[1]:.1f}' if ref else '-'
 	if all(v is not None for v in finals):
 		done += 1
+		last5 = [last_k_mean(os.path.join(d, str(s), 'eval.log')) for s in range(1, 6)]
+		robust.append(f"| {t} | " + ' | '.join(f'{v:.1f}' for v in last5) + f" | **{np.mean(last5):.1f}** | {np.std(last5, ddof=1):.1f} |")
+		for s, (fv, lv) in enumerate(zip(finals, last5), start=1):
+			if lv and fv < 0.8 * lv:
+				notes.append(f"- {t}, seed {s}: final evaluation {fv:.1f} vs {lv:.1f} averaged over its last 5 evaluations - a one-off "
+							 "low final evaluation (mean of 10 episodes), not a failed run; see the learning curve in results_mps_batches.md.")
 		cr = summary.get(t, {}).get('crashes', '-')
 		md.append(f"| {t} | " + ' | '.join(f'{v:.1f}' for v in finals) +
 				  f" | **{np.mean(finals):.1f}** | {np.std(finals, ddof=1):.1f} | {refs} | {np.mean(times):.2f} | {np.std(times, ddof=1):.2f} | {cr} |")
@@ -80,5 +95,11 @@ for t in TASKS15:
 		state = 'running' if os.path.isdir(d) else 'pending'
 		md.append(f"| {t} | " + ' | '.join(state if v is None else f'{v:.1f}' for v in finals) + f" | - | - | {refs} | - | - | - |")
 md += ['', f'{done} of {len(TASKS15)} tasks complete.', '']
+if notes:
+	md += ['**Notes on single low final evaluations:**', ''] + notes + ['']
+md += ['## Robust end-of-training value: mean of the last 5 evaluations (420k-500k env steps)', '',
+	   'Same runs; per seed the mean evaluation return over its last 5 evaluations (each the mean of 10 episodes), which is less '
+	   'sensitive to a single noisy final evaluation. Mean and sample std. dev. across the 5 seeds.', '',
+	   '| task | seed 1 | seed 2 | seed 3 | seed 4 | seed 5 | mean | std. dev. |', '|---|---|---|---|---|---|---|---|'] + robust + ['']
 open(os.path.join(ROOT, 'docs', 'results_baseline_15tasks.md'), 'w').write('\n'.join(md) + '\n')
 print('\n'.join(md))

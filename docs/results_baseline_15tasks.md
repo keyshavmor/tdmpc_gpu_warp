@@ -26,3 +26,22 @@ Setup: optimised GPU port (CUDA-graph agent + host pacing, `src/launch_parallel.
 
 8 of 15 tasks complete.
 
+**Notes on single low final evaluations:**
+
+- cartpole-swingup-sparse, seed 3: final evaluation 376.2 vs 752.1 averaged over its last 5 evaluations - a one-off low final evaluation (mean of 10 episodes), not a failed run; see the learning curve in results_mps_batches.md.
+
+## Robust end-of-training value: mean of the last 5 evaluations (420k-500k env steps)
+
+Same runs; per seed the mean evaluation return over its last 5 evaluations (each the mean of 10 episodes), which is less sensitive to a single noisy final evaluation. Mean and sample std. dev. across the 5 seeds.
+
+| task | seed 1 | seed 2 | seed 3 | seed 4 | seed 5 | mean | std. dev. |
+|---|---|---|---|---|---|---|---|
+| acrobot-swingup | 392.1 | 484.6 | 344.4 | 344.3 | 303.4 | **373.8** | 69.5 |
+| cartpole-swingup | 877.9 | 877.0 | 874.6 | 879.5 | 879.7 | **877.7** | 2.1 |
+| cartpole-swingup-sparse | 844.9 | 844.3 | 752.1 | 830.1 | 836.8 | **821.6** | 39.4 |
+| cheetah-run | 841.5 | 866.6 | 846.7 | 854.3 | 781.6 | **838.2** | 33.0 |
+| cup-catch | 978.4 | 975.8 | 978.6 | 974.4 | 980.4 | **977.5** | 2.4 |
+| finger-spin | 967.9 | 981.0 | 978.8 | 941.3 | 979.7 | **969.7** | 16.7 |
+| reacher-easy | 981.5 | 965.1 | 984.4 | 930.4 | 984.9 | **969.3** | 23.2 |
+| walker-walk | 972.2 | 978.7 | 978.8 | 979.5 | 979.3 | **977.7** | 3.1 |
+
