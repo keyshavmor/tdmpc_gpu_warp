@@ -8,9 +8,9 @@ Setup: optimised GPU port (CUDA-graph agent + host pacing, `src/launch_parallel.
 
 | task | seed 1 | seed 2 | seed 3 | seed 4 | seed 5 | mean | std. dev. | paper (mean +- sd) | run time mean (h) | run time std. dev. (h) | batch crashes |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| acrobot-swingup | running | running | running | running | running | - | - | 341.8 +- 120.9 | - | - | - |
+| acrobot-swingup | 343.4 | 457.0 | 358.3 | 359.4 | 304.5 | **364.5** | 56.3 | 341.8 +- 120.9 | 1.72 | 0.01 | 0 |
 | cartpole-swingup | 879.3 | 881.6 | 873.8 | 879.9 | 880.6 | **879.0** | 3.0 | 879.0 +- 6.7 | 0.93 | 0.01 | 0 |
-| cartpole-swingup-sparse | pending | pending | pending | pending | pending | - | - | 846.4 +- 1.5 | - | - | - |
+| cartpole-swingup-sparse | running | running | running | running | running | - | - | 846.4 +- 1.5 | - | - | - |
 | cheetah-run | 827.3 | 874.8 | 874.3 | 841.7 | 811.7 | **846.0** | 28.2 | 813.8 +- 34.8 | 1.61 | 0.01 | 0 |
 | cup-catch | 983.0 | 969.9 | 968.9 | 974.6 | 988.7 | **977.0** | 8.6 | 972.0 +- 11.1 | 2.12 | 0.01 | 0 |
 | finger-spin | 985.0 | 983.6 | 976.8 | 925.9 | 985.5 | **971.4** | 25.7 | 980.6 +- 7.4 | 3.26 | 0.01 | 0 |
@@ -24,5 +24,5 @@ Setup: optimised GPU port (CUDA-graph agent + host pacing, `src/launch_parallel.
 | walker-run | pending | pending | pending | pending | pending | - | - | 819.8 +- 7.5 | - | - | - |
 | walker-walk | 973.1 | 973.6 | 986.3 | 976.1 | 980.0 | **977.8** | 5.5 | 976.8 +- 3.1 | 3.83 | 0.02 | 0 |
 
-6 of 15 tasks complete.
+7 of 15 tasks complete.
 
