@@ -24,7 +24,7 @@ core, so many runs can share one GPU without CPU contention.
 | Tasks | all 21 state-based DMControl tasks of TD-MPC (`tasks.txt`), incl. humanoid and dog |
 | Speed-up per run vs. the original | **2.4-4.8x** (mean 3.7x) at H = 5, 3.1-3.8x at H = 30; dog 2.0x / 1.7x |
 | 21 tasks x 5 seeds (H = 5, default budgets) | **~17 days** (5 seeds in parallel, MPS) vs. ~77 days (original, back-to-back) |
-| Measured: 6 tasks x 5 seeds, full budget, under MPS | **13.6 h** - 2.2x faster than the original with 5 seeds in parallel, 7.5x faster than back-to-back; 0 crashes; learning matches the paper |
+| Measured: 6 tasks x 5 seeds, full budget, under MPS | **13.6 h** - about 2x faster than the original with 5 seeds in parallel (2.2x vs extrapolated, 2.0x vs measured for cheetah), 7.5x faster than back-to-back; 0 crashes; learning matches the paper and the original code on this machine |
 | Learning | statistically indistinguishable from the paper's reference curves (cartpole-swingup, walker-walk, 5 seeds, 100k steps) |
 | CPU use | 16 concurrent GPU runs use 17 % of a 16-core CPU (16 original runs: 99 %) |
 | Hardware used for all measurements | NVIDIA RTX 3090 (24 GiB), 16-core CPU |

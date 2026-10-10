@@ -98,6 +98,15 @@ for t, runs in curves.items():
 		tt = stats.ttest_ind(gpu, pap, equal_var=False)
 		md.append(f"Primary test, per-seed mean return over the {name}: GPU {np.mean(gpu):.1f} +- {np.std(gpu, ddof=1):.1f} vs "
 				  f"paper {np.mean(pap):.1f} +- {np.std(pap, ddof=1):.1f} ({100 * (np.mean(gpu) / np.mean(pap) - 1):+.2f} %), Welch t-test p = {tt.pvalue:.3f}.")
+		# optional reference: the original CPU-MuJoCo code run on this machine (bench/train_cpu_baseline.py, 5 seeds)
+		cpu_runs = {os.path.basename(os.path.dirname(f)): pd.read_csv(f).set_index('env_step')['episode_reward']
+					for f in glob.glob(os.path.join(ROOT, 'results', 'learning_full', t, 'state', 'cpu_original', '*', 'eval.log'))}
+		if len(cpu_runs) >= 2 and all(all(x in r.index for x in st) for r in cpu_runs.values()):
+			cpu = [r.loc[st].mean() for r in cpu_runs.values()]
+			t1 = stats.ttest_ind(gpu, cpu, equal_var=False); t2 = stats.ttest_ind(cpu, pap, equal_var=False)
+			md.append(f"  Original code on this machine ({len(cpu)} seeds, {name}): {np.mean(cpu):.1f} +- {np.std(cpu, ddof=1):.1f}; "
+					  f"GPU vs original-on-this-machine {100 * (np.mean(gpu) / np.mean(cpu) - 1):+.2f} % (p = {t1.pvalue:.3f}), "
+					  f"original-on-this-machine vs paper {100 * (np.mean(cpu) / np.mean(pap) - 1):+.2f} % (p = {t2.pvalue:.3f}).")
 	md.append('')
 open(os.path.join(ROOT, 'docs', 'results_mps_batches.md'), 'w').write('\n'.join(md) + '\n')
 # figure: one panel per task

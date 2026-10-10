@@ -214,7 +214,13 @@ every 15 min) was run end to end. Setup:
 **Learning:**
 - Per-seed mean return over the whole run vs the paper's reference (Welch tests):
   - walker +0.4 % (p = 0.65), finger -0.8 % (0.53), cartpole +0.3 % (0.32), reacher -1.2 % (0.32), cup +0.3 % (0.74);
-  - cheetah-run +6.0 % (p = 0.085): a trend above the paper, not significant; checked against the original code run
-    on this machine (see results_mps_batches.md).
+  - cheetah-run +6.0 % (p = 0.085), a trend above the paper. It is **not a port effect**: the original CPU-MuJoCo code
+    run on this machine (5 seeds) shows the same shift (+5.5 % vs the paper), and the GPU port vs the original code
+    on this machine differs by +0.5 % (p = 0.83). Today's software versions simply learn cheetah slightly better than
+    the paper's runs.
 - Measured times were within -6 % to +10 % of the prediction, except for tasks with very cheap physics (finger-spin,
   reacher-easy: +20-25 %, measured parallel factor 1.8x instead of 2.3x; results_runtime.md).
+- **The CPU-parallel figures are extrapolations and somewhat pessimistic.** The original code's 5 parallel
+  cheetah-run seeds took 3.27 h measured, against 3.9 h extrapolated. Against that measurement the GPU port's
+  parallel speed-up for cheetah is 2.0x rather than 2.4x. Expect the "vs CPU original, 5 seeds parallel" speed-ups
+  to be up to ~15 % smaller in practice; the back-to-back comparisons are unaffected.
