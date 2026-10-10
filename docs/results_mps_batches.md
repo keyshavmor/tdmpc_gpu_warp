@@ -16,6 +16,7 @@ Label `baseline_mps`: 5 single-seed runs per task in parallel under CUDA MPS (`s
 | cup-catch | 2.17 | 2.3 | 5 | 0 | 0 |
 | acrobot-swingup | 1.76 | 1.6 | 5 | 0 | 0 |
 | cartpole-swingup-sparse | 0.96 | 1.0 | 5 | 0 | 0 |
+| finger-turn-hard | 3.31 | 2.8 | 5 | 0 | 0 |
 
 Kernel GPU fault records (Xid) during the batches: 0.
 
@@ -142,4 +143,19 @@ Primary test, per-seed mean return over the from 100k steps: GPU 259.8 +- 46.2 v
 Per-step (descriptive): 26 evaluation steps, min p = 0.004, steps with p < 0.05: 6 (expected by chance: 1.3).
 Primary test, per-seed mean return over the whole run: GPU 683.8 +- 26.1 vs paper 714.0 +- 11.2 (-4.23 %), Welch t-test p = 0.060.
 Primary test, per-seed mean return over the from 100k steps: GPU 817.3 +- 15.7 vs paper 823.9 +- 7.5 (-0.80 %), Welch t-test p = 0.432.
+
+### finger-turn-hard
+
+| env step | reference (paper) | GPU port, 5 seeds under MPS | p |
+|---|---|---|---|
+| 0k | 35 +- 26 | 97 +- 48 (5) | 0.02 |
+| 100k | 261 +- 90 | 216 +- 95 (5) | 0.49 |
+| 200k | 356 +- 134 | 230 +- 148 (5) | 0.21 |
+| 300k | 325 +- 197 | 432 +- 195 (5) | 0.44 |
+| 400k | 519 +- 251 | 444 +- 206 (5) | 0.65 |
+| 500k | 574 +- 178 | 622 +- 152 (5) | 0.68 |
+
+Per-step (descriptive): 26 evaluation steps, min p = 0.023, steps with p < 0.05: 1 (expected by chance: 1.3).
+Primary test, per-seed mean return over the whole run: GPU 309.6 +- 59.2 vs paper 337.3 +- 115.6 (-8.22 %), Welch t-test p = 0.650.
+Primary test, per-seed mean return over the from 100k steps: GPU 361.6 +- 68.6 vs paper 393.5 +- 135.9 (-8.09 %), Welch t-test p = 0.657.
 

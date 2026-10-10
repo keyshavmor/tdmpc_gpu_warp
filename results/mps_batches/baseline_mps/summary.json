@@ -79,6 +79,16 @@
    "finished": 5,
    "complete": true,
    "crash_times": []
+  },
+  {
+   "task": "finger-turn-hard",
+   "wall_h": 3.314153725968467,
+   "launches": 5,
+   "crashes": 0,
+   "restarts": 0,
+   "finished": 5,
+   "complete": true,
+   "crash_times": []
   }
  ],
  "xid": []

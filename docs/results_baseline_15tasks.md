@@ -14,8 +14,8 @@ Setup: optimised GPU port (CUDA-graph agent + host pacing, `src/launch_parallel.
 | cheetah-run | 827.3 | 874.8 | 874.3 | 841.7 | 811.7 | **846.0** | 28.2 | 813.8 +- 34.8 | 1.61 | 0.01 | 0 |
 | cup-catch | 983.0 | 969.9 | 968.9 | 974.6 | 988.7 | **977.0** | 8.6 | 972.0 +- 11.1 | 2.12 | 0.01 | 0 |
 | finger-spin | 985.0 | 983.6 | 976.8 | 925.9 | 985.5 | **971.4** | 25.7 | 980.6 +- 7.4 | 3.26 | 0.01 | 0 |
-| finger-turn-hard | running | running | running | running | running | - | - | 573.6 +- 198.8 | - | - | - |
-| fish-swim | pending | pending | pending | pending | pending | - | - | 745.4 +- 17.5 | - | - | - |
+| finger-turn-hard | 396.2 | 668.8 | 867.9 | 579.2 | 598.7 | **622.2** | 170.3 | 573.6 +- 198.8 | 3.26 | 0.01 | 0 |
+| fish-swim | running | running | running | running | running | - | - | 745.4 +- 17.5 | - | - | - |
 | hopper-hop | pending | pending | pending | pending | pending | - | - | 324.6 +- 170.7 | - | - | - |
 | quadruped-run | pending | pending | pending | pending | pending | - | - | 796.6 +- 74.2 | - | - | - |
 | quadruped-walk | pending | pending | pending | pending | pending | - | - | 931.0 +- 26.6 | - | - | - |
@@ -24,7 +24,7 @@ Setup: optimised GPU port (CUDA-graph agent + host pacing, `src/launch_parallel.
 | walker-run | pending | pending | pending | pending | pending | - | - | 819.8 +- 7.5 | - | - | - |
 | walker-walk | 973.1 | 973.6 | 986.3 | 976.1 | 980.0 | **977.8** | 5.5 | 976.8 +- 3.1 | 3.83 | 0.02 | 0 |
 
-8 of 15 tasks complete.
+9 of 15 tasks complete.
 
 **Notes on single low final evaluations:**
 
@@ -42,6 +42,7 @@ Same runs; per seed the mean evaluation return over its last 5 evaluations (each
 | cheetah-run | 841.5 | 866.6 | 846.7 | 854.3 | 781.6 | **838.2** | 33.0 |
 | cup-catch | 978.4 | 975.8 | 978.6 | 974.4 | 980.4 | **977.5** | 2.4 |
 | finger-spin | 967.9 | 981.0 | 978.8 | 941.3 | 979.7 | **969.7** | 16.7 |
+| finger-turn-hard | 448.4 | 529.7 | 697.0 | 463.4 | 567.2 | **541.1** | 99.7 |
 | reacher-easy | 981.5 | 965.1 | 984.4 | 930.4 | 984.9 | **969.3** | 23.2 |
 | walker-walk | 972.2 | 978.7 | 978.8 | 979.5 | 979.3 | **977.7** | 3.1 |
 
