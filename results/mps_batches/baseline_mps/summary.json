@@ -89,6 +89,16 @@
    "finished": 5,
    "complete": true,
    "crash_times": []
+  },
+  {
+   "task": "fish-swim",
+   "wall_h": 2.1534360741244423,
+   "launches": 5,
+   "crashes": 0,
+   "restarts": 0,
+   "finished": 5,
+   "complete": true,
+   "crash_times": []
   }
  ],
  "xid": []
