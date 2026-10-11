@@ -50,6 +50,31 @@ decorrelates after 10-50 agent steps - so does CPU MuJoCo against itself with a 
 random-policy returns stay statistically the same. Capacities are never close to being exhausted
 (<= 24 % of nconmax, <= 23 % of njmax).
 
+### 3.1.1 hopper-hop on the states of a trained agent - `bench/hopper_buffer_check.py`
+
+Check A above has two blind spots for hopper-hop. It evaluates random-policy states, which never earn the hop reward.
+It also copies the acceleration-stage sensors (hopper's touch sensors) from the GPU into the CPU physics, so the touch
+observation is not compared independently. Because hopper-hop fell short of the paper in the 15-task baseline (docs/04
+section 4.9), both are checked here on the replay buffer of a trained GPU run (seed 4, 490k env steps). hopper's
+observation is its full state except the x position, which does not affect the dynamics, so each stored transition can
+be replayed exactly. Both simulators start from the stored state, apply the stored action for one agent step
+(4 control steps of 4 physics steps), and the next observation and summed reward are compared. The chaos control
+repeats the CPU step with a 1e-6 velocity perturbation.
+
+| transitions | GPU vs CPU: velocity (median / p95 / max) | touch, log1p (median / p95 / max) | reward (max) | CPU chaos control, velocity (max) |
+|---|---|---|---|---|
+| 300 with the highest reward (mean 3.8 per agent step, 30 % with foot contact) | 6e-06 / 5e-05 / 1e-04 | 0 / 1e-05 / 4e-05 | 3e-06 | 2e-02 |
+| 300 random (38 % with foot contact) | 5e-06 / 2e-05 / 1.3 | 0 / 1e-05 / 0.82 | 2e-06 | 2e-05 |
+
+- **The hop reward and the touch observation match dm_control** on every high-reward state, to float32 precision.
+- **Rare outliers:** in a scan of 3,000 random transitions, 6 (0.2 %) differ by more than 1e-3.
+  - 3 of them lie within the spread of the CPU's own response to tiny perturbations (chaos).
+  - 3 do not. They are states in which the hopper lies on the floor with the knee at its joint limit, moving slowly,
+    with reward 0. There the floor and joint-limit contacts make the contact solve ill-conditioned, and the float32
+    and float64 Newton solvers settle on slightly different, equally valid solutions.
+- **Conclusion:** the hopper port reproduces dm_control on the states that carry the task's reward. The rare outliers
+  cannot explain a large difference in return.
+
 ## 3.2 Where do the remaining trajectory differences come from? - `bench/divergence_study.py`
 
 Relative obs error vs CPU MuJoCo (float64, tolerance 1e-8), median over 3 episodes:

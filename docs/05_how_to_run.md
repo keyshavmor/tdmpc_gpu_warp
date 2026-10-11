@@ -72,4 +72,9 @@ echo quit | nvidia-cuda-mps-control            # stop MPS
 | packing (runs until OOM) | `python bench/packing_study.py` |
 | multi-run contention | `python bench/contention_study.py` |
 | learning runs | `python bench/learning_runs.py start|status|stop` |
+| 15-task x 5-seed baseline under MPS | `python bench/mps_batches.py --tasks <15 tasks> --label baseline_mps --checkpoint_minutes 15 -- use_wandb=true ...` (docs/USER_GUIDE.md section 4.5) |
+| baseline tables | `bench/analyze_mps_batches.py` (curves vs paper), `bench/final_results_table.py` (final returns, run times), `bench/runtime_measured_table.py` (measured vs predicted time) |
+| original code on this machine (reference) | `bench/train_cpu_baseline.py task=<task> seed=<s> pin_threads=1 exp_name=cpu_original log_root=results/learning_full` (`tdmpc` env) |
+| hopper-hop on trained-agent states | `python bench/hopper_buffer_check.py` -> `results/validation/hopper_buffer_check.json` |
+| MPS faults, safeguards, checkpoint / resume | `bench/mps_fault_hunt.py` + `bench/analyze_fault_hunt.py`, `bench/test_mps_guard.py`, `bench/test_checkpoint.py`, `bench/test_resume.py`, `bench/checkpoint_overhead.py` |
 | tables/figures | `bench/analyze_*.py` |

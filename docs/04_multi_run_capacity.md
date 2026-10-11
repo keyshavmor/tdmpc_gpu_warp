@@ -189,38 +189,56 @@ Advice:
 4. Order heavy tasks (dog, humanoid: long budgets) first and fill the remaining slots with light tasks, so the GPU never
    runs a single straggler alone at the end.
 
-## 4.9 Validation: real 5-seed batches under MPS
+## 4.9 Validation: real 5-seed batches under MPS (all 15 tasks)
 
 The recommended configuration (5 single-seed runs in parallel under MPS, `src/launch_parallel.py --mps`, checkpoints
-every 15 min) was run end to end. Setup:
-- 6 tasks (walker-walk, cheetah-run, finger-spin, cartpole-swingup, reacher-easy, cup-catch);
-- the full 500k-step budget, one task after another;
-- no other CUDA process on the GPU (`bench/mps_batches.py`, [results_mps_batches.md](results_mps_batches.md)).
+every 15 min) was run end to end for all 15 tasks:
+- the full 500k-step budget, 5 seeds (1-5) per task, one task after another (`bench/mps_batches.py`, label `baseline_mps`);
+- original TD-MPC hyperparameters (H = 5), W&B logging;
+- no other CUDA process on the GPU.
 
-| task | measured batch time | vs original CPU code, 5 seeds parallel | vs original, back-to-back |
-|---|---|---|---|
-| walker-walk | 3.90 h | 2.1x faster | 7.2x faster |
-| cheetah-run | 1.65 h | 2.4x | 8.0x |
-| finger-spin | 3.31 h | 2.4x | 8.0x |
-| cartpole-swingup | 0.97 h | 2.2x | 7.4x |
-| reacher-easy | 1.63 h | 2.3x | 7.8x |
-| cup-catch | 2.17 h | 1.9x | 6.4x |
-| **6 tasks** | **13.6 h** | **2.2x** | **7.5x** |
+Final returns per seed and per task: [results_baseline_15tasks.md](results_baseline_15tasks.md). Learning curves and
+statistics: [results_mps_batches.md](results_mps_batches.md). Measured times per task: [results_runtime.md](results_runtime.md).
+
+**Time:** all 75 runs took **34.0 h** of wall-clock time (31.3 h predicted).
+
+| | 15 tasks x 5 seeds |
+|---|---|
+| GPU port, 5 seeds in parallel under MPS (measured) | **34.0 h** |
+| GPU port, the same runs back-to-back | 71.6 h (2.1x longer) |
+| original CPU-MuJoCo code, 5 seeds in parallel (extrapolated, up to ~15 % pessimistic) | 72 h (2.1x longer) |
+| original CPU-MuJoCo code, back-to-back | 243 h (7.2x longer) |
 
 **Stability:**
-- 68 process-hours of real training under MPS with 0 crashes, 0 restarts and 0 kernel GPU fault records.
-- Together with the stress tests of docs/08 that makes 0 faults in about 110 process-hours of MPS-only operation.
+- 14 of 15 batches ran without a fault: about 147 process-hours with 0 crashes.
+- walker-run had 6 MPS faults between 08:15 and 10:03 on 2026-10-11, then ran 2.9 h without one (docs/08 section 8.1).
+  Each fault ended all 5 runs; the launcher resumed them from their last checkpoint.
+  - Cost: about 0.8 h of wall time; the batch took 4.67 h instead of about 3.9 h.
+  - The results are unaffected: every seed's evaluation log, training log and W&B history are complete
+    (26 evaluations, 501 training episodes, each step exactly once).
 
-**Learning:**
-- Per-seed mean return over the whole run vs the paper's reference (Welch tests):
-  - walker +0.4 % (p = 0.65), finger -0.8 % (0.53), cartpole +0.3 % (0.32), reacher -1.2 % (0.32), cup +0.3 % (0.74);
-  - cheetah-run +6.0 % (p = 0.085), a trend above the paper. It is **not a port effect**: the original CPU-MuJoCo code
-    run on this machine (5 seeds) shows the same shift (+5.5 % vs the paper), and the GPU port vs the original code
-    on this machine differs by +0.5 % (p = 0.83). Today's software versions simply learn cheetah slightly better than
-    the paper's runs.
-- Measured times were within -6 % to +10 % of the prediction, except for tasks with very cheap physics (finger-spin,
-  reacher-easy: +20-25 %, measured parallel factor 1.8x instead of 2.3x; results_runtime.md).
-- **The CPU-parallel figures are extrapolations and somewhat pessimistic.** The original code's 5 parallel
-  cheetah-run seeds took 3.27 h measured, against 3.9 h extrapolated. Against that measurement the GPU port's
-  parallel speed-up for cheetah is 2.0x rather than 2.4x. Expect the "vs CPU original, 5 seeds parallel" speed-ups
-  to be up to ~15 % smaller in practice; the back-to-back comparisons are unaffected.
+**Learning vs the paper.** Primary test: Welch t-test on the per-seed mean return over the whole run (area under the
+learning curve), GPU port vs the paper's 5 seeds of the original code.
+
+| task | GPU vs paper | p | task | GPU vs paper | p |
+|---|---|---|---|---|---|
+| acrobot-swingup | +13.6 % | 0.30 | hopper-hop | **-67.1 %** | 0.074 |
+| cartpole-swingup | +0.3 % | 0.32 | quadruped-run | +8.3 % | 0.22 |
+| cartpole-swingup-sparse | -4.2 % | 0.060 | quadruped-walk | +5.2 % | 0.39 |
+| cheetah-run | +6.0 % | 0.085 | reacher-easy | -1.2 % | 0.32 |
+| cup-catch | +0.3 % | 0.74 | reacher-hard | -5.8 % | 0.055 |
+| finger-spin | -0.8 % | 0.53 | walker-run | -2.1 % | 0.015 |
+| finger-turn-hard | -8.2 % | 0.65 | walker-walk | +0.4 % | 0.65 |
+| fish-swim | -2.2 % | 0.34 | | | |
+
+- **14 of 15 tasks match the paper.** Differences of -8 % to +14 % have no common direction (8 tasks above, 7 below).
+  No p-value survives a correction for testing 15 tasks (Holm: smallest p = 0.015 vs threshold 0.0033).
+  - walker-run is closest: -2.1 % over the whole run and -1.2 % from 100k steps (p = 0.093). Its final return,
+    815 +- 12, matches the paper's 820 +- 8.
+- **cheetah-run** (+6.0 %) is not a port effect. The original CPU-MuJoCo code run on this machine (5 seeds) shows the same
+  shift (+5.5 % vs the paper), and the GPU port vs the original code on this machine differs by +0.5 % (p = 0.83).
+- **hopper-hop** (-67 %, final return 127 +- 142 vs the paper's 325 +- 171) is the one large deviation. hopper-hop is
+  very seed-dependent in the paper too (sd 171 at 500k). Checks so far:
+  - the hop reward and the touch-sensor observation match dm_control on the states a trained agent visits
+    (docs/03_validation.md, `bench/hopper_buffer_check.py`);
+  - the original code run on this machine with 5 seeds is the decisive reference (section 4.10).

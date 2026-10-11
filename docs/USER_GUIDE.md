@@ -293,9 +293,12 @@ Per-task times for 1 seed and 5 seeds (back-to-back and in parallel) are in the
 
 | task | 1 seed | 5 seeds in parallel (MPS) |
 |---|---|---|
-| walker-walk | 1.7 h | 3.8 h |
+| walker-walk | 1.7 h | 3.8 h (measured: 3.90 h) |
 | humanoid-run | 13.7 h | 34.5 h |
 | dog-run | 33.4 h | 93 h |
+
+**Measured for all 15 tasks** (section 4.5): 0.96-3.90 h per task for 5 seeds in parallel under MPS, 34.0 h for all
+15 tasks x 5 seeds.
 
 ### 4.3 Checkpointing, automatic restart and W&B logging
 
@@ -366,8 +369,9 @@ when a process is killed is lost.
 
 **Why:** an ordinary CUDA process that executes CUDA graphs next to MPS clients makes one of the MPS clients fault
 within minutes. That covers any training or physics process of this repository started without the MPS environment.
-The fault ends all MPS runs at once. With only MPS clients on the GPU, no fault occurred in 41.7 process-hours of
-stress tests ([docs/08](08_known_issues.md), [results_fault_hunt.md](results_fault_hunt.md)).
+The fault ends all MPS runs at once. With only MPS clients on the GPU faults are rare but not impossible: 6 faults in
+about 212 process-hours of stress tests and real training, all in one 1.8 h window of one batch, against about 2 per
+process-hour in mixed operation ([docs/08](08_known_issues.md), [results_fault_hunt.md](results_fault_hunt.md)).
 
 **In practice:**
 1. Start other GPU jobs on the same GPU (evaluations, notebooks, further experiments) **from a shell with the same
@@ -390,7 +394,42 @@ stress tests ([docs/08](08_known_issues.md), [results_fault_hunt.md](results_fau
      unaffected.
    - Revert with `sudo nvidia-smi -c DEFAULT`.
 6. Keep checkpoints on (`--checkpoint_minutes 15`): if a crash happens anyway, the launcher resumes all runs from
-   their last checkpoint.
+   their last checkpoint. In the 15-task baseline this recovered walker-run from 6 faults automatically, at a cost of
+   about 0.8 h, with complete logs and W&B curves. If faults recur often, shorten the interval (e.g. 5 min); a
+   checkpoint takes well under a second for these tasks.
+
+### 4.5 Running the 15-task baseline (5 seeds per task) and the expected results
+
+`bench/mps_batches.py` runs the tasks one after another, 5 seeds in parallel under MPS each, through
+`src/launch_parallel.py`. It skips tasks that have already finished, so after an interruption the same command
+continues where it stopped.
+
+```bash
+python bench/mps_batches.py --tasks acrobot-swingup cartpole-swingup cartpole-swingup-sparse cheetah-run cup-catch \
+    finger-spin finger-turn-hard fish-swim hopper-hop quadruped-run quadruped-walk reacher-easy reacher-hard \
+    walker-run walker-walk --label baseline_mps --checkpoint_minutes 15 -- use_wandb=true wandb_project=<project> wandb_entity=<entity>
+python bench/analyze_mps_batches.py      # learning curves vs the paper -> docs/results_mps_batches.md
+python bench/final_results_table.py      # final return per seed, mean, sd, run time -> docs/results_baseline_15tasks.md
+python bench/runtime_measured_table.py   # measured batch times vs prediction and the original code
+```
+
+Results of the run in this repository ([results_baseline_15tasks.md](results_baseline_15tasks.md), 500k env steps,
+mean +- sample sd over seeds 1-5):
+
+| task | final return | paper | task | final return | paper |
+|---|---|---|---|---|---|
+| acrobot-swingup | 364.5 +- 56.3 | 341.8 +- 120.9 | hopper-hop | 126.5 +- 141.5 | 324.6 +- 170.7 |
+| cartpole-swingup | 879.0 +- 3.0 | 879.0 +- 6.7 | quadruped-run | 837.1 +- 44.0 | 796.6 +- 74.2 |
+| cartpole-swingup-sparse | 749.3 +- 208.6 | 846.4 +- 1.5 | quadruped-walk | 950.7 +- 10.3 | 931.0 +- 26.6 |
+| cheetah-run | 846.0 +- 28.2 | 813.8 +- 34.8 | reacher-easy | 983.6 +- 1.4 | 976.4 +- 14.8 |
+| cup-catch | 977.0 +- 8.6 | 972.0 +- 11.1 | reacher-hard | 964.7 +- 22.0 | 966.6 +- 11.7 |
+| finger-spin | 971.4 +- 25.7 | 980.6 +- 7.4 | walker-run | 815.4 +- 12.3 | 819.8 +- 7.5 |
+| finger-turn-hard | 622.2 +- 170.3 | 573.6 +- 198.8 | walker-walk | 977.8 +- 5.5 | 976.8 +- 3.1 |
+| fish-swim | 740.9 +- 49.3 | 745.4 +- 17.5 | | | |
+
+- cartpole-swingup-sparse: one seed had a single low final evaluation (376 vs about 840 before and after). The mean of the last 5
+  evaluations is 821.6 +- 39.4.
+- hopper-hop is the one task below the paper; see docs/04 section 4.9.
 
 ## 5. Outputs
 
@@ -435,8 +474,10 @@ docstring with its purpose, command line, output location and the document that 
 | `validate_env.py`, `divergence_study.py`, `test_*.py` | environment validation and equivalence tests |
 | `bench_step.py`, `sweep_h.py`, `oom_horizon.py`, `vec_memory.py` | single-run speed and memory |
 | `multi_run.py`, `pack_test.py`, `packing_study.py`, `contention_study.py`, `interference_*.py`, `partition_study.py` | multi-run capacity, contention and interference |
-| `learning_runs.py`, `train_cpu_baseline.py` | learning-curve experiments |
-| `analyze_*.py` | tables and figures in `docs/` |
+| `learning_runs.py`, `train_cpu_baseline.py`, `mps_batches.py` | learning-curve experiments; the 15-task x 5-seed baseline |
+| `analyze_*.py`, `final_results_table.py`, `runtime_measured_table.py` | tables and figures in `docs/` |
+| `hopper_buffer_check.py` | hopper-hop: GPU env vs dm_control on states of a trained agent |
+| `mps_fault_hunt.py`, `test_mps_guard.py`, `test_checkpoint.py`, `test_resume.py` | MPS fault experiments, safeguards and checkpoint / resume tests |
 | `fault_*.py`, `mps_fault_repro.py`, `debug_oob.py`, `train_vec_warpdebug.py` | diagnostics for the open issue in docs/08 |
 
 **Which environment:** scripts that time the original CPU code run it in the `tdmpc` environment. The GPU scripts use

@@ -24,8 +24,8 @@ core, so many runs can share one GPU without CPU contention.
 | Tasks | all 21 state-based DMControl tasks of TD-MPC (`tasks.txt`), incl. humanoid and dog |
 | Speed-up per run vs. the original | **2.4-4.8x** (mean 3.7x) at H = 5, 3.1-3.8x at H = 30; dog 2.0x / 1.7x |
 | 21 tasks x 5 seeds (H = 5, default budgets) | **~17 days** (5 seeds in parallel, MPS) vs. ~77 days (original, back-to-back) |
-| Measured: 6 tasks x 5 seeds, full budget, under MPS | **13.6 h** - about 2x faster than the original with 5 seeds in parallel (2.2x vs extrapolated, 2.0x vs measured for cheetah), 7.5x faster than back-to-back; 0 crashes; learning matches the paper and the original code on this machine |
-| Learning | statistically indistinguishable from the paper's reference curves (cartpole-swingup, walker-walk, 5 seeds, 100k steps) |
+| Measured: 15 tasks x 5 seeds, full budget, under MPS | **34.0 h** for all 75 runs - 2.1x faster than the original with 5 seeds in parallel (extrapolated), 7.2x faster than back-to-back; final returns match the paper on 14 of 15 tasks ([results](docs/results_baseline_15tasks.md)) |
+| Learning | 15 tasks x 5 seeds at 500k steps: 14 match the paper's curves (no difference survives a 15-task correction); hopper-hop is lower (docs/04 section 4.9) |
 | CPU use | 16 concurrent GPU runs use 17 % of a 16-core CPU (16 original runs: 99 %) |
 | Hardware used for all measurements | NVIDIA RTX 3090 (24 GiB), 16-core CPU |
 
@@ -41,11 +41,12 @@ core, so many runs can share one GPU without CPU contention.
 2. [Quick start](#quick-start)
 3. [Total run time per task: 1 seed vs. 5 seeds](#total-run-time-per-task-1-seed-vs-5-seeds)
 4. [Results summary](#results-summary)
-5. [Is it the same algorithm?](#is-it-the-same-algorithm)
-6. [Repository layout](#repository-layout)
-7. [Documentation](#documentation)
-8. [Known issue](#known-issue)
-9. [Acknowledgements, citation and licenses](#acknowledgements-citation-and-licenses)
+5. [Baseline results: 15 tasks x 5 seeds](#baseline-results-15-tasks-x-5-seeds)
+6. [Is it the same algorithm?](#is-it-the-same-algorithm)
+7. [Repository layout](#repository-layout)
+8. [Documentation](#documentation)
+9. [Known issue](#known-issue-mps-crash-trigger-found-mitigated)
+10. [Acknowledgements, citation and licenses](#acknowledgements-citation-and-licenses)
 
 ## Installation
 
@@ -175,7 +176,10 @@ The table covers state observations, H = 5 and each task's default TD-MPC traini
 - **Why parallel wins:** a single run cannot saturate the GPU, so concurrent runs raise the total throughput even
   though each individual run slows down.
 - **All-on-CPU** (physics and learning on the CPU) was not measured.
-- **Measured validation:** 6 of the 15 tasks were run end to end as 5-seed MPS batches (docs/04 section 4.9, [results_mps_batches.md](docs/results_mps_batches.md)). The predictions held within -6 % to +10 %, except for tasks with very cheap physics (finger-spin, reacher-easy: +20-25 %).
+- **Measured validation:** all 15 tasks were run end to end as 5-seed MPS batches: **34.0 h** in total against 31.3 h
+  predicted (docs/04 section 4.9, [results_runtime.md](docs/results_runtime.md#measured-real-5-seed-batches-under-mps-all-15-tasks-full-500k-step-budget)).
+  The predictions held within -7 % to +10 %, except for tasks with very cheap physics (finger-spin, finger-turn-hard,
+  reacher-easy, reacher-hard: +18-25 %) and walker-run (+23 %, including 6 MPS faults that were recovered automatically).
 
 For the 15 tasks without humanoid and dog (the scope of the baseline):
 
@@ -184,7 +188,7 @@ For the 15 tasks without humanoid and dog (the scope of the baseline):
 | CPU MuJoCo + GPU learning, back-to-back | 48.6 h | 243 h (10.1 d) |
 | CPU MuJoCo + GPU learning, 5 seeds in parallel | - | 72 h (3.0 d) |
 | GPU optimised, back-to-back | 14.2 h | 71.6 h (3.0 d) |
-| GPU optimised, 5 seeds in parallel + MPS | - | 31.3 h (1.3 d) |
+| GPU optimised, 5 seeds in parallel + MPS | - | 31.3 h (1.3 d); **measured: 34.0 h** |
 
 ## Results summary
 
@@ -237,6 +241,44 @@ All numbers were measured on this machine. Raw data is in `results/`, and the an
 - **Learning:** like fp32 on walker-walk.
 - **Status:** not mathematically equivalent, so these are opt-in only.
 
+## Baseline results: 15 tasks x 5 seeds
+
+Full training budget (500k environment steps), original hyperparameters, 5 seeds of a task in parallel under MPS,
+tasks one after another on one RTX 3090. **Final return** = evaluation return at 500k steps (mean over 10 episodes);
+mean and sample standard deviation over seeds 1-5. Run time = wall-clock time of each run (5 runs share the GPU).
+Per-seed values, the robust last-5-evaluations table and notes: [docs/results_baseline_15tasks.md](docs/results_baseline_15tasks.md).
+Learning curves and statistics: [docs/results_mps_batches.md](docs/results_mps_batches.md).
+
+| task | final return (GPU port) | paper (original TD-MPC) | run time per run (h) |
+|---|---|---|---|
+| acrobot-swingup | 364.5 +- 56.3 | 341.8 +- 120.9 | 1.72 |
+| cartpole-swingup | 879.0 +- 3.0 | 879.0 +- 6.7 | 0.93 |
+| cartpole-swingup-sparse | 749.3 +- 208.6 * | 846.4 +- 1.5 | 0.92 |
+| cheetah-run | 846.0 +- 28.2 | 813.8 +- 34.8 | 1.61 |
+| cup-catch | 977.0 +- 8.6 | 972.0 +- 11.1 | 2.12 |
+| finger-spin | 971.4 +- 25.7 | 980.6 +- 7.4 | 3.26 |
+| finger-turn-hard | 622.2 +- 170.3 | 573.6 +- 198.8 | 3.26 |
+| fish-swim | 740.9 +- 49.3 | 745.4 +- 17.5 | 2.10 |
+| hopper-hop | 126.5 +- 141.5 | 324.6 +- 170.7 | 1.81 |
+| quadruped-run | 837.1 +- 44.0 | 796.6 +- 74.2 | 1.94 |
+| quadruped-walk | 950.7 +- 10.3 | 931.0 +- 26.6 | 1.95 |
+| reacher-easy | 983.6 +- 1.4 | 976.4 +- 14.8 | 1.60 |
+| reacher-hard | 964.7 +- 22.0 | 966.6 +- 11.7 | 1.61 |
+| walker-run | 815.4 +- 12.3 | 819.8 +- 7.5 | 3.84 |
+| walker-walk | 977.8 +- 5.5 | 976.8 +- 3.1 | 3.83 |
+
+\* one seed had a single low final evaluation (376 vs about 840 before and after); mean of the last 5 evaluations: 821.6 +- 39.4.
+
+- **14 of 15 tasks match the paper.** Over the whole learning curve the differences range from -8 % to +14 % with no
+  common direction, and none is significant after correcting for 15 tasks.
+- **hopper-hop is lower than the paper** (whole run -67 %, p = 0.074). Its hop reward and touch sensors match dm_control
+  on the states a trained agent visits; the comparison with the original code run on this machine is in docs/04
+  section 4.9.
+- **Time:** 34.0 h for all 75 runs. About 0.8 h of that is lost time from 6 MPS faults during walker-run, which the
+  launcher recovered automatically ([Known issue](#known-issue-mps-crash-trigger-found-mitigated)).
+- **Not run:** humanoid-* and dog-*. Their training would cost 1.4-3.9 days per 5-seed batch, which made no sense
+  for this project.
+
 ## Is it the same algorithm?
 
 Yes in the mathematics, and statistically yes in behaviour.
@@ -258,7 +300,9 @@ Yes in the mathematics, and statistically yes in behaviour.
 **Learning curves**
 - cartpole-swingup and walker-walk, 5 seeds, 100k steps: after the replay-sampling fix the GPU agent matches the
   paper's reference at every evaluation from 20k to 100k steps (p >= 0.14).
-- The other 19 tasks are validated at the environment level.
+- All 15 tasks without humanoid and dog, 5 seeds, full 500k-step budget: see
+  [Baseline results](#baseline-results-15-tasks-x-5-seeds).
+- humanoid and dog are validated at the environment level.
 
 Details: [docs/01](docs/01_design_and_faithfulness.md), [docs/03](docs/03_validation.md),
 [docs/results_learning](docs/results_learning.md).
@@ -275,11 +319,12 @@ Details: [docs/01](docs/01_design_and_faithfulness.md), [docs/03](docs/03_valida
 | `src/train.py` | training script, one seed |
 | `src/train_vec.py` | training script, many seeds of one configuration in one process |
 | `src/checkpoint.py`, `src/launch_parallel.py` | checkpoint / resume for `train.py`; parallel launcher (MPS) with automatic restart from checkpoints |
-| `src/env.py`, `logger.py`, `cfg.py` | original dm_control environment wrapper (used by benchmarks for CPU comparisons), logger, config parser (unchanged) |
+| `src/env.py`, `cfg.py` | original dm_control environment wrapper (used by benchmarks for CPU comparisons) and config parser (unchanged) |
+| `src/logger.py` | original logger, extended with a fixed W&B run id and deferred W&B sync for exact resume after a crash |
 | `cfgs/` | original TD-MPC configuration files (unchanged values) |
 | `bench/` | validation, equivalence tests, benchmarks, multi-run studies, analysis scripts |
 | `docs/` | report chapters, result tables, figures, user guide |
-| `results/` | raw measurement data |
+| `results/` | raw measurement data; `results/mps_batches/baseline_mps/` holds the logs of the 15-task x 5-seed baseline |
 | `environment.yaml`, `pyproject.toml` + `uv.lock`, `setup_uv.sh` | conda / uv environment definitions |
 | `check_system.py` | checks driver, GPU, MPS and Python packages |
 | `patches/mujoco_warp/`, `scripts/setup_mujoco_warp.sh` | GPU noslip solver for MuJoCo Warp (new `noslip.py` + small hooks in `io.py`, `solver.py`, `types.py`) and the script that applies it to the tested upstream commit |
@@ -296,7 +341,8 @@ Details: [docs/01](docs/01_design_and_faithfulness.md), [docs/03](docs/03_valida
 | [docs/05_how_to_run.md](docs/05_how_to_run.md) | reproducing every measurement |
 | [docs/06_optimisations.md](docs/06_optimisations.md) | optimisations, gains, equivalence evidence, rejected ideas |
 | [docs/07_precision.md](docs/07_precision.md) | bf16 / fp16 / TF32: speed, VRAM, accuracy |
-| [docs/08_known_issues.md](docs/08_known_issues.md) | open fault, limitations |
+| [docs/08_known_issues.md](docs/08_known_issues.md) | MPS fault (trigger, evidence, mitigation, residual faults), limitations |
+| [docs/results_baseline_15tasks.md](docs/results_baseline_15tasks.md) | **final returns of the 15-task x 5-seed baseline** per seed and task, mean, sd, run times |
 | [docs/results_runtime.md](docs/results_runtime.md) | total run time per task, 1 seed vs. 5 seeds, per hardware configuration |
 | `docs/results_*.md`, `docs/figures/` | full result tables and comparison figures |
 
@@ -309,7 +355,11 @@ Details: [docs/01](docs/01_design_and_faithfulness.md), [docs/03](docs/03_valida
   - MPS-only operation: 0 faults in 41.7 process-hours, including exact controls with the extra processes routed
     through MPS.
 - **Root cause:** in the NVIDIA driver / MPS layer, not in this repository's code.
-- **Validated in real use:** six full 5-seed training batches under the rule ran 68 process-hours without a crash.
+- **Validated in real use:** under the rule, 14 of the 15 full 5-seed training batches ran about 147 process-hours without a
+  crash.
+- **Rare residual fault:** walker-run had 6 faults (mostly Xid 13 `SKEDCHECK22_INVALIDATE_ACTIVE_QMD`) in a 1.8 h window
+  with only MPS clients on the GPU. Their cause is unknown and lies in the driver / MPS layer. The launcher resumed
+  all runs from their checkpoints each time, with complete logs and W&B curves; the cost was about 0.8 h.
 - **Mitigation:**
   - keep every CUDA process on that GPU inside MPS while a batch runs ([user guide, section 4.4](docs/USER_GUIDE.md));
   - the launcher guards against foreign CUDA processes;
