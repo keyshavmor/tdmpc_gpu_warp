@@ -128,10 +128,18 @@ class Task:
 			raise KeyError(f'{obj} {name!r} not found')
 		return i
 
-	# one-line name -> id helpers (like dm_control's named indexing)
-	def body(self, name): return self._id('body', name)
-	def geom(self, name): return self._id('geom', name)
-	def site(self, name): return self._id('site', name)
+	# name -> id helpers (like dm_control's named indexing)
+	def body(self, name):
+		"""MuJoCo id of the body `name`."""
+		return self._id('body', name)
+
+	def geom(self, name):
+		"""MuJoCo id of the geom `name`."""
+		return self._id('geom', name)
+
+	def site(self, name):
+		"""MuJoCo id of the site `name`."""
+		return self._id('site', name)
 
 	def sensor_slice(self, name):
 		"""Slice of sensor `name` in sensordata."""

@@ -8,7 +8,7 @@ end of training, including evaluations and checkpoints) as mean and standard dev
 deviations are sample standard deviations (n - 1). Writes docs/results_baseline_15tasks.md (and prints it).
 
 Environment: any Python 3 with numpy (tdmpc-warp).
-Usage: python bench/final_results_table.py [--label baseline_mps]
+Usage: python bench/final_results_table.py [--label baseline_mps] [--use task=label ...]
 
 Part of tdmpc_gpu_warp - TD-MPC on GPU MuJoCo (MuJoCo Warp).
 Author of the GPU port: Keyshav Mor.
@@ -23,7 +23,10 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 TASKS15 = [t.strip() for t in open(os.path.join(ROOT, 'tasks.txt')) if t.strip() and not t.startswith(('humanoid', 'dog'))]
 p = argparse.ArgumentParser()
 p.add_argument('--label', default='baseline_mps')
+p.add_argument('--use', nargs='*', default=[], help='task=label: final returns of this task from another batch label '
+			   '(e.g. a rerun after a fix); the run time stays that of the standard batch')
 a = p.parse_args()
+use = dict(x.split('=', 1) for x in a.use)
 base = os.path.join(ROOT, 'results', 'mps_batches', a.label)
 summary = {b['task']: b for b in json.load(open(os.path.join(base, 'summary.json')))['batches']} if os.path.exists(os.path.join(base, 'summary.json')) else {}
 
@@ -80,11 +83,13 @@ md = ['# Baseline results: 15 tasks x 5 seeds (GPU port, 5 seeds in parallel und
 done = 0
 robust, notes, faults = [], [], []
 for t in TASKS15:
-	d = os.path.join(base, t, 'state', a.label)
+	d0 = os.path.join(base, t, 'state', a.label)  # standard batch: run times
+	lab = use.get(t, a.label)
+	d = os.path.join(ROOT, 'results', 'mps_batches', lab, t, 'state', lab)  # returns (possibly a rerun)
 	finals, times = [], []
 	for s in range(1, 6):
 		e = last_row(os.path.join(d, str(s), 'eval.log'))
-		tr = last_row(os.path.join(d, str(s), 'train.log'))
+		tr = last_row(os.path.join(d0, str(s), 'train.log'))
 		complete = e is not None and tr is not None and int(float(e['env_step'])) >= 500000
 		finals.append(float(e['episode_reward']) if complete else None)
 		times.append(float(tr['total_time']) / 3600 if complete else None)
@@ -93,7 +98,7 @@ for t in TASKS15:
 	if all(v is not None for v in finals):
 		done += 1
 		last5 = [last_k_mean(os.path.join(d, str(s), 'eval.log')) for s in range(1, 6)]
-		robust.append(f"| {t} | " + ' | '.join(f'{v:.1f}' for v in last5) + f" | **{np.mean(last5):.1f}** | {np.std(last5, ddof=1):.1f} |")
+		robust.append(f"| {t}{' *' if t in use else ''} | " + ' | '.join(f'{v:.1f}' for v in last5) + f" | **{np.mean(last5):.1f}** | {np.std(last5, ddof=1):.1f} |")
 		for s, (fv, lv) in enumerate(zip(finals, last5), start=1):
 			if lv and fv < 0.8 * lv:
 				notes.append(f"- {t}, seed {s}: final evaluation {fv:.1f} vs {lv:.1f} averaged over its last 5 evaluations - a one-off "
@@ -104,12 +109,24 @@ for t in TASKS15:
 			faults.append(f"- {t}: {fe[0]} MPS fault event(s), {fe[1]} runs ended and were resumed automatically by the launcher (from their "
 						  "last checkpoint, or from the start if none existed yet). The run times above exclude the lost time; the batch "
 						  "wall time (results_mps_batches.md, results_runtime.md) includes it. Details: docs/08_known_issues.md.")
-		md.append(f"| {t} | " + ' | '.join(f'{v:.1f}' for v in finals) +
+		md.append(f"| {t}{' *' if t in use else ''} | " + ' | '.join(f'{v:.1f}' for v in finals) +
 				  f" | **{np.mean(finals):.1f}** | {np.std(finals, ddof=1):.1f} | {refs} | {np.mean(times):.2f} | {np.std(times, ddof=1):.2f} | {cr} |")
 	else:
 		state = 'running' if os.path.isdir(d) else 'pending'
 		md.append(f"| {t} | " + ' | '.join(state if v is None else f'{v:.1f}' for v in finals) + f" | - | - | {refs} | - | - | - |")
 md += ['', f'{done} of {len(TASKS15)} tasks complete.', '']
+# why a task was rerun (shown for tasks given with --use)
+RERUN_WHY = {'hopper-hop': 'rerun after MuJoCo Warp patch 0002 (float32-safe capsule collision, docs/03 section 3.6), which '
+						   'corrects contacts of hopper\'s folded leg; the rerun ran partly without MPS because of MPS faults on '
+						   'that day (docs/08), so its wall time is not comparable and the run time shown is the standard batch\'s'}
+if use:
+	notes_use = []
+	for t, l in use.items():
+		b = [last_row(os.path.join(base, t, 'state', a.label, str(s), 'eval.log')) for s in range(1, 6)]
+		v = [float(x['episode_reward']) for x in b if x]
+		before = f'; before: {np.mean(v):.1f} +- {np.std(v, ddof=1):.1f}' if len(v) == 5 else ''
+		notes_use.append(f'- {t}: final returns from `results/mps_batches/{l}`, {RERUN_WHY.get(t, "rerun")}{before}.')
+	md += ['\\* Rerun:', ''] + notes_use + ['']
 if faults:
 	md += ['**MPS faults during the run:**', ''] + faults + ['']
 if notes:

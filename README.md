@@ -24,8 +24,8 @@ core, so many runs can share one GPU without CPU contention.
 | Tasks | all 21 state-based DMControl tasks of TD-MPC (`tasks.txt`), incl. humanoid and dog |
 | Speed-up per run vs. the original | **2.4-4.8x** (mean 3.7x) at H = 5, 3.1-3.8x at H = 30; dog 2.0x / 1.7x |
 | 21 tasks x 5 seeds (H = 5, default budgets) | **~17 days** (5 seeds in parallel, MPS) vs. ~77 days (original, back-to-back) |
-| Measured: 15 tasks x 5 seeds, full budget, under MPS | **34.0 h** for all 75 runs - 2.1x faster than the original with 5 seeds in parallel (extrapolated), 7.2x faster than back-to-back; final returns match the paper on 14 of 15 tasks ([results](docs/results_baseline_15tasks.md)) |
-| Learning | 15 tasks x 5 seeds at 500k steps: 14 match the paper's curves (no difference survives a 15-task correction); hopper-hop is lower (docs/04 section 4.9) |
+| Measured: 15 tasks x 5 seeds, full budget, under MPS | **34.0 h** for all 75 runs - 2.1x faster than the original with 5 seeds in parallel (extrapolated), 7.2x faster than back-to-back; final returns consistent with the paper on all 15 tasks ([results](#baseline-results-15-tasks-x-5-seeds)) |
+| Learning | 15 tasks x 5 seeds at 500k steps: all consistent with the paper's curves (no difference significant after a 15-task correction); hopper-hop needed a MuJoCo Warp fix (patch 0002) |
 | CPU use | 16 concurrent GPU runs use 17 % of a 16-core CPU (16 original runs: 99 %) |
 | Hardware used for all measurements | NVIDIA RTX 3090 (24 GiB), 16-core CPU |
 
@@ -267,25 +267,36 @@ Learning curves and statistics: [docs/results_mps_batches.md](docs/results_mps_b
 | finger-spin | **971.4 ± 25.7** | 980.6 ± 7.4 | 3.26 ± 0.01 |
 | finger-turn-hard | **622.2 ± 170.3** | 573.6 ± 198.8 | 3.26 ± 0.01 |
 | fish-swim | **740.9 ± 49.3** | 745.4 ± 17.5 | 2.10 ± 0.01 |
-| hopper-hop | **126.5 ± 141.5** | 324.6 ± 170.7 | 1.81 ± 0.01 |
+| hopper-hop * | **234.8 ± 169.8** | 324.6 ± 170.7 | 1.81 ± 0.01 |
 | quadruped-run | **837.1 ± 44.0** | 796.6 ± 74.2 | 1.94 ± 0.01 |
 | quadruped-walk | **950.7 ± 10.3** | 931.0 ± 26.6 | 1.95 ± 0.01 |
 | reacher-easy | **983.6 ± 1.4** | 976.4 ± 14.8 | 1.60 ± 0.01 |
 | reacher-hard | **964.7 ± 22.0** | 966.6 ± 11.7 | 1.61 ± 0.01 |
 | walker-run | **815.4 ± 12.3** | 819.8 ± 7.5 | 3.84 ± 0.02 |
 | walker-walk | **977.8 ± 5.5** | 976.8 ± 3.1 | 3.83 ± 0.02 |
+
+\* hopper-hop: rerun with label `baseline_mps_capfix` (see the notes below the table).
 <!-- results-table:end -->
 
-Mean ± 1 sample standard deviation over seeds 1-5. cartpole-swingup-sparse: one seed had a single low final
-evaluation (376 vs about 840 before and after); its mean over the last 5 evaluations is 821.6 ± 39.4.
+Mean ± 1 sample standard deviation over seeds 1-5.
+- hopper-hop: rerun after MuJoCo Warp patch 0002 (float32-safe capsule collision, [docs/03 section 3.6](docs/03_validation.md)).
+  Before the fix it reached 126.5 ± 141.5 (dashed line in the figure). The rerun ran partly without MPS because of
+  MPS faults on that day, so its wall time is not comparable; the run time shown is the standard MPS batch's. The
+  patch does not change the compute cost.
+- cartpole-swingup-sparse: one seed had a single low final evaluation (376 vs about 840 before and after); its mean
+  over the last 5 evaluations is 821.6 ± 39.4.
 
 ![Learning curves of the 15 tasks: GPU port vs the paper, mean ± 1 standard deviation over 5 seeds](docs/figures/baseline_15tasks.png)
 
-- **14 of 15 tasks match the paper.** Over the whole learning curve the differences range from -8 % to +14 % with no
-  common direction, and none is significant after correcting for 15 tasks.
-- **hopper-hop is lower than the paper** (whole run -67 %, p = 0.074). Its hop reward and touch sensors match dm_control
-  on the states a trained agent visits; the comparison with the original code run on this machine is in docs/04
-  section 4.9.
+- **All 15 tasks are consistent with the paper.** Over the whole learning curve (Welch test on the per-seed mean
+  return) the differences range from -8 % to +14 % for 14 tasks, with no common direction. No difference is
+  significant after correcting for 15 tasks.
+- **hopper-hop revealed a physics bug, now fixed.** Before the fix the GPU port reached less than half the return of
+  the original code run on this machine. The cause was a float32 precision loss in MuJoCo Warp's capsule collision,
+  hit when hopper's thigh folds back onto its torso. With patch 0002, hopper-hop reaches 234.8 ± 169.8. That is
+  consistent with the original code on this machine (279.7 ± 175.1; whole run p = 0.52) and with the paper
+  (324.6 ± 170.7; p = 0.31), given this task's large seed-to-seed spread. Of the 15 tasks, only hopper reaches the
+  affected states ([docs/03 section 3.6](docs/03_validation.md)), so the other results are unaffected.
 - **Time:** 34.0 h for all 75 runs. About 0.8 h of that is lost time from 6 MPS faults during walker-run, which the
   launcher recovered automatically ([Known issue](#known-issue-mps-crash-trigger-found-mitigated)).
 - **Not run:** humanoid-* and dog-*. Their training would cost 1.4-3.9 days per 5-seed batch, which made no sense
@@ -369,9 +380,12 @@ Details: [docs/01](docs/01_design_and_faithfulness.md), [docs/03](docs/03_valida
 - **Root cause:** in the NVIDIA driver / MPS layer, not in this repository's code.
 - **Validated in real use:** under the rule, 14 of the 15 full 5-seed training batches ran about 147 process-hours without a
   crash.
-- **Rare residual fault:** walker-run had 6 faults (mostly Xid 13 `SKEDCHECK22_INVALIDATE_ACTIVE_QMD`) in a 1.8 h window
-  with only MPS clients on the GPU. Their cause is unknown and lies in the driver / MPS layer. The launcher resumed
-  all runs from their checkpoints each time, with complete logs and W&B curves; the cost was about 0.8 h.
+- **Residual fault without the trigger:** on 2026-10-11, MPS-only operation faulted repeatedly after 0 faults in about
+  190 process-hours before. walker-run had 6 faults and a hopper-hop rerun 3, mostly Xid 13
+  `SKEDCHECK22_INVALIDATE_ACTIVE_QMD`. The same hopper batch then ran 3.9 h without MPS with no fault. The cause is
+  unknown and lies in the driver / MPS layer. The launcher resumed all runs from their checkpoints each time, with
+  complete logs and W&B curves. If faults recur, shorten the checkpoint interval, raise `--max_restarts`, run
+  without MPS, or reboot ([docs/08](docs/08_known_issues.md)).
 - **Mitigation:**
   - keep every CUDA process on that GPU inside MPS while a batch runs ([user guide, section 4.4](docs/USER_GUIDE.md));
   - the launcher guards against foreign CUDA processes;

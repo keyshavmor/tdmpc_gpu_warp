@@ -65,8 +65,11 @@ repeats the CPU step with a 1e-6 velocity perturbation.
 |---|---|---|---|---|
 | 300 with the highest reward (mean 3.8 per agent step, 30 % with foot contact) | 6e-06 / 5e-05 / 1e-04 | 0 / 1e-05 / 4e-05 | 3e-06 | 2e-02 |
 | 300 random (38 % with foot contact) | 5e-06 / 2e-05 / 1.3 | 0 / 1e-05 / 0.82 | 2e-06 | 2e-05 |
+| 300 random, with MuJoCo Warp patch 0002 (section 3.6) | 5e-06 / 2e-05 / 5.5e-05 | 0 / 1e-05 / 1.6e-04 | 2e-06 | 2e-05 |
 
 - **The hop reward and the touch observation match dm_control** on every high-reward state, to float32 precision.
+  Without the patch the random transitions had outliers (velocity up to 1.3); with it they match too.
+  Files: `results/validation/hopper_buffer_check_unpatched.json`, `results/validation/hopper_buffer_check.json`.
 - **Rare outliers:** in a scan of 3,000 random transitions, 6 (0.2 %) differ by more than 1e-3.
   - 3 of them lie within the spread of the CPU's own response to tiny perturbations (chaos).
   - 3 do not. In all three the hopper lies on the floor with its thigh folded back parallel to the torso
@@ -179,3 +182,16 @@ are within 3e-3 rad of parallel):
 - cheetah-run: 0 of 100k trained-agent states.
 - hopper, cheetah, quadruped, finger and cartpole under a random policy: 0.
 - acrobot, cup, fish, reacher and walker have no capsule pairs that can collide.
+
+**Effect on learning (hopper-hop, 5 seeds, 500k env steps; docs/04 section 4.9):**
+
+| | final return | whole-run mean (per seed) |
+|---|---|---|
+| GPU port, upstream MuJoCo Warp | 126.5 +- 141.5 | 73.0 +- 84.6 |
+| GPU port, with patch 0002 | **234.8 +- 169.8** | 136.1 +- 117.8 |
+| original code (CPU MuJoCo) on this machine | 279.7 +- 175.1 | 184.8 +- 108.3 |
+| paper | 324.6 +- 170.7 | 221.5 +- 132.4 |
+
+With the patch hopper-hop is consistent with the original code on this machine (whole run p = 0.52) and with the
+paper (p = 0.31). The validation results of hopper, cheetah, quadruped, finger and cartpole (section 3.1) are
+bit-identical with and without the patch: random-policy states never reach nearly parallel capsule contacts.

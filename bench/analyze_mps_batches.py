@@ -74,6 +74,9 @@ for b in summary['batches']:
 		if len(d):
 			runs[os.path.basename(os.path.dirname(f))] = d.set_index('env_step')['episode_reward']
 	curves[t] = runs
+notes = [f"- {b['task']}: {b['note']}" for b in summary['batches'] if b.get('note')]
+if notes:
+	md += ['', '**Notes on individual batches:**', ''] + notes
 xid = [x for x in summary.get('xid', []) if 'Xid' in x]
 md += ['', f"Kernel GPU fault records (Xid) during the batches: {len(xid)}.", '', '## Learning vs the paper', '']
 for t, runs in curves.items():

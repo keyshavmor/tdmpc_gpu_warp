@@ -222,7 +222,7 @@ learning curve), GPU port vs the paper's 5 seeds of the original code.
 
 | task | GPU vs paper | p | task | GPU vs paper | p |
 |---|---|---|---|---|---|
-| acrobot-swingup | +13.6 % | 0.30 | hopper-hop | **-67.1 %** | 0.074 |
+| acrobot-swingup | +13.6 % | 0.30 | hopper-hop (patch 0002) | -38.6 % | 0.31 |
 | cartpole-swingup | +0.3 % | 0.32 | quadruped-run | +8.3 % | 0.22 |
 | cartpole-swingup-sparse | -4.2 % | 0.060 | quadruped-walk | +5.2 % | 0.39 |
 | cheetah-run | +6.0 % | 0.085 | reacher-easy | -1.2 % | 0.32 |
@@ -231,14 +231,26 @@ learning curve), GPU port vs the paper's 5 seeds of the original code.
 | finger-turn-hard | -8.2 % | 0.65 | walker-walk | +0.4 % | 0.65 |
 | fish-swim | -2.2 % | 0.34 | | | |
 
-- **14 of 15 tasks match the paper.** Differences of -8 % to +14 % have no common direction (8 tasks above, 7 below).
-  No p-value survives a correction for testing 15 tasks (Holm: smallest p = 0.015 vs threshold 0.0033).
+- **All 15 tasks are consistent with the paper.** For 14 tasks the differences of -8 % to +14 % have no common
+  direction (7 above, 7 below). No p-value survives a correction for testing 15 tasks (Holm: smallest p = 0.015 vs
+  threshold 0.0033).
   - walker-run is closest: -2.1 % over the whole run and -1.2 % from 100k steps (p = 0.093). Its final return,
     815 +- 12, matches the paper's 820 +- 8.
 - **cheetah-run** (+6.0 %) is not a port effect. The original CPU-MuJoCo code run on this machine (5 seeds) shows the same
   shift (+5.5 % vs the paper), and the GPU port vs the original code on this machine differs by +0.5 % (p = 0.83).
-- **hopper-hop** (-67 %, final return 127 +- 142 vs the paper's 325 +- 171) is the one large deviation. hopper-hop is
-  very seed-dependent in the paper too (sd 171 at 500k). Checks so far:
-  - the hop reward and the touch-sensor observation match dm_control on the states a trained agent visits
-    (docs/03_validation.md, `bench/hopper_buffer_check.py`);
-  - the original code run on this machine with 5 seeds is the decisive reference (section 4.10).
+- **hopper-hop needed a fix in MuJoCo Warp.** The first batch reached 126.5 +- 141.5 at 500k, against the paper's
+  324.6 +- 170.7. The original CPU-MuJoCo code run on this machine with 5 seeds reached 279.7 +- 175.1, consistent with
+  the paper (whole run p = 0.64), so the gap came from the port (whole run -61 % vs the original on this machine).
+  - The search: observation, reward and touch sensors matched dm_control on the trained agent's states, but a few
+    states had different dynamics. Those were capsule self-collisions of the folded leg, where MuJoCo Warp's float32
+    collision lost all precision (docs/03 sections 3.1.1 and 3.6).
+  - Fix: patch 0002 (mathematically identical formula, no float32 cancellation). It makes MuJoCo Warp match C MuJoCo
+    on those states, and changes nothing on the other tasks (bit-identical validation results).
+  - Rerun with the fix (`results/mps_batches/baseline_mps_capfix`): **234.8 +- 169.8** at 500k (mean of the last 5
+    evaluations 223.6 +- 164.0). Whole run: -26 % vs the original on this machine (p = 0.52) and -39 % vs the paper
+    (p = 0.31), against +86 % vs before the fix. With this task's seed-to-seed spread (one seed of the original code
+    also stayed near 0), 5 seeds cannot resolve a remaining difference of this size; the result is consistent with
+    both references.
+  - The rerun ran under MPS for its first 26 min (3 MPS faults, docs/08) and then without MPS (5 time-sliced runs,
+    3.9 h, no fault). Its wall time is therefore not comparable; the time tables use the first batch's, since the
+    patch does not change the compute cost.

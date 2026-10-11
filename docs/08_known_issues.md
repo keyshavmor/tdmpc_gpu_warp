@@ -35,12 +35,11 @@ training processes plus the stated extra processes. A round ends at the first fa
 
 **Long-run validation under the rule:** the 15 real 5-seed training batches (docs/04 section 4.9) ran 34.0 h with
 5 MPS clients at all times, about 170 process-hours.
-- 14 batches (about 147 process-hours) had 0 faults.
-- walker-run had 6 faults in a 1.8 h window, all under MPS-only operation, then none for 2.9 h. See "Residual faults in
-  MPS-only operation" below.
-- MPS-only operation in total (stress tests + batches): 6 faults in about 212 process-hours, rate 0.028 per
-  process-hour [95 % CI 0.010, 0.062]. All 6 fell into one 1.8 h window of one batch. Mixed operation: about 2 per
-  process-hour, roughly 70 times higher.
+- 14 batches (about 147 process-hours, including all batches of the previous evening and night) had 0 faults.
+- On 2026-10-11 MPS-only operation faulted repeatedly: walker-run 6 times in a 1.8 h window, and a later hopper-hop
+  rerun 3 times in 26 min. See "Residual faults in MPS-only operation" below.
+- MPS-only operation in total (stress tests + batches + the rerun): 9 faults in about 214 process-hours, rate 0.042
+  per process-hour [95 % CI 0.019, 0.080], all on 2026-10-11. Mixed operation: about 2 per process-hour.
 
 **How strong the evidence is:**
 - Each mixed setup has an exact MPS-only control: same processes, same restart pattern, but the extra processes go
@@ -71,25 +70,40 @@ training processes plus the stated extra processes. A round ends at the first fa
   not something verified here. It does not change the mitigation: every training process of this repository uses
   CUDA graphs.
 
-**Residual faults in MPS-only operation (walker-run, 2026-10-11).** Six faults ended all 5 walker-run runs, at 08:17,
-08:41, 09:04, 09:10, 09:51 and 10:02. The launcher's guard saw no non-MPS CUDA process, and none showed in
-`nvidia-smi` afterwards. The desktop programs on the GPU had all been running for days, and no package, driver or system
-change was found. The GPU was healthy: 71 C, no thermal slowdown, no PCIe replays.
-- **Signature:** five were Xid 13, `Graphics Exception: SKEDCHECK22_INVALIDATE_ACTIVE_QMD failed` (a scheduler sanity
+**Residual faults in MPS-only operation (2026-10-11).** Nine faults, each ending all 5 co-running runs:
+- walker-run at 08:17, 08:41, 09:04, 09:10, 09:51 and 10:02; then 2.9 h without a fault;
+- a hopper-hop rerun at 16:24, 16:33 and 16:40, 8-9 min apart.
+
+What was checked:
+- **No external trigger.** The launcher's guard saw no non-MPS CUDA process, and none showed in `nvidia-smi`.
+  Every process with the NVIDIA device files open was a long-running desktop program, the MPS daemon and its
+  clients, or W&B's NVML-based system monitor. No package, driver or system change happened. The GPU was healthy:
+  71 C, no thermal slowdown, no PCIe replays.
+- **Signature:** eight were Xid 13, `Graphics Exception: SKEDCHECK22_INVALIDATE_ACTIVE_QMD failed` (a scheduler sanity
   check on a kernel launch descriptor). One, at 09:51, was an Xid 31 MMU fault (`GPCCLIENT_T1_0`, address 0). The same
   Xid 13 signature appeared twice before, during the `mixed_nocond` experiment.
-- **Faulting client:** the MPS server named walker-run seed 5 for the first four faults, then seed 1 and seed 3. Seed 5
-  twice faulted right after resuming at env step 80k, but the later faults were in other seeds. So no single run or
-  state is the trigger. The replay buffers hold no NaN or extreme states; their velocities are no larger than walker-walk's.
+- **Faulting client:** the MPS server named a different seed at different times (seed 5 four times, then seeds 1 and
+  3). The replay buffers hold no NaN or extreme states. No single run or state is the trigger.
+- **It needs MPS.** The same hopper-hop runs, continued without MPS as 5 ordinary processes sharing the GPU by
+  time-slicing, ran 3.9 h (19.6 process-hours) with no fault and no Xid record.
+- **The rate changed abruptly.** reacher-hard finished without a fault at 08:15, and walker-run faulted 2.5 min after
+  starting at 08:15, with the same code. The most likely explanation is a change of state in the GPU / driver,
+  which a reboot (driver reload) would test. That was not done here because it would close the desktop session.
 - **Same faults outside this project:** NVIDIA's forums have reports with the same Xid 13 signature in unrelated
   settings (an inference server after 15 days of uptime; bursty small-kernel launches on an RTX 5090), without a
   diagnosis from NVIDIA.
-- **Conclusion:** a rare fault in the driver / MPS layer that occurs without the known trigger and clustered in time
-  here. Its cause is not known. MPS-only operation is much safer than mixed operation, but not fault-free.
-- **The safeguards handled it as designed.** The launcher restarted the MPS server where needed and resumed all runs
-  from their checkpoints, with exact optimiser, RNG and buffer state and an exact W&B history. Cost: about 0.8 h of a
-  4.67 h batch. Keep checkpoints on (`--checkpoint_minutes 15`, or shorter if faults recur) and leave
-  `--max_restarts` at its default (20 per run).
+
+**Conclusion:** a fault in the driver / MPS layer, rare over most of this project's MPS-only operation, but
+frequent within one day. Its cause is not known. The safeguards handled every fault: the launcher resumed all runs
+from their checkpoints, with exact optimiser, RNG and buffer state and an exact W&B history. walker-run lost about
+0.8 h of a 4.67 h batch.
+
+**If MPS faults recur:**
+1. Shorten the checkpoint interval (`--checkpoint_minutes 2`; a checkpoint takes well under a second for these tasks)
+   and raise `--max_restarts`, so that progress is kept between faults.
+2. If they come every few minutes, run without MPS: 5 seeds then share the GPU by time-slicing. That is about 2x
+   slower than under MPS, but no fault was observed.
+3. Reboot the machine to reset the GPU and driver state.
 
 **Ruled out along the way:**
 - warp modules being unloaded under a live graph (instrumented: 0 unloads in a full training cycle);
@@ -122,7 +136,7 @@ change was found. The GPU was healthy: 71 C, no thermal slowdown, no PCIe replay
 - whether desktop programs that open and close GPU compute contexts (`C+G` processes, e.g. editor or file-manager
   windows) can trigger the fault. Their long-lived presence during all experiments did not. Creating Vulkan
   instances did not either (a weak test). Opening and closing windows was not tested.
-- the cause of the rare MPS-only faults above (Xid 13 `SKEDCHECK22_INVALIDATE_ACTIVE_QMD`);
+- the cause of the MPS-only faults above (Xid 13 `SKEDCHECK22_INVALIDATE_ACTIVE_QMD`), and whether a reboot clears them;
 - a fix inside the driver, which is NVIDIA's to make.
 
 ## 8.2 Other limitations

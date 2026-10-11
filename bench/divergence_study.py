@@ -30,7 +30,9 @@ import numpy as np, torch, mujoco
 from dm_control import suite
 from env_warp import DMCWarpEnv
 CHK = [1, 5, 10, 20, 50]
-def flat(o): return np.concatenate([np.asarray(v, dtype=np.float64).ravel() for v in o.values()])
+def flat(o):
+	"""Flatten a dm_control observation dict into one float64 vector (TD-MPC's order)."""
+	return np.concatenate([np.asarray(v, dtype=np.float64).ravel() for v in o.values()])
 res = {}
 for task, ar in [(a, int(b)) for a, b in (x.split(':') for x in sys.argv[1:])]:
     # task name -> dm_control (domain, task); the 'cup' domain is called 'ball_in_cup' in dm_control

@@ -7,8 +7,9 @@ code run on this machine (results/learning_full/<task>/state/cpu_original/<seed>
     over the 5 seeds (shaded) for the GPU port, the paper and the original code on this machine;
   * the results table (final return at 500k and run time per run, mean +- 1 sample sd over seeds 1-5, paper at 500k)
     into README.md between the markers <!-- results-table:start --> and <!-- results-table:end -->.
-A task can be taken from another batch label with --use task=label (e.g. a rerun after a fix); the replaced run is
-then shown as a dashed line in the figure and named in a table footnote.
+A task can be taken from another batch label with --use task=label (e.g. a rerun after a fix): its returns and curves
+come from that label, the replaced run is shown as a dashed line in the figure, and the run time stays that of the
+standard batch (the rerun may have run in another configuration).
 
 Environment: tdmpc-warp (numpy, pandas, matplotlib).
 Usage: python bench/readme_results.py [--label baseline_mps] [--use hopper-hop=baseline_mps_capfix]
@@ -65,7 +66,8 @@ for t in TASKS:
 	panels.append((t, r, ref, cpu, old))
 	if len(r) == 5:
 		fin = np.array([v[0].loc[500000] for v in r.values()])
-		rt = np.array([v[1] for v in r.values()])
+		# run time from the standard batch (5 seeds in parallel under MPS); a rerun may have run in another configuration
+		rt = np.array([v[1] for v in (old or r).values()])
 		pf = ref[ref.step == 500000]['return'].values
 		rows.append(f"| {t}{' *' if t in use else ''} | **{fin.mean():.1f} ± {fin.std(ddof=1):.1f}** | {pf.mean():.1f} ± {pf.std(ddof=1):.1f} "
 					f"| {rt.mean():.2f} ± {rt.std(ddof=1):.2f} |")
@@ -103,7 +105,7 @@ handles = [plt.Line2D([], [], color=C_GPU, lw=2, label='GPU port (this repositor
 		   plt.Line2D([], [], color=C_PAPER, lw=1.8, label='paper: original TD-MPC, 5 seeds'),
 		   plt.Line2D([], [], color=C_CPU, lw=1.8, label='original code run on this machine, 5 seeds')]
 if use:
-	handles.append(plt.Line2D([], [], color=C_GPU, lw=1.2, ls='--', label='GPU port before the fix (mean)'))
+	handles.append(plt.Line2D([], [], color=C_GPU, lw=1.2, ls='--', label='hopper-hop: GPU port before MuJoCo Warp patch 0002 (mean)'))
 fig.legend(handles=handles, loc='upper center', ncol=len(handles), fontsize=9, frameon=False)
 fig.text(0.5, 0.005, 'Lines: mean over seeds; shaded: ±1 standard deviation across seeds.', ha='center', fontsize=9)
 fig.tight_layout(rect=(0, 0.02, 1, 0.96))

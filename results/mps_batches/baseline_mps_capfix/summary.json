@@ -1,0 +1,42 @@
+{
+ "batches": [
+  {
+   "task": "hopper-hop",
+   "wall_h": 3.9250833333863153,
+   "launches": 25,
+   "crashes": 15,
+   "restarts": 10,
+   "finished": 5,
+   "complete": true,
+   "crash_times": [
+    "2026-10-11 16:24:35",
+    "2026-10-11 16:24:35",
+    "2026-10-11 16:24:35",
+    "2026-10-11 16:24:35",
+    "2026-10-11 16:24:35",
+    "2026-10-11 16:33:47",
+    "2026-10-11 16:33:47",
+    "2026-10-11 16:33:47",
+    "2026-10-11 16:33:47",
+    "2026-10-11 16:33:47",
+    "2026-10-11 16:40:26",
+    "2026-10-11 16:40:31",
+    "2026-10-11 16:40:31",
+    "2026-10-11 16:40:31",
+    "2026-10-11 16:40:31"
+   ],
+   "note": "rerun with MuJoCo Warp patch 0002 (capsule collision). Under MPS 16:16-16:42 (3 MPS faults, all runs resumed); from 16:42:38 to 20:38:08 without MPS (5 time-sliced processes, no fault). wall_h = the run without MPS; not comparable with the 5-seed MPS batch times."
+  }
+ ],
+ "xid": [
+  "Oct 11 16:24:29 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 13, Graphics Exception: SKEDCHECK22_INVALIDATE_ACTIVE_QMD failed",
+  "Oct 11 16:24:29 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 13, Graphics Exception: ESR 0x407020=0x20000000 0x407028=0x73e 0x40702c=0x2034fb9 0x407030=0x0",
+  "Oct 11 16:24:29 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 13, pid=2166187, name=python, Graphics Exception: channel 0x00000031, Class 0000c7c0, Offset 00000000, Data 00000000",
+  "Oct 11 16:33:42 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 13, Graphics Exception: SKEDCHECK22_INVALIDATE_ACTIVE_QMD failed",
+  "Oct 11 16:33:42 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 13, Graphics Exception: ESR 0x407020=0x20000000 0x407028=0x7f3a 0x40702c=0x20355ae 0x407030=0x0",
+  "Oct 11 16:33:42 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 13, pid=2178067, name=python, Graphics Exception: channel 0x00000084, Class 0000c7c0, Offset 00000000, Data 00000000",
+  "Oct 11 16:40:24 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 13, Graphics Exception: SKEDCHECK22_INVALIDATE_ACTIVE_QMD failed",
+  "Oct 11 16:40:24 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 13, Graphics Exception: ESR 0x407020=0x20000000 0x407028=0x7f3d 0x40702c=0x2034041 0x407030=0x0",
+  "Oct 11 16:40:24 Mandalore kernel: NVRM: Xid (PCI:0000:07:00): 13, pid=2190548, name=python, Graphics Exception: channel 0x0000005f, Class 0000c7c0, Offset 00000000, Data 00000000"
+ ]
+}
