@@ -6,7 +6,7 @@ Setup: optimised GPU port (CUDA-graph agent + host pacing, `src/launch_parallel.
 
 **Final return** = evaluation return at the end of training (mean over 10 evaluation episodes at 500k env steps). **Run time** = wall-clock time of each run from start to the end of training (5 runs share the GPU). Mean and standard deviation (sample sd, n - 1) across the 5 seeds. The paper reference is the original TD-MPC (5 seeds) at 500k env steps. Learning curves and statistical comparison with the paper: [results_mps_batches.md](results_mps_batches.md).
 
-| task | seed 1 | seed 2 | seed 3 | seed 4 | seed 5 | mean | std. dev. | paper (mean +- sd) | run time mean (h) | run time std. dev. (h) | batch crashes |
+| task | seed 1 | seed 2 | seed 3 | seed 4 | seed 5 | mean | std. dev. | paper (mean +- sd) | run time mean (h) | run time std. dev. (h) | MPS faults (runs restarted) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | acrobot-swingup | 343.4 | 457.0 | 358.3 | 359.4 | 304.5 | **364.5** | 56.3 | 341.8 +- 120.9 | 1.72 | 0.01 | 0 |
 | cartpole-swingup | 879.3 | 881.6 | 873.8 | 879.9 | 880.6 | **879.0** | 3.0 | 879.0 +- 6.7 | 0.93 | 0.01 | 0 |

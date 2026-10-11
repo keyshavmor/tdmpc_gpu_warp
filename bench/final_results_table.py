@@ -16,7 +16,7 @@ Based on TD-MPC by Nicklas Hansen, Xiaolong Wang and Hao Su, "Temporal Differenc
 Predictive Control" (ICML 2022); original code: https://github.com/nicklashansen/tdmpc
 (MIT License, Copyright (c) 2021 Nicklas Hansen).
 """
-import argparse, csv, json, os
+import argparse, csv, datetime, json, os
 import numpy as np
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -44,6 +44,16 @@ def last_k_mean(path, k=5):
 	return float(np.mean([float(r['episode_reward']) for r in rows[-k:]])) if len(rows) >= k else None
 
 
+def fault_events(task):
+	"""(fault events, crashed runs) of a batch: crashes within 60 s of each other are one MPS fault (it ends all clients)."""
+	b = summary.get(task)
+	if b is None:
+		return None
+	ts = sorted(datetime.datetime.strptime(t, '%Y-%m-%d %H:%M:%S').timestamp() for t in b.get('crash_times', []))
+	events = sum(1 for i, t in enumerate(ts) if i == 0 or t - ts[i - 1] > 60)
+	return events, len(ts)
+
+
 def paper_final(task):
 	"""Paper reference (original TD-MPC, 5 seeds) at 500k env steps (or its last step): mean, sd (n - 1), step."""
 	f = os.path.join(ROOT, '..', 'tdmpc', 'results', f'{task}.csv')
@@ -65,10 +75,10 @@ md = ['# Baseline results: 15 tasks x 5 seeds (GPU port, 5 seeds in parallel und
 	  '**Run time** = wall-clock time of each run from start to the end of training (5 runs share the GPU). Mean and standard '
 	  'deviation (sample sd, n - 1) across the 5 seeds. The paper reference is the original TD-MPC (5 seeds) at 500k env steps. '
 	  'Learning curves and statistical comparison with the paper: [results_mps_batches.md](results_mps_batches.md).', '',
-	  '| task | seed 1 | seed 2 | seed 3 | seed 4 | seed 5 | mean | std. dev. | paper (mean +- sd) | run time mean (h) | run time std. dev. (h) | batch crashes |',
+	  '| task | seed 1 | seed 2 | seed 3 | seed 4 | seed 5 | mean | std. dev. | paper (mean +- sd) | run time mean (h) | run time std. dev. (h) | MPS faults (runs restarted) |',
 	  '|---|---|---|---|---|---|---|---|---|---|---|---|']
 done = 0
-robust, notes = [], []
+robust, notes, faults = [], [], []
 for t in TASKS15:
 	d = os.path.join(base, t, 'state', a.label)
 	finals, times = [], []
@@ -88,13 +98,20 @@ for t in TASKS15:
 			if lv and fv < 0.8 * lv:
 				notes.append(f"- {t}, seed {s}: final evaluation {fv:.1f} vs {lv:.1f} averaged over its last 5 evaluations - a one-off "
 							 "low final evaluation (mean of 10 episodes), not a failed run; see the learning curve in results_mps_batches.md.")
-		cr = summary.get(t, {}).get('crashes', '-')
+		fe = fault_events(t)
+		cr = '-' if fe is None else (f'{fe[0]} ({fe[1]})' if fe[0] else '0')
+		if fe and fe[0]:
+			faults.append(f"- {t}: {fe[0]} MPS fault event(s), {fe[1]} runs ended and were resumed automatically by the launcher (from their "
+						  "last checkpoint, or from the start if none existed yet). The run times above exclude the lost time; the batch "
+						  "wall time (results_mps_batches.md, results_runtime.md) includes it. Details: docs/08_known_issues.md.")
 		md.append(f"| {t} | " + ' | '.join(f'{v:.1f}' for v in finals) +
 				  f" | **{np.mean(finals):.1f}** | {np.std(finals, ddof=1):.1f} | {refs} | {np.mean(times):.2f} | {np.std(times, ddof=1):.2f} | {cr} |")
 	else:
 		state = 'running' if os.path.isdir(d) else 'pending'
 		md.append(f"| {t} | " + ' | '.join(state if v is None else f'{v:.1f}' for v in finals) + f" | - | - | {refs} | - | - | - |")
 md += ['', f'{done} of {len(TASKS15)} tasks complete.', '']
+if faults:
+	md += ['**MPS faults during the run:**', ''] + faults + ['']
 if notes:
 	md += ['**Notes on single low final evaluations:**', ''] + notes + ['']
 md += ['## Robust end-of-training value: mean of the last 5 evaluations (420k-500k env steps)', '',
