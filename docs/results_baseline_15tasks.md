@@ -21,10 +21,14 @@ Setup: optimised GPU port (CUDA-graph agent + host pacing, `src/launch_parallel.
 | quadruped-walk | 933.4 | 950.3 | 957.5 | 952.4 | 959.7 | **950.7** | 10.3 | 931.0 +- 26.6 | 1.95 | 0.01 | 0 |
 | reacher-easy | 984.6 | 983.5 | 981.4 | 983.5 | 985.0 | **983.6** | 1.4 | 976.4 +- 14.8 | 1.60 | 0.01 | 0 |
 | reacher-hard | 973.9 | 925.4 | 973.2 | 975.1 | 975.7 | **964.7** | 22.0 | 966.6 +- 11.7 | 1.61 | 0.01 | 0 |
-| walker-run | running | running | running | running | running | - | - | 819.8 +- 7.5 | - | - | - |
+| walker-run | 816.8 | 817.3 | 830.8 | 815.9 | 796.4 | **815.4** | 12.3 | 819.8 +- 7.5 | 3.84 | 0.02 | 6 (30) |
 | walker-walk | 973.1 | 973.6 | 986.3 | 976.1 | 980.0 | **977.8** | 5.5 | 976.8 +- 3.1 | 3.83 | 0.02 | 0 |
 
-14 of 15 tasks complete.
+15 of 15 tasks complete.
+
+**MPS faults during the run:**
+
+- walker-run: 6 MPS fault event(s), 30 runs ended and were resumed automatically by the launcher (from their last checkpoint, or from the start if none existed yet). The run times above exclude the lost time; the batch wall time (results_mps_batches.md, results_runtime.md) includes it. Details: docs/08_known_issues.md.
 
 **Notes on single low final evaluations:**
 
@@ -50,5 +54,6 @@ Same runs; per seed the mean evaluation return over its last 5 evaluations (each
 | quadruped-walk | 928.8 | 927.0 | 946.0 | 934.1 | 948.4 | **936.8** | 9.8 |
 | reacher-easy | 981.5 | 965.1 | 984.4 | 930.4 | 984.9 | **969.3** | 23.2 |
 | reacher-hard | 958.1 | 961.2 | 960.6 | 941.6 | 966.1 | **957.5** | 9.4 |
+| walker-run | 819.9 | 822.9 | 820.4 | 816.3 | 800.0 | **815.9** | 9.2 |
 | walker-walk | 972.2 | 978.7 | 978.8 | 979.5 | 979.3 | **977.7** | 3.1 |
 
