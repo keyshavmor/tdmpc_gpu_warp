@@ -49,8 +49,10 @@ def print_run(cfg, reward=None):
 	"""Pretty-printing of run information. Call at start of training."""
 	prefix, color, attrs = '  ', 'green', ['bold']
 	def limstr(s, maxlen=32):
+		"""str(s) truncated to maxlen characters (with an ellipsis)."""
 		return str(s[:maxlen]) + '...' if len(str(s)) > maxlen else s
 	def pprint(k, v):
+		"""Print one "key: value" line of the run summary."""
 		print(prefix + colored(f'{k.capitalize()+":":<16}', color, attrs=attrs), limstr(v))
 	kvs = [('task', cfg.task_title),
 		   ('train steps', f'{int(cfg.train_steps*cfg.action_repeat):,}'),
@@ -159,6 +161,7 @@ class Logger(object):
 
 	@property
 	def video(self):
+		"""The VideoRecorder (None unless W&B and save_video are enabled; video is off by default)."""
 		return self._video
 
 	def flush_wandb(self):

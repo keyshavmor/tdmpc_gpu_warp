@@ -90,6 +90,7 @@ class BatchedLayerNorm(nn.Module):
 		self.dim, self.eps = dim, eps
 
 	def forward(self, x):
+		"""x (S, B, dim) -> layer norm over dim with the per-seed affine parameters of seed s."""
 		return F.layer_norm(x, (self.dim,), eps=self.eps) * self.weight.unsqueeze(1) + self.bias.unsqueeze(1)
 
 
@@ -287,6 +288,7 @@ class VecEpisode:
 
 	@property
 	def first(self):
+		"""True if no transition has been added to the episode yet."""
 		return self._idx == 0
 
 	def __add__(self, transition):

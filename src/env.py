@@ -29,12 +29,15 @@ class ExtendedTimeStep(NamedTuple):
 	action: Any
 
 	def first(self):
+		"""True if this is the first time step of an episode."""
 		return self.step_type == StepType.FIRST
 
 	def mid(self):
+		"""True if this is an intermediate time step of an episode."""
 		return self.step_type == StepType.MID
 
 	def last(self):
+		"""True if this is the last time step of an episode."""
 		return self.step_type == StepType.LAST
 
 
@@ -62,12 +65,15 @@ class ActionRepeatWrapper(dm_env.Environment):
 		return time_step._replace(reward=reward, discount=discount)
 
 	def observation_spec(self):
+		"""Observation spec exposed by this wrapper."""
 		return self._env.observation_spec()
 
 	def action_spec(self):
+		"""Action spec exposed by this wrapper."""
 		return self._env.action_spec()
 
 	def reset(self):
+		"""Reset the wrapped env and return its first time step."""
 		return self._env.reset()
 
 	def __getattr__(self, name):
@@ -124,9 +130,11 @@ class FrameStackWrapper(dm_env.Environment):
 		return self._transform_observation(time_step)
 
 	def observation_spec(self):
+		"""Observation spec exposed by this wrapper."""
 		return self._obs_spec
 
 	def action_spec(self):
+		"""Action spec exposed by this wrapper."""
 		return self._env.action_spec()
 
 	def __getattr__(self, name):
@@ -150,12 +158,15 @@ class ActionDTypeWrapper(dm_env.Environment):
 		return self._env.step(action)
 
 	def observation_spec(self):
+		"""Observation spec exposed by this wrapper."""
 		return self._env.observation_spec()
 
 	def action_spec(self):
+		"""Action spec exposed by this wrapper."""
 		return self._action_spec
 
 	def reset(self):
+		"""Reset the wrapped env and return its first time step."""
 		return self._env.reset()
 
 	def __getattr__(self, name):
@@ -189,9 +200,11 @@ class ExtendedTimeStepWrapper(dm_env.Environment):
 								discount=time_step.discount or 1.0)
 
 	def observation_spec(self):
+		"""Observation spec exposed by this wrapper."""
 		return self._env.observation_spec()
 
 	def action_spec(self):
+		"""Action spec exposed by this wrapper."""
 		return self._env.action_spec()
 
 	def __getattr__(self, name):
@@ -242,14 +255,17 @@ class TimeStepToGymWrapper(object):
 	
 	@property
 	def unwrapped(self):
+		"""The wrapped dm_control environment."""
 		return self.env
 
 	@property
 	def reward_range(self):
+		"""Gym-compatibility attribute (not used; None)."""
 		return None
 
 	@property
 	def metadata(self):
+		"""Gym-compatibility attribute (not used; None)."""
 		return None
 	
 	def _obs_to_array(self, obs):

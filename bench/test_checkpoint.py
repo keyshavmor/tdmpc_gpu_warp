@@ -50,6 +50,7 @@ def rng_snapshot():
 
 
 def rng_restore(s):
+	"""Restore the RNG states captured by rng_snapshot()."""
 	random.setstate(s[0]); np.random.set_state(s[1]); torch.set_rng_state(s[2]); torch.cuda.set_rng_state(s[3])
 
 

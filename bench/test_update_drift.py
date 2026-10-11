@@ -42,6 +42,7 @@ for task, OBS, ACT, H in (('walker-walk', 24, 6, 5), ('walker-walk', 24, 6, 30))
 	src = [None]
 	# buf.sample() returns whatever src[0] points to (set per agent and update below)
 	def fixed():
+		"""Replacement for buf.sample(): return the batch src[0] currently points to."""
 		return src[0]
 	buf.sample = fixed
 	variants = {'eager_sequential': dict(cuda_graph_agent=False), 'graph_sequential': {}, 'graph_batched': dict(batched_update=True)}

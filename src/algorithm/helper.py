@@ -94,6 +94,7 @@ class NormalizeImg(nn.Module):
 		super().__init__()
 
 	def forward(self, x):
+		"""Scale uint8 pixel values to [0, 1)."""
 		return x.div(255.)
 
 
@@ -103,6 +104,7 @@ class Flatten(nn.Module):
 		super().__init__()
 		
 	def forward(self, x):
+		"""Flatten all dimensions except the batch dimension."""
 		return x.view(x.size(0), -1)
 
 
@@ -190,6 +192,7 @@ class Episode(object):
 
 	@property
 	def first(self):
+		"""True if no transition has been added to the episode yet."""
 		return len(self) == 0
 	
 	def __add__(self, transition):

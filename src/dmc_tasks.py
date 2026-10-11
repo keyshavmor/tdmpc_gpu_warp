@@ -332,9 +332,11 @@ class BallInCup(Task):
 		return cands
 
 	def init_episode(self, env):
+		"""GPU port of the task's dm_control initialize_episode for all S worlds (see Task.init_episode)."""
 		env.reject(self.resample(env, env.n_candidates))
 
 	def observation(self):
+		"""Flat observation (S, obs_dim) in dm_control's order (see Task.observation)."""
 		return torch.cat([self.v.qpos, self.v.qvel], -1)
 
 	def reward(self):
@@ -493,6 +495,7 @@ class Hopper(Task):
 		self.i_touch = self.sensor_idx(['touch_toe', 'touch_heel'])
 
 	def init_episode(self, env):
+		"""GPU port of the task's dm_control initialize_episode for all S worlds (see Task.init_episode)."""
 		self.v.qpos.copy_(env.randomize_joints(env.nworld, 1)[:, 0])
 
 	def observation(self):
@@ -533,6 +536,7 @@ class Humanoid(Task):
 		self.i_comvel = self.sensor_idx(['torso_subtreelinvel'])
 
 	def init_episode(self, env):
+		"""GPU port of the task's dm_control initialize_episode for all S worlds (see Task.init_episode)."""
 		env.reject(env.randomize_joints(env.nworld, env.n_candidates))
 
 	def observation(self):
@@ -716,6 +720,7 @@ class Walker(Task):
 		self.i_speed = self.sensor_slice('torso_subtreelinvel').start
 
 	def init_episode(self, env):
+		"""GPU port of the task's dm_control initialize_episode for all S worlds (see Task.init_episode)."""
 		self.v.qpos.copy_(env.randomize_joints(env.nworld, 1)[:, 0])
 
 	def observation(self):

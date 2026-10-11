@@ -70,6 +70,7 @@ class MPS:
 		time.sleep(3)
 
 	def restart(self):
+		"""Stop the MPS daemon and start a fresh one."""
 		self.stop(); self.start()
 
 
@@ -204,6 +205,7 @@ def main():
 
 	stop = {'flag': False}
 	def on_signal(signum, frame):
+		"""SIGINT / SIGTERM handler: request a graceful stop of all runs."""
 		stop['flag'] = True
 	signal.signal(signal.SIGINT, on_signal); signal.signal(signal.SIGTERM, on_signal)
 
