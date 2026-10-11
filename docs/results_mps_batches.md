@@ -21,6 +21,7 @@ Label `baseline_mps`: 5 single-seed runs per task in parallel under CUDA MPS (`s
 | hopper-hop | 1.86 | 1.8 | 5 | 0 | 0 |
 | quadruped-run | 1.98 | 2.0 | 5 | 0 | 0 |
 | quadruped-walk | 2.00 | 2.0 | 5 | 0 | 0 |
+| reacher-hard | 1.65 | 1.4 | 5 | 0 | 0 |
 
 Kernel GPU fault records (Xid) during the batches: 0.
 
@@ -222,4 +223,19 @@ Primary test, per-seed mean return over the from 100k steps: GPU 772.5 +- 58.7 v
 Per-step (descriptive): 26 evaluation steps, min p = 0.034, steps with p < 0.05: 1 (expected by chance: 1.3).
 Primary test, per-seed mean return over the whole run: GPU 749.6 +- 43.1 vs paper 712.8 +- 77.2 (+5.16 %), Welch t-test p = 0.387.
 Primary test, per-seed mean return over the from 100k steps: GPU 884.7 +- 32.6 vs paper 841.8 +- 80.3 (+5.10 %), Welch t-test p = 0.316.
+
+### reacher-hard
+
+| env step | reference (paper) | GPU port, 5 seeds under MPS | p |
+|---|---|---|---|
+| 0k | 8 +- 4 | 7 +- 4 (5) | 0.54 |
+| 100k | 882 +- 59 | 718 +- 134 (5) | 0.03 |
+| 200k | 944 +- 43 | 830 +- 135 (5) | 0.11 |
+| 300k | 970 +- 4 | 968 +- 9 (5) | 0.57 |
+| 400k | 955 +- 31 | 972 +- 2 (5) | 0.27 |
+| 500k | 967 +- 10 | 965 +- 20 (5) | 0.86 |
+
+Per-step (descriptive): 26 evaluation steps, min p = 0.003, steps with p < 0.05: 3 (expected by chance: 1.3).
+Primary test, per-seed mean return over the whole run: GPU 792.9 +- 41.0 vs paper 841.4 +- 15.2 (-5.76 %), Welch t-test p = 0.055.
+Primary test, per-seed mean return over the from 100k steps: GPU 910.5 +- 39.0 vs paper 937.5 +- 17.8 (-2.88 %), Welch t-test p = 0.212.
 
