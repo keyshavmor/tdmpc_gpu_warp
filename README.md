@@ -51,8 +51,10 @@ core, so many runs can share one GPU without CPU contention.
 ## Installation
 
 Directory layout. MuJoCo Warp is used from a checkout next to this repository, at a tested upstream commit plus
-a small patch, `patches/mujoco_warp/`. The patch adds the GPU noslip solver that the dog tasks need; upstream
-MuJoCo Warp does not implement noslip.
+two small patches, `patches/mujoco_warp/`:
+- 0001 adds the GPU noslip solver that the dog tasks need; upstream MuJoCo Warp does not implement noslip.
+- 0002 makes the capsule-capsule and capsule-box collision float32-safe for nearly parallel capsules. Without it,
+  hopper's folded leg gets wrong contacts ([docs/03 section 3.6](docs/03_validation.md)).
 
 ```
 <workspace>/
@@ -201,6 +203,9 @@ All numbers were measured on this machine. Raw data is in `results/`, and the an
   float32-rounded CPU run does (chaos); random-policy returns still agree.
 - dog needs MuJoCo's noslip solver, which MuJoCo Warp lacked. It was implemented on the GPU
   ([`patches/mujoco_warp/`](patches/mujoco_warp/)) and reproduces C MuJoCo's correction.
+- MuJoCo Warp's capsule collision lost precision in float32 for nearly parallel capsules. It created or dropped
+  contacts in 27 % of such configurations, and hopper's folded leg reaches them. Patch 0002 fixes this exactly
+  ([docs/03 section 3.6](docs/03_validation.md)).
 
 **2. Speed vs. the CPU-MuJoCo original, single run, H = 2..30** ([docs/02](docs/02_single_run_performance.md))
 - **Optimised port:** 2.4-4.8x at H = 5 and 3.1-3.8x at H = 30 (dog 2.0x / 1.7x).
@@ -327,7 +332,7 @@ Details: [docs/01](docs/01_design_and_faithfulness.md), [docs/03](docs/03_valida
 | `results/` | raw measurement data; `results/mps_batches/baseline_mps/` holds the logs of the 15-task x 5-seed baseline |
 | `environment.yaml`, `pyproject.toml` + `uv.lock`, `setup_uv.sh` | conda / uv environment definitions |
 | `check_system.py` | checks driver, GPU, MPS and Python packages |
-| `patches/mujoco_warp/`, `scripts/setup_mujoco_warp.sh` | GPU noslip solver for MuJoCo Warp (new `noslip.py` + small hooks in `io.py`, `solver.py`, `types.py`) and the script that applies it to the tested upstream commit |
+| `patches/mujoco_warp/`, `scripts/setup_mujoco_warp.sh` | MuJoCo Warp patches: 0001 GPU noslip solver (new `noslip.py` + small hooks in `io.py`, `solver.py`, `types.py`), 0002 float32-safe capsule collision (`collision_primitive_core.py`); and the script that applies it to the tested upstream commit |
 
 ## Documentation
 
@@ -374,7 +379,8 @@ This port builds on:
   - Licence: the original copyright notice is kept in [LICENSE_TDMPC](LICENSE_TDMPC). This repository is MIT-licensed
     as well ([LICENSE](LICENSE), Copyright (c) 2026 Keyshav Mor).
 - **MuJoCo Warp**, https://github.com/google-deepmind/mujoco_warp (Apache License 2.0).
-  - The GPU noslip solver patch in `patches/mujoco_warp/` is distributed under the same license.
+  - The patches in `patches/mujoco_warp/` (GPU noslip solver, capsule collision precision) are distributed under the
+    same license.
 - **MuJoCo** and the **DeepMind Control Suite**, https://github.com/google-deepmind/mujoco and
   https://github.com/google-deepmind/dm_control (Apache License 2.0).
   - The task observation, reward and initialisation code in `src/dmc_tasks.py` is ported from dm_control.

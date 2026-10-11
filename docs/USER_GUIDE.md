@@ -94,9 +94,14 @@ limits torch/OpenMP to one thread by itself.
 
 **Setting up MuJoCo Warp:** `./scripts/setup_mujoco_warp.sh [target_dir]` clones
 https://github.com/google-deepmind/mujoco_warp into `../mujoco_warp` (default). It then checks out the tested commit
-(`2c09ab9`), applies `patches/mujoco_warp/0001-gpu-noslip-solver.patch` and, inside an active Python environment, installs
-it with `pip install --no-deps -e`. The patch adds `mujoco_warp/_src/noslip.py` plus small hooks in `solver.py`,
-`types.py` and `io.py` (Apache 2.0, like MuJoCo Warp).
+(`2c09ab9`), applies the two patches in `patches/mujoco_warp/` and, inside an active Python environment, installs it
+with `pip install --no-deps -e` (Apache 2.0, like MuJoCo Warp):
+- `0001-gpu-noslip-solver.patch` adds `mujoco_warp/_src/noslip.py` plus small hooks in `solver.py`, `types.py` and `io.py`;
+- `0002-capsule-collision-float32-precision.patch` makes the capsule-capsule / capsule-box collision float32-safe for
+  nearly parallel capsules (docs/03 section 3.6).
+
+**Existing checkout made with an earlier version of this repository:** run the script again. It detects the
+noslip patch and adds patch 0002.
 
 ### 1.3 Python environment - option A: conda
 

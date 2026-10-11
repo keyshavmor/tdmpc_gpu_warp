@@ -69,11 +69,11 @@ repeats the CPU step with a 1e-6 velocity perturbation.
 - **The hop reward and the touch observation match dm_control** on every high-reward state, to float32 precision.
 - **Rare outliers:** in a scan of 3,000 random transitions, 6 (0.2 %) differ by more than 1e-3.
   - 3 of them lie within the spread of the CPU's own response to tiny perturbations (chaos).
-  - 3 do not. They are states in which the hopper lies on the floor with the knee at its joint limit, moving slowly,
-    with reward 0. There the floor and joint-limit contacts make the contact solve ill-conditioned, and the float32
-    and float64 Newton solvers settle on slightly different, equally valid solutions.
-- **Conclusion:** the hopper port reproduces dm_control on the states that carry the task's reward. The rare outliers
-  cannot explain a large difference in return.
+  - 3 do not. In all three the hopper lies on the floor with its thigh folded back parallel to the torso
+    (waist + hip = -pi). Both simulators find the same contacts with the same depths, but MuJoCo Warp put the
+    torso-thigh contact point up to 14 cm away from C MuJoCo's, and the body's angular acceleration even changed
+    sign. This was a float32 precision bug in MuJoCo Warp's capsule collision (section 3.6). With patch 0002 these
+    three outliers disappear; 2 of 3,000 remain, both within or close to the CPU's own chaos spread.
 
 ## 3.2 Where do the remaining trajectory differences come from? - `bench/divergence_study.py`
 
@@ -142,3 +142,40 @@ identical** per world over 60 agent steps; fish differs by <= 2e-8 (float roundi
 | capturable masked Adam (used for fp16) vs torch.optim.Adam (fp32) | max param diff 2e-6 after 12 updates |
 | activation checkpointing (`ckpt_unroll`) vs none | **bitwise identical** parameters after 12 updates |
 | PER sampling of the CUDA-graph / vectorised replay buffers vs the original `ReplayBuffer` (`bench/test_per_sampling.py`; same episodes and priorities, 3000 batches; buffer not full with 2 and 20 episodes, and full) | distinct indices per batch 388.2 / 388.2 vs 388.0 (2 episodes), 497.3 / 497.1 vs 497.4 (20), 512 vs 512 (full); index-frequency TV distance to the exact PER probabilities equal to the original's sampling noise; importance weights equal to 2e-7; after the replacement-flag fix of section 6.4 (before it: 512 vs 388 distinct indices - sampling without replacement) |
+
+## 3.6 Capsule collision precision (MuJoCo Warp patch 0002) - `bench/test_capsule_collision.py`
+
+**The bug.** MuJoCo Warp ports C MuJoCo's closest-point solve between two segments, used for capsule-capsule contacts
+and for a capsule against the edges of a box. It computes det = ma * mc - mb * mb and the two numerators as
+differences of products. C MuJoCo does this in float64; MuJoCo Warp does it in float32. For nearly parallel axes the
+two products are almost equal, and the relative error of det grows like 6e-8 / angle^2: more than 100 % at 1e-4 rad.
+The clamped closest points then come out wrong. Contacts are created or dropped (the solver switches between the
+one-contact and the two-contact parallel branch), and contact points jump along the capsule.
+
+**The fix** (`patches/mujoco_warp/0002-capsule-collision-float32-precision.patch`): det = |axis1 x axis2|^2
+(Lagrange identity) and the numerators written as dot products of cross products. It is mathematically identical to
+C MuJoCo's formula, without the cancellation, and costs a few extra multiplications.
+
+**Test.** Two free bodies in 2,000 worlds, half of them nearly parallel (angle 10^U(-7, -1) rad), on identical poses
+in MuJoCo Warp and C MuJoCo. For nearly parallel axes the position of the closest point along the overlap is
+ill-conditioned in any precision. So a contact counts as matching if it agrees to 1e-4 or lies within C MuJoCo's own
+spread under float32-sized input noise.
+
+| | wrong contact count | contact outside C MuJoCo's own spread |
+|---|---|---|
+| capsule-capsule, upstream MuJoCo Warp | **269 of 2,000** (27 % of the nearly parallel worlds) | 0 |
+| capsule-capsule, patched | **0** | 0 |
+| capsule-box, upstream | **23** | 9 (up to 2.4 cm) |
+| capsule-box, patched | 2 * | 0 |
+
+\* C MuJoCo returns two contacts of equal depth (to 1e-8), a capsule lying flat on a box face, and MuJoCo Warp one.
+That tie is decided in a separate branch of the box code. None of the 15 baseline tasks has capsule-box contacts
+except cartpole, whose cart and pole never reach this configuration.
+
+**Which tasks it affects** (`bench/capsule_parallel_frequency.py`: states with a capsule-capsule contact whose axes
+are within 3e-3 rad of parallel):
+- hopper-hop: 0.5 % of a trained agent's states (0.3-0.7 % per seed). A fallen hopper folds its thigh back against
+  the torso and rests there.
+- cheetah-run: 0 of 100k trained-agent states.
+- hopper, cheetah, quadruped, finger and cartpole under a random policy: 0.
+- acrobot, cup, fish, reacher and walker have no capsule pairs that can collide.

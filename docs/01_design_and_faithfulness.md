@@ -89,3 +89,8 @@ The DMC task definitions (`suite/*.py`, `*.xml`) are identical between the two d
    harmless in every single-process test (all results bit-identical before/after the fix) but surfaced as rare
    *illegal memory access* faults when ~10 processes shared the GPU under MPS. Fix in `env_warp.py`: keep the
    returned object alive and set its `graph` handle to `None`.
+8. **float32 cancellation in MuJoCo Warp's capsule collision (found late, fixed by patch 0002):** the segment-segment
+   solve computes det = ma * mc - mb * mb, which loses all precision in float32 when two capsules are nearly parallel.
+   Random-policy validation never reached such states. hopper's trained agents do: the thigh folds back parallel to
+   the torso. It took a check on the states of a trained agent to find it (docs/03 sections 3.1.1 and 3.6). Lesson:
+   validate on states the learned policy actually visits, not only on random-policy states.
