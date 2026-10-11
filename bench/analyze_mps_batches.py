@@ -9,7 +9,7 @@ whole run (area under the learning curve) and over the plateau (from 100k steps)
 and docs/figures/mps_batches_learning.png.
 
 Environment: tdmpc-warp (pandas, matplotlib). The reference curves are read from ../tdmpc/results (original repository).
-Usage: python bench/analyze_mps_batches.py [--label baseline_mps]
+Usage: python bench/analyze_mps_batches.py [--label baseline_mps] [--out report.md] [--fig figure.png]
 
 Part of tdmpc_gpu_warp - TD-MPC on GPU MuJoCo (MuJoCo Warp).
 Author of the GPU port: Keyshav Mor.
@@ -30,6 +30,8 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 REF = os.path.join(ROOT, '..', 'tdmpc', 'results')
 p = argparse.ArgumentParser()
 p.add_argument('--label', default='baseline_mps')
+p.add_argument('--out', default=os.path.join(ROOT, 'docs', 'results_mps_batches.md'), help='markdown report')
+p.add_argument('--fig', default=os.path.join(ROOT, 'docs', 'figures', 'mps_batches_learning.png'), help='figure')
 a = p.parse_args()
 base = os.path.join(ROOT, 'results', 'mps_batches', a.label)
 summary = json.load(open(os.path.join(base, 'summary.json')))
@@ -108,7 +110,7 @@ for t, runs in curves.items():
 					  f"GPU vs original-on-this-machine {100 * (np.mean(gpu) / np.mean(cpu) - 1):+.2f} % (p = {t1.pvalue:.3f}), "
 					  f"original-on-this-machine vs paper {100 * (np.mean(cpu) / np.mean(pap) - 1):+.2f} % (p = {t2.pvalue:.3f}).")
 	md.append('')
-open(os.path.join(ROOT, 'docs', 'results_mps_batches.md'), 'w').write('\n'.join(md) + '\n')
+open(a.out, 'w').write('\n'.join(md) + '\n')
 # figure: one panel per task
 n = len(curves)
 if n:
@@ -129,5 +131,5 @@ if n:
 	for row in axes:
 		row[0].set_ylabel('evaluation return', fontsize=8)
 	axes[0][0].legend(fontsize=7)
-	fig.tight_layout(); fig.savefig(os.path.join(ROOT, 'docs', 'figures', 'mps_batches_learning.png')); plt.close(fig)
+	fig.tight_layout(); fig.savefig(a.fig); plt.close(fig)
 print('\n'.join(md))

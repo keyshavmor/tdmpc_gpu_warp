@@ -193,7 +193,9 @@ Primary test, per-seed mean return over the from 100k steps: GPU 680.8 +- 12.2 v
 
 Per-step (descriptive): 26 evaluation steps, min p = 0.003, steps with p < 0.05: 16 (expected by chance: 1.3).
 Primary test, per-seed mean return over the whole run: GPU 73.0 +- 84.6 vs paper 221.5 +- 132.4 (-67.05 %), Welch t-test p = 0.074.
+  Original code on this machine (5 seeds, whole run): 184.8 +- 108.3; GPU vs original-on-this-machine -60.51 % (p = 0.108), original-on-this-machine vs paper -16.58 % (p = 0.644).
 Primary test, per-seed mean return over the from 100k steps: GPU 88.2 +- 101.1 vs paper 267.7 +- 159.8 (-67.06 %), Welch t-test p = 0.073.
+  Original code on this machine (5 seeds, from 100k steps): 221.9 +- 131.6; GPU vs original-on-this-machine -60.27 % (p = 0.112), original-on-this-machine vs paper -17.11 % (p = 0.635).
 
 ### quadruped-run
 

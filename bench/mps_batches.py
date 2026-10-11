@@ -28,6 +28,7 @@ p.add_argument('--tasks', nargs='+', required=True)
 p.add_argument('--label', default='baseline_mps')
 p.add_argument('--seeds', type=int, nargs='+', default=[1, 2, 3, 4, 5])
 p.add_argument('--checkpoint_minutes', type=float, default=10.0)
+p.add_argument('--max_restarts', type=int, default=20, help='per run, passed to the launcher')
 a, extra = p.parse_known_args()
 extra = [x for x in extra if x != '--']
 out = os.path.join(ROOT, 'results', 'mps_batches', a.label); os.makedirs(out, exist_ok=True)
@@ -39,7 +40,7 @@ for task in a.tasks:
 		continue  # resumable driver: skip finished batches
 	ev = os.path.join(out, f'events_{task}.csv')
 	cmd = [sys.executable, os.path.join(ROOT, 'src', 'launch_parallel.py'), '--task', task, '--seeds', *map(str, a.seeds),
-		   '--mps', '--checkpoint_minutes', str(a.checkpoint_minutes), '--log_root', out, '--exp_name', a.label,
+		   '--mps', '--checkpoint_minutes', str(a.checkpoint_minutes), '--max_restarts', str(a.max_restarts), '--log_root', out, '--exp_name', a.label,
 		   '--events', ev, '--'] + extra
 	t0 = time.time()
 	with open(os.path.join(out, f'launcher_{task}.log'), 'a') as lf:
