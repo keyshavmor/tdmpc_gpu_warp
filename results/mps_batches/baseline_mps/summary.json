@@ -99,6 +99,16 @@
    "finished": 5,
    "complete": true,
    "crash_times": []
+  },
+  {
+   "task": "hopper-hop",
+   "wall_h": 1.857795045375824,
+   "launches": 5,
+   "crashes": 0,
+   "restarts": 0,
+   "finished": 5,
+   "complete": true,
+   "crash_times": []
   }
  ],
  "xid": []

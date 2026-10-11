@@ -16,19 +16,20 @@ Setup: optimised GPU port (CUDA-graph agent + host pacing, `src/launch_parallel.
 | finger-spin | 985.0 | 983.6 | 976.8 | 925.9 | 985.5 | **971.4** | 25.7 | 980.6 +- 7.4 | 3.26 | 0.01 | 0 |
 | finger-turn-hard | 396.2 | 668.8 | 867.9 | 579.2 | 598.7 | **622.2** | 170.3 | 573.6 +- 198.8 | 3.26 | 0.01 | 0 |
 | fish-swim | 788.8 | 740.3 | 772.7 | 742.2 | 660.7 | **740.9** | 49.3 | 745.4 +- 17.5 | 2.10 | 0.01 | 0 |
-| hopper-hop | running | running | running | running | running | - | - | 324.6 +- 170.7 | - | - | - |
-| quadruped-run | pending | pending | pending | pending | pending | - | - | 796.6 +- 74.2 | - | - | - |
+| hopper-hop | 71.7 | 50.3 | 4.9 | 363.6 | 142.0 | **126.5** | 141.5 | 324.6 +- 170.7 | 1.81 | 0.01 | 0 |
+| quadruped-run | running | running | running | running | running | - | - | 796.6 +- 74.2 | - | - | - |
 | quadruped-walk | pending | pending | pending | pending | pending | - | - | 931.0 +- 26.6 | - | - | - |
 | reacher-easy | 984.6 | 983.5 | 981.4 | 983.5 | 985.0 | **983.6** | 1.4 | 976.4 +- 14.8 | 1.60 | 0.01 | 0 |
 | reacher-hard | pending | pending | pending | pending | pending | - | - | 966.6 +- 11.7 | - | - | - |
 | walker-run | pending | pending | pending | pending | pending | - | - | 819.8 +- 7.5 | - | - | - |
 | walker-walk | 973.1 | 973.6 | 986.3 | 976.1 | 980.0 | **977.8** | 5.5 | 976.8 +- 3.1 | 3.83 | 0.02 | 0 |
 
-10 of 15 tasks complete.
+11 of 15 tasks complete.
 
 **Notes on single low final evaluations:**
 
 - cartpole-swingup-sparse, seed 3: final evaluation 376.2 vs 752.1 averaged over its last 5 evaluations - a one-off low final evaluation (mean of 10 episodes), not a failed run; see the learning curve in results_mps_batches.md.
+- hopper-hop, seed 2: final evaluation 50.3 vs 71.1 averaged over its last 5 evaluations - a one-off low final evaluation (mean of 10 episodes), not a failed run; see the learning curve in results_mps_batches.md.
 
 ## Robust end-of-training value: mean of the last 5 evaluations (420k-500k env steps)
 
@@ -44,6 +45,7 @@ Same runs; per seed the mean evaluation return over its last 5 evaluations (each
 | finger-spin | 967.9 | 981.0 | 978.8 | 941.3 | 979.7 | **969.7** | 16.7 |
 | finger-turn-hard | 448.4 | 529.7 | 697.0 | 463.4 | 567.2 | **541.1** | 99.7 |
 | fish-swim | 761.5 | 737.2 | 771.8 | 707.0 | 701.1 | **735.7** | 31.6 |
+| hopper-hop | 65.7 | 71.1 | 3.6 | 336.8 | 90.9 | **113.6** | 129.0 |
 | reacher-easy | 981.5 | 965.1 | 984.4 | 930.4 | 984.9 | **969.3** | 23.2 |
 | walker-walk | 972.2 | 978.7 | 978.8 | 979.5 | 979.3 | **977.7** | 3.1 |
 
