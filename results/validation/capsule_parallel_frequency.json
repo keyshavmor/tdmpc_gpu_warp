@@ -1,0 +1,32 @@
+{
+ "threshold_rad": 0.003,
+ "buffers": {
+  "hopper-hop": {
+   "per_seed": [
+    0.00665,
+    0.0072,
+    0.0045,
+    0.00445,
+    0.0032
+   ],
+   "mean": 0.0052
+  },
+  "cheetah-run": {
+   "per_seed": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "mean": 0.0
+  }
+ },
+ "random_policy": {
+  "hopper-hop": 0.0,
+  "cheetah-run": 0.0,
+  "quadruped-walk": 0.0,
+  "finger-turn_hard": 0.0,
+  "cartpole-swingup": 0.0
+ }
+}

@@ -1,0 +1,47 @@
+{
+ "capsule": {
+  "worlds": 2000,
+  "count_mismatch": 0,
+  "exact": 1392,
+  "within_cpu_spread": 294,
+  "beyond_cpu_spread": 0,
+  "worst_beyond": 0.0,
+  "equal_depth_two_contact_ties": 0,
+  "pass": true
+ },
+ "box": {
+  "worlds": 2000,
+  "count_mismatch": 2,
+  "exact": 1674,
+  "within_cpu_spread": 15,
+  "beyond_cpu_spread": 0,
+  "worst_beyond": 0.0,
+  "mismatch_examples": [
+   {
+    "world": 1402,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.017662576754666856,
+     -0.01766257464552083
+    ],
+    "gpu_depths": [
+     -0.017662588506937027
+    ]
+   },
+   {
+    "world": 1946,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.020367566447674325,
+     -0.020367565663389785
+    ],
+    "gpu_depths": [
+     -0.020367521792650223
+    ]
+   }
+  ],
+  "equal_depth_two_contact_ties": 2,
+  "pass": true
+ },
+ "pass": true
+}

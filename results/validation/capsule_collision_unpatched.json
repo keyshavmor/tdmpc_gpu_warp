@@ -1,0 +1,3042 @@
+{
+ "capsule": {
+  "worlds": 2000,
+  "count_mismatch": 269,
+  "exact": 1056,
+  "within_cpu_spread": 361,
+  "beyond_cpu_spread": 0,
+  "worst_beyond": 0.0,
+  "mismatch_examples": [
+   {
+    "world": 14,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0016476358669744798
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 20,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04773878702384595,
+     -0.003529233214055759
+    ],
+    "gpu_depths": [
+     -0.03250093385577202
+    ]
+   },
+   {
+    "world": 38,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04102309771653876,
+     -0.03402513231674595
+    ],
+    "gpu_depths": [
+     -0.04050837829709053
+    ]
+   },
+   {
+    "world": 50,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03260383065103787,
+     -0.03260382683511254
+    ],
+    "gpu_depths": [
+     -0.032603826373815536
+    ]
+   },
+   {
+    "world": 52,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0050708853225720565,
+     -0.003519191285689331
+    ],
+    "gpu_depths": [
+     -0.004734449088573456
+    ]
+   },
+   {
+    "world": 58,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04950729291345316,
+     -0.0006679434219192051
+    ],
+    "gpu_depths": [
+     -0.049507297575473785
+    ]
+   },
+   {
+    "world": 60,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04677302536319328
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 64,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.016647984197546782
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 74,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06892107715689334,
+     -0.024452208419591746
+    ],
+    "gpu_depths": [
+     -0.06853532791137695
+    ]
+   },
+   {
+    "world": 82,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.013720571077341391,
+     -0.01372056981852942
+    ],
+    "gpu_depths": [
+     -0.013720571994781494
+    ]
+   },
+   {
+    "world": 90,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.005829975466030611,
+     -0.005829967977626395
+    ],
+    "gpu_depths": [
+     -0.005829989910125732
+    ]
+   },
+   {
+    "world": 110,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06703031863311623,
+     -0.01557629412051243
+    ],
+    "gpu_depths": [
+     -0.06595101952552795
+    ]
+   },
+   {
+    "world": 126,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.009602643419997524,
+     -0.009602642320145065
+    ],
+    "gpu_depths": [
+     -0.009602651000022888
+    ]
+   },
+   {
+    "world": 130,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06893668058327111,
+     -0.06893667822717665
+    ],
+    "gpu_depths": [
+     -0.06758761405944824
+    ]
+   },
+   {
+    "world": 134,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0683787126552618,
+     -0.020011347333084233
+    ],
+    "gpu_depths": [
+     -0.06829684227705002
+    ]
+   },
+   {
+    "world": 146,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.057864497562285996,
+     -0.00851708986856254
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 148,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.007214225133739351,
+     -0.007214224694074033
+    ],
+    "gpu_depths": [
+     -0.0072142258286476135
+    ]
+   },
+   {
+    "world": 150,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03726173001138948,
+     -0.024393512202348526
+    ],
+    "gpu_depths": [
+     -0.037261735647916794
+    ]
+   },
+   {
+    "world": 158,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04299528692594809,
+     -0.030644061185275094
+    ],
+    "gpu_depths": [
+     -0.008134022355079651
+    ]
+   },
+   {
+    "world": 164,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05589146489208693,
+     -0.055891456371509066
+    ],
+    "gpu_depths": [
+     -0.05127902328968048
+    ]
+   },
+   {
+    "world": 170,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05218634886483946,
+     -0.05218634703527928
+    ],
+    "gpu_depths": [
+     -0.00985778123140335
+    ]
+   },
+   {
+    "world": 174,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.02153106781332321,
+     -0.021110047426624763
+    ],
+    "gpu_depths": [
+     -0.008693791925907135
+    ]
+   },
+   {
+    "world": 176,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.006521383335412155,
+     -0.0065213830755887145
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 190,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.034910683396199176
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 192,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06324306560916133,
+     -0.06324306256636458
+    ],
+    "gpu_depths": [
+     -0.04189961776137352
+    ]
+   },
+   {
+    "world": 222,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05337044214936044,
+     -0.05337044054268076
+    ],
+    "gpu_depths": [
+     -0.05337044596672058
+    ]
+   },
+   {
+    "world": 224,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.012781570161553422,
+     -0.012781567720257937
+    ],
+    "gpu_depths": [
+     -0.012781575322151184
+    ]
+   },
+   {
+    "world": 226,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05389723292671622,
+     -0.05389722640919437
+    ],
+    "gpu_depths": [
+     -0.0538940504193306
+    ]
+   },
+   {
+    "world": 228,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0027896052208597685
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 236,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05885471632481769,
+     -0.05885470519071266
+    ],
+    "gpu_depths": [
+     -0.056234847754240036
+    ]
+   },
+   {
+    "world": 242,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.022809894581073832,
+     -0.022809891567980016
+    ],
+    "gpu_depths": [
+     -0.02280990034341812
+    ]
+   },
+   {
+    "world": 248,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05099393818422029,
+     -0.022169977457731048
+    ],
+    "gpu_depths": [
+     -0.05099393427371979
+    ]
+   },
+   {
+    "world": 252,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0688618175144396
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 258,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.024365382866983386
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 268,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06094605259915656,
+     -0.060946051806055876
+    ],
+    "gpu_depths": [
+     -0.05749698355793953
+    ]
+   },
+   {
+    "world": 270,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04455182247626019,
+     -0.04455182227082238
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 280,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04199232175357514,
+     -0.029343481806124637
+    ],
+    "gpu_depths": [
+     -0.04199232533574104
+    ]
+   },
+   {
+    "world": 286,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.008639479787695241
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 296,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.048071718469234345,
+     -0.048071718200821775
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 302,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.020182089119904163,
+     -0.020182087429120456
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 310,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06506864082353164,
+     -0.06506864030317239
+    ],
+    "gpu_depths": [
+     -0.06506864726543427
+    ]
+   },
+   {
+    "world": 322,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04926555034115997,
+     -0.04926554508484342
+    ],
+    "gpu_depths": [
+     -0.038080912083387375
+    ]
+   },
+   {
+    "world": 332,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.008557307526427936,
+     -0.008557306665281143
+    ],
+    "gpu_depths": [
+     -0.008557304739952087
+    ]
+   },
+   {
+    "world": 344,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0036291347297978463,
+     -0.0036291242385767322
+    ],
+    "gpu_depths": [
+     -0.003629148006439209
+    ]
+   },
+   {
+    "world": 350,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -8.116128557553864e-05,
+     -8.116070132210135e-05
+    ],
+    "gpu_depths": [
+     -8.115917444229126e-05
+    ]
+   },
+   {
+    "world": 354,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.029582298014979837,
+     -0.029582297387540438
+    ],
+    "gpu_depths": [
+     -0.029582303017377853
+    ]
+   },
+   {
+    "world": 356,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04551853930468358,
+     -0.02114263205410722
+    ],
+    "gpu_depths": [
+     -0.031974922865629196
+    ]
+   },
+   {
+    "world": 358,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.047687810075213374,
+     -0.04768780935759592
+    ],
+    "gpu_depths": [
+     -0.04768781363964081
+    ]
+   },
+   {
+    "world": 366,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05752295198886074,
+     -0.05752295196383946
+    ],
+    "gpu_depths": [
+     -0.05752295255661011
+    ]
+   },
+   {
+    "world": 372,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.021381582234428022,
+     -0.02138158206361391
+    ],
+    "gpu_depths": [
+     -0.02138158679008484
+    ]
+   },
+   {
+    "world": 374,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.018862477199755666,
+     -0.018862472467776246
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 376,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.018379863520813437,
+     -0.018379860833608118
+    ],
+    "gpu_depths": [
+     -0.012526072561740875
+    ]
+   },
+   {
+    "world": 378,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.054666058136529465
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 392,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.013687453021749556,
+     -0.013687452593026957
+    ],
+    "gpu_depths": [
+     -0.013657256960868835
+    ]
+   },
+   {
+    "world": 394,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.019079591340647302,
+     -0.01907958755709787
+    ],
+    "gpu_depths": [
+     -0.01320984959602356
+    ]
+   },
+   {
+    "world": 416,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.007322834670889199,
+     -0.007322830061506823
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 420,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03241146559947358,
+     -0.032411462313786374
+    ],
+    "gpu_depths": [
+     -0.031731151044368744
+    ]
+   },
+   {
+    "world": 440,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.023934787554597207,
+     -0.0239347859643985
+    ],
+    "gpu_depths": [
+     -0.02393478900194168
+    ]
+   },
+   {
+    "world": 442,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0063322058101141845,
+     -0.00603464272607062
+    ],
+    "gpu_depths": [
+     -0.006332211196422577
+    ]
+   },
+   {
+    "world": 452,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.026967990370188426,
+     -0.02696799019080278
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 460,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.009507700574507512,
+     -0.009507697885694534
+    ],
+    "gpu_depths": [
+     -0.008900947868824005
+    ]
+   },
+   {
+    "world": 470,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01260386076781466
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 474,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.003630303536740813,
+     -0.0036303027562378312
+    ],
+    "gpu_depths": [
+     -0.003630302846431732
+    ]
+   },
+   {
+    "world": 476,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04909986757940677,
+     -0.04909986553127405
+    ],
+    "gpu_depths": [
+     -0.0490998700261116
+    ]
+   },
+   {
+    "world": 480,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06437303540937958
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 492,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.050223350734911534,
+     -0.0502233505912967
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 494,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01663635610730304
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 496,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05416438428807191,
+     -0.037226244328286744
+    ],
+    "gpu_depths": [
+     -0.058255940675735474
+    ]
+   },
+   {
+    "world": 500,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.030806317173503357,
+     -0.030806316571856368
+    ],
+    "gpu_depths": [
+     -0.030806321650743484
+    ]
+   },
+   {
+    "world": 514,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04639448822582007,
+     -0.0463944856585817
+    ],
+    "gpu_depths": [
+     -0.04639449343085289
+    ]
+   },
+   {
+    "world": 524,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.008996979258468353
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 534,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.040804545805911266,
+     -0.03824513199142563
+    ],
+    "gpu_depths": [
+     -0.049441415816545486
+    ]
+   },
+   {
+    "world": 540,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05792263698379401,
+     -0.011202592353972286
+    ],
+    "gpu_depths": [
+     -0.05545004457235336
+    ]
+   },
+   {
+    "world": 542,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05352245708185675,
+     -0.0229477850856395
+    ],
+    "gpu_depths": [
+     -0.05370272323489189
+    ]
+   },
+   {
+    "world": 544,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.021467707957319677,
+     -0.021467695647436814
+    ],
+    "gpu_depths": [
+     -0.021415814757347107
+    ]
+   },
+   {
+    "world": 554,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.053315093155363154,
+     -0.012901337928685065
+    ],
+    "gpu_depths": [
+     -0.050145961344242096
+    ]
+   },
+   {
+    "world": 556,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0029610928356147356,
+     -0.0029610917852712568
+    ],
+    "gpu_depths": [
+     -0.002961099147796631
+    ]
+   },
+   {
+    "world": 560,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06055986194324667,
+     -0.04018613505323202
+    ],
+    "gpu_depths": [
+     -0.049997761845588684
+    ]
+   },
+   {
+    "world": 562,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.051448519479610114,
+     -0.05144851944943982
+    ],
+    "gpu_depths": [
+     -0.0514485239982605
+    ]
+   },
+   {
+    "world": 564,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.046158701912683016,
+     -0.03490379105905793
+    ],
+    "gpu_depths": [
+     -0.00845479965209961
+    ]
+   },
+   {
+    "world": 574,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03659651649014638,
+     -0.03659651434630918
+    ],
+    "gpu_depths": [
+     -0.03659651428461075
+    ]
+   },
+   {
+    "world": 600,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01686614036002588,
+     -0.016866134731623968
+    ],
+    "gpu_depths": [
+     -0.01686614751815796
+    ]
+   },
+   {
+    "world": 608,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03018849351609975,
+     -0.030188487645356588
+    ],
+    "gpu_depths": [
+     -0.03018849715590477
+    ]
+   },
+   {
+    "world": 612,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05075723736254148,
+     -0.006229540783806907
+    ],
+    "gpu_depths": [
+     -0.04412929341197014
+    ]
+   },
+   {
+    "world": 614,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03149506327762706,
+     -0.004244002248137389
+    ],
+    "gpu_depths": [
+     -0.013979725539684296
+    ]
+   },
+   {
+    "world": 638,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0547341964146981,
+     -0.054734192230428684
+    ],
+    "gpu_depths": [
+     -0.05473419651389122
+    ]
+   },
+   {
+    "world": 648,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.028536125015344867,
+     -0.028536113873311827
+    ],
+    "gpu_depths": [
+     -0.026369333267211914
+    ]
+   },
+   {
+    "world": 658,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05028169145202245,
+     -0.05028168579680236
+    ],
+    "gpu_depths": [
+     -0.05028168857097626
+    ]
+   },
+   {
+    "world": 664,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.009117457446078135,
+     -0.00911745687147688
+    ],
+    "gpu_depths": [
+     -0.009117454290390015
+    ]
+   },
+   {
+    "world": 668,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06568713649575769
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 670,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0005168985288604225
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 676,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.02984041902094494,
+     -0.0158818878910267
+    ],
+    "gpu_depths": [
+     -0.028843998908996582
+    ]
+   },
+   {
+    "world": 680,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05094615454216236
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 694,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04964968246739445,
+     -0.04964968117654194
+    ],
+    "gpu_depths": [
+     -0.0496496856212616
+    ]
+   },
+   {
+    "world": 708,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04452830402135725,
+     -0.044528303414325565
+    ],
+    "gpu_depths": [
+     -0.04309640824794769
+    ]
+   },
+   {
+    "world": 720,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0632611040796921,
+     -0.023181630368128002
+    ],
+    "gpu_depths": [
+     -0.06326110661029816
+    ]
+   },
+   {
+    "world": 722,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03329286153955566,
+     -0.03329286108430422
+    ],
+    "gpu_depths": [
+     -0.033292874693870544
+    ]
+   },
+   {
+    "world": 724,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.022395047652555948
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 726,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0002484354005818992
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 730,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05226589301951953,
+     -0.05226589191674044
+    ],
+    "gpu_depths": [
+     -0.021023057401180267
+    ]
+   },
+   {
+    "world": 732,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.011187413225963498,
+     -0.0035452864336549886
+    ],
+    "gpu_depths": [
+     -0.013574384152889252
+    ]
+   },
+   {
+    "world": 744,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0025579256623436616,
+     -0.002557924560182688
+    ],
+    "gpu_depths": [
+     -0.0025579258799552917
+    ]
+   },
+   {
+    "world": 762,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05774954814537974,
+     -0.012287435583888458
+    ],
+    "gpu_depths": [
+     -0.057749561965465546
+    ]
+   },
+   {
+    "world": 774,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04505839859885248,
+     -0.045058397009445306
+    ],
+    "gpu_depths": [
+     -0.045052289962768555
+    ]
+   },
+   {
+    "world": 780,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.030175158928137664
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 784,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03824897566741232,
+     -0.03824897348835842
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 786,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.009102940195276736,
+     -0.009102939657291816
+    ],
+    "gpu_depths": [
+     -0.009102940559387207
+    ]
+   },
+   {
+    "world": 792,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06963791029291952,
+     -0.013665689338358704
+    ],
+    "gpu_depths": [
+     -0.06617376208305359
+    ]
+   },
+   {
+    "world": 800,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.035887424192036874,
+     -0.03588742411928981
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 818,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.017620502878557327,
+     -0.01762049391991579
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 826,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0536809903420771,
+     -0.05368099006162224
+    ],
+    "gpu_depths": [
+     -0.053680989891290665
+    ]
+   },
+   {
+    "world": 836,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.02469533982056448,
+     -0.024695338761205964
+    ],
+    "gpu_depths": [
+     -0.024695351719856262
+    ]
+   },
+   {
+    "world": 838,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03307574382877107,
+     -0.020508392330520285
+    ],
+    "gpu_depths": [
+     -0.01647075265645981
+    ]
+   },
+   {
+    "world": 840,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0040710770420376505,
+     -0.004071074993565842
+    ],
+    "gpu_depths": [
+     -0.004071079194545746
+    ]
+   },
+   {
+    "world": 844,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0318348580902096,
+     -0.004673632492078715
+    ],
+    "gpu_depths": [
+     -0.004673629999160767
+    ]
+   },
+   {
+    "world": 848,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.022319144510522547,
+     -0.01675133115248941
+    ],
+    "gpu_depths": [
+     -0.026252739131450653
+    ]
+   },
+   {
+    "world": 850,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04235122312904506,
+     -0.04235122173200594
+    ],
+    "gpu_depths": [
+     -0.04235122352838516
+    ]
+   },
+   {
+    "world": 856,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05155794342562099
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 874,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.006677161743320566,
+     -0.006677157874635013
+    ],
+    "gpu_depths": [
+     -0.006510145962238312
+    ]
+   },
+   {
+    "world": 876,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06824922061350504,
+     -0.06824921962384642
+    ],
+    "gpu_depths": [
+     -0.06824922561645508
+    ]
+   },
+   {
+    "world": 896,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01772951512404026,
+     -0.007218904608981537
+    ],
+    "gpu_depths": [
+     -0.01657547801733017
+    ]
+   },
+   {
+    "world": 902,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.029411066215557648,
+     -0.029411061851297875
+    ],
+    "gpu_depths": [
+     -0.014486238360404968
+    ]
+   },
+   {
+    "world": 906,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04156634791237224,
+     -0.001981079283716443
+    ],
+    "gpu_depths": [
+     -0.04021216183900833
+    ]
+   },
+   {
+    "world": 914,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.052683310922380495,
+     -0.05268330784562923
+    ],
+    "gpu_depths": [
+     -0.05268331617116928
+    ]
+   },
+   {
+    "world": 918,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03811820756485858,
+     -0.022645641311138838
+    ],
+    "gpu_depths": [
+     -0.028355617076158524
+    ]
+   },
+   {
+    "world": 926,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.009170913261065401,
+     -0.009170913101024976
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 928,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.02806047329342455,
+     -0.028060470832892183
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 932,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06154580605862282,
+     -0.06154580458482403
+    ],
+    "gpu_depths": [
+     -0.03926265239715576
+    ]
+   },
+   {
+    "world": 952,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06534506356854963
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 960,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.033025965202466964,
+     -0.03302596411682185
+    ],
+    "gpu_depths": [
+     -0.03302597254514694
+    ]
+   },
+   {
+    "world": 962,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.025335863204975308
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 966,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.02628289252612285,
+     -0.026282891387725556
+    ],
+    "gpu_depths": [
+     -0.026282899081707
+    ]
+   },
+   {
+    "world": 970,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06609607933668993
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 974,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06131456079059853
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 994,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0030756168465395847
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1000,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06683049891132425,
+     -0.06683049436416304
+    ],
+    "gpu_depths": [
+     -0.06041013076901436
+    ]
+   },
+   {
+    "world": 1006,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.024523897667085175,
+     -0.024523897582427324
+    ],
+    "gpu_depths": [
+     -0.02452389895915985
+    ]
+   },
+   {
+    "world": 1008,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03300015027808114,
+     -0.03300014997060464
+    ],
+    "gpu_depths": [
+     -0.0330001525580883
+    ]
+   },
+   {
+    "world": 1010,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04030251835290307,
+     -0.040302517943536786
+    ],
+    "gpu_depths": [
+     -0.04021480679512024
+    ]
+   },
+   {
+    "world": 1012,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.005018969476306791,
+     -0.005018967509692017
+    ],
+    "gpu_depths": [
+     -0.005018964409828186
+    ]
+   },
+   {
+    "world": 1032,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0035684693002852805,
+     -0.003568466105425168
+    ],
+    "gpu_depths": [
+     -0.0035684704780578613
+    ]
+   },
+   {
+    "world": 1034,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04291799942776894,
+     -0.04291799809090491
+    ],
+    "gpu_depths": [
+     -0.04242028668522835
+    ]
+   },
+   {
+    "world": 1060,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.015433500990359998,
+     -0.015433491102691412
+    ],
+    "gpu_depths": [
+     -0.008396893739700317
+    ]
+   },
+   {
+    "world": 1064,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0005284041044497992
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1072,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.035392098485606274,
+     -0.01288926634234202
+    ],
+    "gpu_depths": [
+     -0.034585099667310715
+    ]
+   },
+   {
+    "world": 1092,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04605650888308894,
+     -0.04605650774567012
+    ],
+    "gpu_depths": [
+     -0.04605650156736374
+    ]
+   },
+   {
+    "world": 1098,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.020874988279900468,
+     -0.02087498800210153
+    ],
+    "gpu_depths": [
+     -0.019139863550662994
+    ]
+   },
+   {
+    "world": 1102,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.016226080955339124,
+     -0.01622608024130267
+    ],
+    "gpu_depths": [
+     -0.016226090490818024
+    ]
+   },
+   {
+    "world": 1104,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06686883349391382,
+     -0.06686882760084677
+    ],
+    "gpu_depths": [
+     -0.06686882674694061
+    ]
+   },
+   {
+    "world": 1108,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05692066522614765,
+     -0.05692066281047619
+    ],
+    "gpu_depths": [
+     -0.033299464732408524
+    ]
+   },
+   {
+    "world": 1114,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06810716854732103
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1116,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.023953577475442446,
+     -0.023953569189989858
+    ],
+    "gpu_depths": [
+     -0.023360393941402435
+    ]
+   },
+   {
+    "world": 1118,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06469597865220603,
+     -0.06469597651219496
+    ],
+    "gpu_depths": [
+     -0.06469598412513733
+    ]
+   },
+   {
+    "world": 1134,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04242195408917132,
+     -0.04242195077916727
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1136,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0028354723382290406,
+     -0.002835470142703668
+    ],
+    "gpu_depths": [
+     -0.002835474908351898
+    ]
+   },
+   {
+    "world": 1156,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.016638100775548163
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1178,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04158036501576846,
+     -0.04158036417393457
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1196,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.009844872275967413,
+     -0.008423682707451939
+    ],
+    "gpu_depths": [
+     -0.00932391732931137
+    ]
+   },
+   {
+    "world": 1206,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.058115183346933046,
+     -0.048628461136053874
+    ],
+    "gpu_depths": [
+     -0.0688088983297348
+    ]
+   },
+   {
+    "world": 1210,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0336954150270917,
+     -0.009342916012976786
+    ],
+    "gpu_depths": [
+     -0.03352372720837593
+    ]
+   },
+   {
+    "world": 1220,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04647846805315581,
+     -0.04647846628216796
+    ],
+    "gpu_depths": [
+     -0.04647846892476082
+    ]
+   },
+   {
+    "world": 1232,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.022242720010203616,
+     -0.022242719248541258
+    ],
+    "gpu_depths": [
+     -0.022242717444896698
+    ]
+   },
+   {
+    "world": 1236,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05121197232395417,
+     -0.051211971959647475
+    ],
+    "gpu_depths": [
+     -0.05121197551488876
+    ]
+   },
+   {
+    "world": 1240,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03878656136416928
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1246,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.009347041221447423,
+     -0.009151547930270058
+    ],
+    "gpu_depths": [
+     -0.00934707373380661
+    ]
+   },
+   {
+    "world": 1248,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.043934254778432734,
+     -0.014188194235377476
+    ],
+    "gpu_depths": [
+     -0.03606478497385979
+    ]
+   },
+   {
+    "world": 1268,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0005807457202947827,
+     -0.00028036034033567664
+    ],
+    "gpu_depths": [
+     -0.0005807578563690186
+    ]
+   },
+   {
+    "world": 1270,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.02693953146905629,
+     -0.026939520242608296
+    ],
+    "gpu_depths": [
+     -0.01640617847442627
+    ]
+   },
+   {
+    "world": 1272,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.020884168718735503,
+     -0.009484351322668873
+    ],
+    "gpu_depths": [
+     -0.01439397782087326
+    ]
+   },
+   {
+    "world": 1274,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04368151439385045,
+     -0.04368150539092144
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1284,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04685280019976145,
+     -0.046852799900453636
+    ],
+    "gpu_depths": [
+     -0.046852804720401764
+    ]
+   },
+   {
+    "world": 1292,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06433829084541202,
+     -0.06433829081515408
+    ],
+    "gpu_depths": [
+     -0.06433828920125961
+    ]
+   },
+   {
+    "world": 1298,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03401231862401429,
+     -0.034012317723531006
+    ],
+    "gpu_depths": [
+     -0.0340123176574707
+    ]
+   },
+   {
+    "world": 1304,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.02994096270272463,
+     -0.029940954763621228
+    ],
+    "gpu_depths": [
+     -0.02431083470582962
+    ]
+   },
+   {
+    "world": 1310,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.030740439679199795,
+     -0.030740439387271473
+    ],
+    "gpu_depths": [
+     -0.02995971590280533
+    ]
+   },
+   {
+    "world": 1312,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04200426477057982,
+     -0.04200426148155218
+    ],
+    "gpu_depths": [
+     -0.042004264891147614
+    ]
+   },
+   {
+    "world": 1322,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06317731465905096,
+     -0.06317731176382507
+    ],
+    "gpu_depths": [
+     -0.024762243032455444
+    ]
+   },
+   {
+    "world": 1328,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06894708863623032,
+     -0.06894708778886388
+    ],
+    "gpu_depths": [
+     -0.06894709169864655
+    ]
+   },
+   {
+    "world": 1330,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.045690207280158095,
+     -0.01034165789152542
+    ],
+    "gpu_depths": [
+     -0.040815211832523346
+    ]
+   },
+   {
+    "world": 1342,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03357140859568496,
+     -0.03357140855048097
+    ],
+    "gpu_depths": [
+     -0.009178228676319122
+    ]
+   },
+   {
+    "world": 1362,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.022087134525360312
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1364,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06997364496287245,
+     -0.06997364428614916
+    ],
+    "gpu_depths": [
+     -0.0699736475944519
+    ]
+   },
+   {
+    "world": 1374,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.023983763986460814,
+     -0.015011470332583744
+    ],
+    "gpu_depths": [
+     -0.02398376166820526
+    ]
+   },
+   {
+    "world": 1376,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04382552973759645,
+     -0.043825529219966256
+    ],
+    "gpu_depths": [
+     -0.043825533241033554
+    ]
+   },
+   {
+    "world": 1420,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04976015082662313
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1424,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06032413559557259,
+     -0.014324405542911305
+    ],
+    "gpu_depths": [
+     -0.05321492254734039
+    ]
+   },
+   {
+    "world": 1426,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0020982245716559475
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1432,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.015029840143868677,
+     -0.015029836572158138
+    ],
+    "gpu_depths": [
+     -0.015029847621917725
+    ]
+   },
+   {
+    "world": 1436,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.029185797737339376,
+     -0.029185794856093003
+    ],
+    "gpu_depths": [
+     -0.021194741129875183
+    ]
+   },
+   {
+    "world": 1448,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06116641476383,
+     -0.061166411363013845
+    ],
+    "gpu_depths": [
+     -0.06116641312837601
+    ]
+   },
+   {
+    "world": 1462,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0052985372618415336,
+     -0.005298536451794643
+    ],
+    "gpu_depths": [
+     -0.005298539996147156
+    ]
+   },
+   {
+    "world": 1464,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.007579317549022878
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1474,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.022710066326448335,
+     -0.022710058547366137
+    ],
+    "gpu_depths": [
+     -0.022710062563419342
+    ]
+   },
+   {
+    "world": 1482,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.048488871841686265
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1486,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06318926950689438
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1496,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05112354605086269,
+     -0.05112354498892123
+    ],
+    "gpu_depths": [
+     -0.05112354829907417
+    ]
+   },
+   {
+    "world": 1504,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01721127963313903,
+     -0.01721127705989669
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1522,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03418550833634309,
+     -0.03418550822356207
+    ],
+    "gpu_depths": [
+     -0.034185513854026794
+    ]
+   },
+   {
+    "world": 1524,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.025700712120418585,
+     -0.025700711968924005
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1548,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.00034678765420944474,
+     -0.0003467875744512308
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1550,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01587363223400138,
+     -0.015873630749628227
+    ],
+    "gpu_depths": [
+     -0.015873633325099945
+    ]
+   },
+   {
+    "world": 1556,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01871533020264953,
+     -0.018715324528097356
+    ],
+    "gpu_depths": [
+     -0.018651098012924194
+    ]
+   },
+   {
+    "world": 1560,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.02485085031040559,
+     -0.019428765408512717
+    ],
+    "gpu_depths": [
+     -0.028106044977903366
+    ]
+   },
+   {
+    "world": 1562,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.037999351790227724,
+     -0.0379993511107141
+    ],
+    "gpu_depths": [
+     -0.03799935430288315
+    ]
+   },
+   {
+    "world": 1566,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.031172648410578395
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1570,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01826967739585581,
+     -0.018269676818586995
+    ],
+    "gpu_depths": [
+     -0.014732234179973602
+    ]
+   },
+   {
+    "world": 1576,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.010620959783329227,
+     -0.010620959592999656
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1580,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03593389765078469,
+     -0.006833971538822932
+    ],
+    "gpu_depths": [
+     -0.03276289626955986
+    ]
+   },
+   {
+    "world": 1598,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05981919323143804,
+     -0.05981919303266328
+    ],
+    "gpu_depths": [
+     -0.013682059943675995
+    ]
+   },
+   {
+    "world": 1608,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05647069620816101,
+     -0.056470694238104024
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1622,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04645239189890159,
+     -0.04645239127482029
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1624,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06621673930414522,
+     -0.06621673495779888
+    ],
+    "gpu_depths": [
+     -0.06621674448251724
+    ]
+   },
+   {
+    "world": 1630,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06157009174268027,
+     -0.0248352846527334
+    ],
+    "gpu_depths": [
+     -0.0608232319355011
+    ]
+   },
+   {
+    "world": 1636,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.054048869559117724,
+     -0.04601641815674437
+    ],
+    "gpu_depths": [
+     -0.04004497081041336
+    ]
+   },
+   {
+    "world": 1652,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.029067563215896604,
+     -0.02906756065696451
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1654,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01146191621716016,
+     -0.011461915238908472
+    ],
+    "gpu_depths": [
+     -0.011461921036243439
+    ]
+   },
+   {
+    "world": 1656,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.025860399721845388,
+     -0.0003342801857636121
+    ],
+    "gpu_depths": [
+     -0.025860406458377838
+    ]
+   },
+   {
+    "world": 1666,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.02858728899911936,
+     -0.028587287533678035
+    ],
+    "gpu_depths": [
+     -0.02858728915452957
+    ]
+   },
+   {
+    "world": 1670,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.020438534103352425,
+     -0.02043852888080453
+    ],
+    "gpu_depths": [
+     -0.01586165279150009
+    ]
+   },
+   {
+    "world": 1682,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0161224875592803
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1686,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03288289959999197,
+     -0.03288289829315812
+    ],
+    "gpu_depths": [
+     -0.032882899045944214
+    ]
+   },
+   {
+    "world": 1712,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.022784506334967404,
+     -0.022784504415360306
+    ],
+    "gpu_depths": [
+     -0.022784508764743805
+    ]
+   },
+   {
+    "world": 1718,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0641722768122981,
+     -0.04875666286382559
+    ],
+    "gpu_depths": [
+     -0.06305697560310364
+    ]
+   },
+   {
+    "world": 1730,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.054397676585776586,
+     -0.05439767652329624
+    ],
+    "gpu_depths": [
+     -0.05439767986536026
+    ]
+   },
+   {
+    "world": 1742,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.041322619475025184,
+     -0.04132261671887259
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1746,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04736435398051417,
+     -0.04736434004684427
+    ],
+    "gpu_depths": [
+     -0.0008936822414398193
+    ]
+   },
+   {
+    "world": 1748,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.012971262663635665,
+     -0.012971262414099745
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1750,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.060992419908398376,
+     -0.0609924195105402
+    ],
+    "gpu_depths": [
+     -0.01616840809583664
+    ]
+   },
+   {
+    "world": 1754,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.015245353241539299,
+     -0.01524535135697374
+    ],
+    "gpu_depths": [
+     -0.015245355665683746
+    ]
+   },
+   {
+    "world": 1756,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03769298405957397,
+     -0.035211602701192515
+    ],
+    "gpu_depths": [
+     -0.03279523178935051
+    ]
+   },
+   {
+    "world": 1758,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04502093741547771
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1762,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0056240225141584235,
+     -0.005624021654099566
+    ],
+    "gpu_depths": [
+     -0.00562402606010437
+    ]
+   },
+   {
+    "world": 1764,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.019338284972558357
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1774,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0006458761028171819,
+     -0.0006458730781447111
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1778,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05762801975559697
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1786,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.029943675378691033,
+     -0.029146772139514117
+    ],
+    "gpu_depths": [
+     -0.037516869604587555
+    ]
+   },
+   {
+    "world": 1788,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04780789316779039,
+     -0.047807891545778726
+    ],
+    "gpu_depths": [
+     -0.04780789464712143
+    ]
+   },
+   {
+    "world": 1794,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03571479303547975,
+     -0.01694460035324622
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1796,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04538981476812548,
+     -0.012380927902776
+    ],
+    "gpu_depths": [
+     -0.04255852475762367
+    ]
+   },
+   {
+    "world": 1800,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.021435131158599387,
+     -0.021435131150414892
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1804,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0009616994741629067
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1806,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0626383915592538
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1808,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03691422021871182,
+     -0.0369142192811565
+    ],
+    "gpu_depths": [
+     -0.03691422566771507
+    ]
+   },
+   {
+    "world": 1814,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05502119505309746,
+     -0.05502119480198398
+    ],
+    "gpu_depths": [
+     -0.055021196603775024
+    ]
+   },
+   {
+    "world": 1838,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0008052136257580209,
+     -0.0008052057647931141
+    ],
+    "gpu_depths": [
+     -0.0004571452736854553
+    ]
+   },
+   {
+    "world": 1842,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01570822910098043,
+     -0.014214932762507161
+    ],
+    "gpu_depths": [
+     -0.01443413645029068
+    ]
+   },
+   {
+    "world": 1854,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0005645976590920102
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1858,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05297540716606143,
+     -0.05297539792195439
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1860,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03078561613188302,
+     -0.030785615280770492
+    ],
+    "gpu_depths": [
+     -0.03078562393784523
+    ]
+   },
+   {
+    "world": 1864,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04369200300273491,
+     -0.03562306746770256
+    ],
+    "gpu_depths": [
+     -0.04993642866611481
+    ]
+   },
+   {
+    "world": 1868,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.029299346548403396,
+     -0.019419415270626718
+    ],
+    "gpu_depths": [
+     -0.03241298347711563
+    ]
+   },
+   {
+    "world": 1872,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06837242017992684,
+     -0.06837241871641335
+    ],
+    "gpu_depths": [
+     -0.06582658737897873
+    ]
+   },
+   {
+    "world": 1878,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.014172003582708058,
+     -0.014171998862453579
+    ],
+    "gpu_depths": [
+     -0.001753002405166626
+    ]
+   },
+   {
+    "world": 1880,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06818781625923635,
+     -0.06818781551659485
+    ],
+    "gpu_depths": [
+     -0.06818782538175583
+    ]
+   },
+   {
+    "world": 1882,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.034655595587015434,
+     -0.006121380139252376
+    ],
+    "gpu_depths": [
+     -0.03447745367884636
+    ]
+   },
+   {
+    "world": 1888,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01245019660100239,
+     -0.012450196507130813
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1890,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05556213848522367,
+     -0.05556212776104367
+    ],
+    "gpu_depths": [
+     -0.025916025042533875
+    ]
+   },
+   {
+    "world": 1892,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.04500192496021238,
+     -0.03818108061262276
+    ],
+    "gpu_depths": [
+     -0.04500193148851395
+    ]
+   },
+   {
+    "world": 1902,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03146787798505068,
+     -0.008065452451704168
+    ],
+    "gpu_depths": [
+     -0.031163349747657776
+    ]
+   },
+   {
+    "world": 1904,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.018897215050793705,
+     -0.018897214921839968
+    ],
+    "gpu_depths": [
+     -0.018887959420681
+    ]
+   },
+   {
+    "world": 1916,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.028962782578985935
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1918,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.014770111383719663
+    ],
+    "gpu_depths": []
+   },
+   {
+    "world": 1920,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06289499202199916,
+     -0.06289499166825051
+    ],
+    "gpu_depths": [
+     -0.05388043820858002
+    ]
+   },
+   {
+    "world": 1922,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03489928229220689,
+     -0.019054552219219555
+    ],
+    "gpu_depths": [
+     -0.036083754152059555
+    ]
+   },
+   {
+    "world": 1940,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.030213552645010293,
+     -0.015563252084075864
+    ],
+    "gpu_depths": [
+     -0.031777944415807724
+    ]
+   },
+   {
+    "world": 1952,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.014032650631039943,
+     -0.014032649859741723
+    ],
+    "gpu_depths": [
+     -0.014032654464244843
+    ]
+   },
+   {
+    "world": 1958,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.029407771619965092,
+     -0.02940776719003077
+    ],
+    "gpu_depths": [
+     -0.029407773166894913
+    ]
+   },
+   {
+    "world": 1964,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.06256837624265096,
+     -0.06256837034997996
+    ],
+    "gpu_depths": [
+     -0.06246398389339447
+    ]
+   },
+   {
+    "world": 1988,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.040362680147181355,
+     -0.0027728587347371145
+    ],
+    "gpu_depths": [
+     -0.040362678468227386
+    ]
+   }
+  ],
+  "equal_depth_two_contact_ties": 130,
+  "pass": false
+ },
+ "box": {
+  "worlds": 2000,
+  "count_mismatch": 23,
+  "exact": 1614,
+  "within_cpu_spread": 14,
+  "beyond_cpu_spread": 9,
+  "worst_beyond": 0.0235718595366491,
+  "mismatch_examples": [
+   {
+    "world": 84,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.018428321339014717
+    ],
+    "gpu_depths": [
+     -0.018428321927785873,
+     -0.018428120762109756
+    ]
+   },
+   {
+    "world": 196,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01290442164375634,
+     -0.012780819761826032
+    ],
+    "gpu_depths": [
+     -0.012904439121484756
+    ]
+   },
+   {
+    "world": 340,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.024503530724498734
+    ],
+    "gpu_depths": [
+     -0.02450350858271122,
+     -0.024497291073203087
+    ]
+   },
+   {
+    "world": 362,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.005800731275163312,
+     -0.0058006071527394315
+    ],
+    "gpu_depths": [
+     -0.005800750106573105
+    ]
+   },
+   {
+    "world": 424,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.021643053810335922
+    ],
+    "gpu_depths": [
+     -0.02164302207529545,
+     -0.021642956882715225
+    ]
+   },
+   {
+    "world": 452,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.026308904127081176
+    ],
+    "gpu_depths": [
+     -0.026308851316571236,
+     -0.026307467371225357
+    ]
+   },
+   {
+    "world": 456,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.042604242675815904
+    ],
+    "gpu_depths": [
+     -0.0426042415201664,
+     -0.0426042303442955
+    ]
+   },
+   {
+    "world": 536,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.019540753928504476
+    ],
+    "gpu_depths": [
+     -0.019540758803486824,
+     -0.019540730863809586
+    ]
+   },
+   {
+    "world": 540,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.0276688496328909
+    ],
+    "gpu_depths": [
+     -0.027668850496411324,
+     -0.027663979679346085
+    ]
+   },
+   {
+    "world": 652,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.05000000000000024,
+     -0.05000000000000017
+    ],
+    "gpu_depths": [
+     -0.04999983683228493
+    ]
+   },
+   {
+    "world": 686,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.019484372007913642
+    ],
+    "gpu_depths": [
+     -0.019484374672174454,
+     -0.019484316930174828
+    ]
+   },
+   {
+    "world": 690,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03177083626390662
+    ],
+    "gpu_depths": [
+     -0.03177083283662796,
+     -0.03177028149366379
+    ]
+   },
+   {
+    "world": 804,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.012905848675251005
+    ],
+    "gpu_depths": [
+     -0.012905847281217575,
+     -0.012905839830636978
+    ]
+   },
+   {
+    "world": 946,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.02432079929500586
+    ],
+    "gpu_depths": [
+     -0.02432079426944256,
+     -0.02431998774409294
+    ]
+   },
+   {
+    "world": 1208,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.01924097320158959
+    ],
+    "gpu_depths": [
+     -0.01924097165465355,
+     -0.01924026384949684
+    ]
+   },
+   {
+    "world": 1304,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.016097526054267557
+    ],
+    "gpu_depths": [
+     -0.016097519546747208,
+     -0.01609693095088005
+    ]
+   },
+   {
+    "world": 1350,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.008069921937673467
+    ],
+    "gpu_depths": [
+     -0.008069928735494614,
+     -0.008060891181230545
+    ]
+   },
+   {
+    "world": 1404,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.024652985668201812
+    ],
+    "gpu_depths": [
+     -0.02465297468006611,
+     -0.024652784690260887
+    ]
+   },
+   {
+    "world": 1504,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.014891771793647111
+    ],
+    "gpu_depths": [
+     -0.014891725033521652,
+     -0.014864139258861542
+    ]
+   },
+   {
+    "world": 1616,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.010566945644269285
+    ],
+    "gpu_depths": [
+     -0.01056692749261856,
+     -0.010564945638179779
+    ]
+   },
+   {
+    "world": 1712,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.028479061689763656
+    ],
+    "gpu_depths": [
+     -0.028479063883423805,
+     -0.028476718813180923
+    ]
+   },
+   {
+    "world": 1952,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.03193411171127353
+    ],
+    "gpu_depths": [
+     -0.03193410485982895,
+     -0.03193376958370209
+    ]
+   },
+   {
+    "world": 1974,
+    "nearly_parallel": true,
+    "cpu_depths": [
+     -0.026639223966773786
+    ],
+    "gpu_depths": [
+     -0.026639221236109734,
+     -0.02663888782262802
+    ]
+   }
+  ],
+  "equal_depth_two_contact_ties": 2,
+  "pass": false
+ },
+ "pass": false
+}

@@ -1,0 +1,62 @@
+Capsule-capsule and capsule-box-edge collision in float32 without catastrophic cancellation (author: Keyshav Mor).
+The segment-segment closest-point solve computed det = ma * mc - mb * mb and the numerators of x1, x2 as differences
+of products. In float32 these cancel when the two axes are nearly parallel (relative error ~ 6e-8 / angle^2, more
+than 100 % at 1e-4 rad), which created or dropped contacts and picked wrong contact points (13.5 % of nearly parallel
+capsule pairs in bench/test_capsule_collision.py; hopper's folded torso and thigh in practice). The patch computes
+them with cross products (Lagrange identity: mathematically identical to C MuJoCo's formula).
+Base: https://github.com/google-deepmind/mujoco_warp commit 2c09ab908e5cd50cdabd1194713ba58e601899ee (apply after 0001).
+Apply with scripts/setup_mujoco_warp.sh (or: git apply 0002-capsule-collision-float32-precision.patch). License: Apache 2.0.
+
+diff --git a/mujoco_warp/_src/collision_primitive_core.py b/mujoco_warp/_src/collision_primitive_core.py
+index c2299e2..f5b54fd 100644
+--- a/mujoco_warp/_src/collision_primitive_core.py
++++ b/mujoco_warp/_src/collision_primitive_core.py
+@@ -171,13 +171,18 @@ def capsule_capsule(
+   mc = wp.dot(axis2, axis2)
+   u = -wp.dot(axis1, dif)
+   v = wp.dot(axis2, dif)
+-  det = ma * mc - mb * mb
++  # det = ma * mc - mb * mb and the numerators of x1, x2 below, written with cross products (Lagrange identity):
++  # mathematically identical, but free of the catastrophic cancellation that the difference form suffers in float32
++  # for nearly parallel axes (relative error ~ eps / angle^2, e.g. > 100 % at 1e-4 rad), which picked wrong
++  # closest points for stacked capsules (e.g. hopper's folded torso and thigh)
++  nrm = wp.cross(axis1, axis2)
++  det = wp.dot(nrm, nrm)
+ 
+   # non-parallel axes: 1 contact
+-  if wp.abs(det) >= MJ_MINVAL:
++  if det >= MJ_MINVAL:
+     inv_det = 1.0 / det
+-    x1 = (mc * u - mb * v) * inv_det
+-    x2 = (ma * v - mb * u) * inv_det
++    x1 = wp.dot(nrm, wp.cross(axis2, dif)) * inv_det  # == (mc * u - mb * v) / det
++    x2 = wp.dot(nrm, wp.cross(axis1, dif)) * inv_det  # == (ma * v - mb * u) / det
+ 
+     if x1 > 1.0:
+       x1 = 1.0
+@@ -1213,15 +1218,21 @@ def capsule_box(
+       ma = box_size[j] * box_size[j]
+       mb = -box_size[j] * halfaxis[j]
+       mc = capsule_half_length * capsule_half_length
+-      det = ma * mc - mb * mb
+-      if wp.abs(det) < MJ_MINVAL:
++      # same segment-segment solve as capsule_capsule, with det and the numerators written with cross products
++      # (edge axis box_size[j] * e_j, capsule axis halfaxis): identical maths, no float32 cancellation when the
++      # capsule is nearly parallel to the edge
++      edge = wp.vec3(0.0)
++      edge[j] = box_size[j]
++      nrm = wp.cross(edge, halfaxis)
++      det = wp.dot(nrm, nrm)
++      if det < MJ_MINVAL:
+         continue
+ 
+       idet = 1.0 / det
+       # sX : X=1 means middle of segment. X=0 or 2 one or the other end
+ 
+-      x1 = wp.float32((mc * u - mb * v) * idet)
+-      x2 = wp.float32((ma * v - mb * u) * idet)
++      x1 = wp.float32(wp.dot(nrm, wp.cross(halfaxis, dif)) * idet)  # == (mc * u - mb * v) / det
++      x2 = wp.float32(wp.dot(nrm, wp.cross(edge, dif)) * idet)  # == (ma * v - mb * u) / det
+ 
+       s1 = wp.int32(1)
+       s2 = wp.int32(1)
