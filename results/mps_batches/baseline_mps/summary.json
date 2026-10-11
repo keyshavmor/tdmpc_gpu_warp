@@ -119,6 +119,16 @@
    "finished": 5,
    "complete": true,
    "crash_times": []
+  },
+  {
+   "task": "quadruped-walk",
+   "wall_h": 1.9986148968007829,
+   "launches": 5,
+   "crashes": 0,
+   "restarts": 0,
+   "finished": 5,
+   "complete": true,
+   "crash_times": []
   }
  ],
  "xid": []
