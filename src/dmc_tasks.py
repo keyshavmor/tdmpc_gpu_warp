@@ -29,6 +29,7 @@ Predictive Control" (ICML 2022); original code: https://github.com/nicklashansen
 """
 import math
 import mujoco
+import mujoco_warp as mjw
 import numpy as np
 import torch
 
@@ -299,13 +300,18 @@ class Cheetah(Task):
 	def init_episode(self, env):
 		"""Port of dm_control.suite.cheetah.Cheetah.initialize_episode.
 
-		Limited joints uniform in their joint range (per world), then dm_control's physics.step(nstep=200)
-		settling (reproduced by env.settle(199), see the comment below) and the simulation time is reset to 0.
+		Exactly dm_control's sequence: Physics.reset() (mj_resetData, then an actuation-disabled forward at qpos0),
+		limited joints uniform in their joint range (per world), then physics.step(nstep=200) = mj_step2 (it
+		integrates the accelerations of the qpos0 forward with the new joint positions), 199 mj_step and mj_step1,
+		and the simulation time is reset to 0 (validated against C MuJoCo: bench/test_cheetah_init.py).
 		"""
+		# Physics.reset(): forward at qpos0 with actuation disabled (the state is at the mj_resetData defaults here)
+		env._run('forward', env._forward_noact)
 		# limited joints uniform in their range (cheetah's own loop over jnt_limited joints)
 		self.v.qpos[:, self.i_lim] = self.lim_lo + (self.lim_hi - self.lim_lo) * env.rand(env.nworld, len(self.i_lim))
-		# physics.step(nstep=200) right after mj_resetData: dm_control's legacy step starts with mj_step2
-		# on zeroed derived quantities (a no-op), followed by 199 regular steps and mj_step1
+		# physics.step(nstep=200), dm_control's legacy step: mj_step2 (not a no-op: it integrates the qpos0
+		# accelerations, e.g. the free fall of rootz), then 199 regular steps and mj_step1 (env.settle)
+		mjw.step2(env.m, env.d)
 		env.settle(199)
 		self.v.time.zero_()  # dm_control resets physics.data.time to 0 after settling
 

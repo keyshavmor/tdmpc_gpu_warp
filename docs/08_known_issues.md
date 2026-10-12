@@ -152,3 +152,15 @@ from their checkpoints, with exact optimiser, RNG and buffer state and an exact 
 * The noslip port supports pyramidal cones only (sufficient for all DMC tasks).
 * Episode-initialisation RNG stream differs from numpy's (distribution identical; `reset_mode=cpu` reproduces the
   original stream exactly).
+
+## 8.3 Fixed after the baseline runs: cheetah episode initialisation
+
+dm_control initialises cheetah inside `Physics.reset_context()`: `Physics.reset()` (mj_resetData followed by an
+actuation-disabled forward at qpos0), the joint draw, then `physics.step(nstep=200)` with the legacy step
+(mj_step2, 199 mj_step, mj_step1). The port assumed the leading mj_step2 to be a no-op and only ran
+`settle(199)`; it is not, because the forward at qpos0 has already computed the accelerations (cheetah's root falls:
+rootz velocity -0.098 m/s after it). The settled initial state therefore differed from dm_control's by up to 0.035
+(joint angles / velocities): the initial-state distribution was close to, but not exactly, the original one.
+`Cheetah.init_episode` now runs the same sequence; `bench/test_cheetah_init.py` feeds identical joint draws to both
+implementations and finds the settled states equal to float32 precision (<= 7e-6). The cheetah-run results in
+`results/` and the docs were produced before this fix.
